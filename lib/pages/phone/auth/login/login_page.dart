@@ -22,6 +22,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
   @override
   void initData() {
     super.initData();
+    bloc.checkToken();
   }
 
   @override
@@ -116,8 +117,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
                   title: 'Login',
                   hasBorder: false,
                   onTap: () {
-                    // bloc.login(email, password);
-                    Navigator.pushNamed(context, Routes.home);
+                    bloc.login(email, password);
                   },
                 ),
                 SizedBox(
@@ -138,6 +138,10 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
   @override
   void blocListener(state) {
     super.blocListener(state);
+
+    if (state.success) {
+      Navigator.pushNamed(context, Routes.home);
+    }
   }
 
   @override

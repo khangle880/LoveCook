@@ -10,6 +10,13 @@ class LoginBloc extends BaseBloc<LoginState> {
 
   LoginBloc(this._loginRepository, this._sharedPreferences);
 
+  Future<void> checkToken() async {
+    if (_sharedPreferences.token != null &&
+        _sharedPreferences.token!.isNotEmpty) {
+      emit(LoginState(state: state, success: true));
+    }
+  }
+
   Future<void> login(String email, String password) async {
     if (email.length == 0 || password.length == 0) {
       return;

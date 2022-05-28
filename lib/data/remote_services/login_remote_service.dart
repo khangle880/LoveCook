@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get_it/get_it.dart';
 import 'package:viiv/core/core.dart';
 import 'package:viiv/data/data.dart';
@@ -12,9 +14,14 @@ class LoginRemoteService implements ILoginRemoteService {
 
   @override
   Future<LoginResponse> login({required Map<String, dynamic> params}) async {
-    final response = await _networkUtility.request('v1/auth/login', Method.GET,
+    final response = await _networkUtility.request('v1/auth/login', Method.POST,
         data: params);
 
-    return LoginResponse.fromJson(response.data);
+    LoginResponse loginResponse =
+        LoginResponse.fromJson(json.decode(response.data));
+
+    print(loginResponse);
+
+    return loginResponse;
   }
 }
