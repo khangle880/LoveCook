@@ -16,5 +16,5 @@ class AppConfig {
     await GlobalConfiguration().loadFromAsset('app_config_${env.value}');
   }
 
-  String get hostUrl => globalConfiguration.get('host_url');
+  String get hostUrl => globalConfiguration.get('domain_url');
 }

@@ -6,5 +6,7 @@ class BlocDependencies {
   static Future setup(GetIt injector) async {
     injector.registerLazySingleton(() => AppBloc());
     injector.registerFactory<SplashBloc>(() => SplashBloc(injector()));
+    injector
+        .registerFactory<LoginBloc>(() => LoginBloc(injector(), injector()));
   }
 }

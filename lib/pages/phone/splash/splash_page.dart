@@ -19,8 +19,8 @@ class _SplashPageState extends BaseState<SplashPage, SplashBloc> {
   @override
   SplashBloc get bloc => widget.bloc;
 
-  @override
-  bool get isCustomLayout => true;
+  // @override
+  // bool get isCustomLayout => true;
 
   @override
   void initData() {
@@ -46,14 +46,15 @@ class _SplashPageState extends BaseState<SplashPage, SplashBloc> {
   Widget? buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        final prefs = GetIt.I.get<SharedPreferences>();
-        final appBloc = GetIt.I.get<AppBloc>();
-        final languageCode = prefs.getString(SharedPreferencesKey.languageCode);
-        if (languageCode == 'ko') {
-          appBloc.changeLanguage('en');
-        } else {
-          appBloc.changeLanguage('ko');
-        }
+        // bloc.loadData();
+        // final prefs = GetIt.I.get<SharedPreferences>();
+        // final appBloc = GetIt.I.get<AppBloc>();
+        // final languageCode = prefs.getString(SharedPreferencesKey.languageCode);
+        // if (languageCode == 'ko') {
+        //   appBloc.changeLanguage('en');
+        // } else {
+        //   appBloc.changeLanguage('ko');
+        // }
       },
       child: Icon(Icons.language),
     );

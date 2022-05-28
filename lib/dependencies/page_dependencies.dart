@@ -6,6 +6,9 @@ import '../router/router.dart';
 
 class PageDependencies {
   static Future setup(GetIt injector) async {
-    injector.registerFactory<Widget>(() => SplashPage(injector()), instanceName: Routes.splash);
+    injector.registerFactory<Widget>(() => SplashPage(injector()),
+        instanceName: Routes.splash);
+    injector.registerFactory<Widget>(() => LoginPage(injector()),
+        instanceName: Routes.login);
   }
 }

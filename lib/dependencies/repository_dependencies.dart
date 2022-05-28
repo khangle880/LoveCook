@@ -9,5 +9,9 @@ class RepositoryDependencies {
           localService: injector(),
           networkInfo: injector(),
         ));
+    injector.registerFactory<ILoginRepository>(() => LoginRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
   }
 }

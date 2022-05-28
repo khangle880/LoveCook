@@ -26,6 +26,7 @@ class NetworkUtility implements INetworkUtility {
     int receiveTimeout = 30000,
     int sendTimeout = 30000,
   }) {
+    print(baseUrl);
     BaseOptions _options = BaseOptions(
       connectTimeout: connectTimeout,
       receiveTimeout: receiveTimeout,
@@ -52,6 +53,8 @@ class NetworkUtility implements INetworkUtility {
     CancelToken? cancelToken,
     Options? options,
   }) async {
+    print(url);
+
     options ??= Options(headers: {});
     options.method = method;
 

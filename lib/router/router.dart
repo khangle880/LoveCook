@@ -4,6 +4,8 @@ import 'package:get_it/get_it.dart';
 
 class Routes {
   static String get splash => '/splash';
+  static String get login => '/login';
+  static String get home => '/home';
 
   static getRoute(RouteSettings settings) {
     Widget widget;
@@ -16,7 +18,8 @@ class Routes {
           child: Builder(
             builder: (context) {
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
                 child: Text(
                   '404 NOT FOUND',
                   textAlign: TextAlign.center,
