@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_responsive_ui/models/models.dart';
-import 'package:flutter_facebook_responsive_ui/widgets/widgets.dart';
+
+import '../data/responses/responses.dart';
+import 'widgets.dart';
 
 class UserCard extends StatelessWidget {
   final User user;
 
   const UserCard({
-    @required this.user,
+    required this.user,
   });
 
   @override
@@ -16,11 +17,12 @@ class UserCard extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ProfileAvatar(imageUrl: user.imageUrl),
+          ProfileAvatar(
+              imageUrl: user.avatarUrl ?? 'http://via.placeholder.com/350x150'),
           const SizedBox(width: 6.0),
           Flexible(
             child: Text(
-              user.name,
+              user.name ?? 'Not found name',
               style: const TextStyle(fontSize: 16.0),
               overflow: TextOverflow.ellipsis,
             ),

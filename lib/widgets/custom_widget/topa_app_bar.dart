@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_responsive_ui/config/palette.dart';
-import 'package:flutter_facebook_responsive_ui/models/models.dart';
-import 'package:flutter_facebook_responsive_ui/widgets/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../../data/responses/responses.dart';
+import '../../resources/resources.dart';
+import '../widgets.dart';
 
 class CustomAppBar extends StatelessWidget {
   final User currentUser;
@@ -39,7 +40,7 @@ class CustomAppBar extends StatelessWidget {
             child: Text(
               'facebook',
               style: const TextStyle(
-                color: Palette.facebookBlue,
+                color: AppColors.facebookBlue,
                 fontSize: 32.0,
                 fontWeight: FontWeight.bold,
                 letterSpacing: -1.2,
@@ -49,7 +50,7 @@ class CustomAppBar extends StatelessWidget {
           Container(
             height: double.infinity,
             width: 600.0,
-            child: CustomTabBar(
+            child: TopaTabBar(
               icons: icons,
               selectedIndex: selectedIndex,
               onTap: onTap,

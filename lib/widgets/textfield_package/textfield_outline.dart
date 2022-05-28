@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../resources/resources.dart';
-import 'textfield_model.dart';
 
 class TextFieldOutline extends StatelessWidget {
   final String? hintText;

@@ -9,6 +9,7 @@ class Routes {
 
   static getRoute(RouteSettings settings) {
     Widget widget;
+    print(settings);
     try {
       widget = GetIt.I.get<Widget>(instanceName: settings.name);
     } catch (e) {

@@ -22,6 +22,7 @@ class LoginBloc extends BaseBloc<LoginState> {
       if (data.tokens?.access?.token != null &&
           data.tokens!.access!.token!.isNotEmpty) {
         _sharedPreferences.saveToken(data.tokens!.access!.token!);
+        print(_sharedPreferences.token);
         emit(LoginState(state: state, success: true));
       }
     });

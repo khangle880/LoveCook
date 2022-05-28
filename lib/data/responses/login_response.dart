@@ -76,6 +76,9 @@ class User {
     this.name,
     this.email,
     this.role,
+    this.avatarUrl,
+    this.bio,
+    this.phone,
     this.status,
     this.id,
   });
@@ -85,6 +88,9 @@ class User {
   String? name;
   String? email;
   String? role;
+  String? avatarUrl;
+  String? bio;
+  String? phone;
   String? status;
   String? id;
 
@@ -95,6 +101,9 @@ class User {
         name: json["name"],
         email: json["email"],
         role: json["role"],
+        bio: json["bio"],
+        avatarUrl: json["avatarUrl"],
+        phone: json["phone"],
         status: json["status"],
         id: json["id"],
       );
@@ -105,6 +114,9 @@ class User {
         "name": name,
         "email": email,
         "role": role,
+        "avatarUrl": avatarUrl,
+        "bio": bio,
+        "phone": phone,
         "status": status,
         "id": id,
       };

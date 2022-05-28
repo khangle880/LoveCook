@@ -1,5 +1,5 @@
-class LoginResponse {
-  LoginResponse({
+class LoginModel {
+  LoginModel({
     this.user,
     this.tokens,
   });
@@ -7,11 +7,11 @@ class LoginResponse {
   User? user;
   Tokens? tokens;
 
-  LoginResponse copyWith({
+  LoginModel copyWith({
     User? user,
     Tokens? tokens,
   }) =>
-      LoginResponse(
+      LoginModel(
         user: user ?? this.user,
         tokens: tokens ?? this.tokens,
       );

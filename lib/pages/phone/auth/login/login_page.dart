@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:viiv/widgets/textfield_package/textfield_model.dart';
 
 import '../../../../blocs/blocs.dart';
 import '../../../../core/core.dart';
 import '../../../../resources/resources.dart';
+import '../../../../router/router.dart';
 import '../../../../widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -117,7 +116,8 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
                   title: 'Login',
                   hasBorder: false,
                   onTap: () {
-                    bloc.login(email, password);
+                    // bloc.login(email, password);
+                    Navigator.pushNamed(context, Routes.home);
                   },
                 ),
                 SizedBox(
