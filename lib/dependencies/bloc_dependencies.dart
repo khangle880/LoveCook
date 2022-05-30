@@ -8,5 +8,6 @@ class BlocDependencies {
     injector.registerFactory<SplashBloc>(() => SplashBloc(injector()));
     injector
         .registerFactory<LoginBloc>(() => LoginBloc(injector(), injector()));
+    injector.registerFactory<ChatBloc>(() => ChatBloc(injector()));
   }
 }

@@ -19,7 +19,6 @@ class LoginResponse {
   Tokens? tokens;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    print('Hello WOrld');
     return LoginResponse(
       user: User.fromJson(json["user"]),
       tokens: Tokens.fromJson(json["tokens"]),

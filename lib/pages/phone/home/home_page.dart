@@ -1,31 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:viiv/blocs/chat/chat_bloc.dart';
+import 'package:viiv/pages/pages.dart';
 
 import '../../../widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final ChatBloc chatBloc;
+
+  const HomePage(this.chatBloc);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Widget> _screens = [
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
-  ];
-  final List<IconData> _icons = const [
-    Icons.home,
-    MdiIcons.foodForkDrink,
-    MdiIcons.forumOutline,
-    MdiIcons.bellOutline,
-    Icons.menu,
-  ];
+  late List<Widget> _screens;
+  late List<IconData> _icons;
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      Scaffold(),
+      Scaffold(),
+      ChatPage(widget.chatBloc),
+      Scaffold(),
+      Scaffold(),
+    ];
+    _icons = const [
+      Icons.home,
+      MdiIcons.foodForkDrink,
+      MdiIcons.forumOutline,
+      MdiIcons.bellOutline,
+      Icons.menu,
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
