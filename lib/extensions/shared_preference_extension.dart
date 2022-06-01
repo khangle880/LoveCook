@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
@@ -10,5 +12,20 @@ extension SharedPreferencesExtension on SharedPreferences {
 
   String? get token {
     return this.getString(SharedPreferencesKey.token);
+  }
+
+  void saveUser(User user) {
+    final String user_encode = jsonEncode(user);
+    this.setString(SharedPreferencesKey.accountInfo, user_encode);
+  }
+
+  User? get user {
+    final encode_user = this.getString(SharedPreferencesKey.accountInfo);
+    if (encode_user != null) {
+      final User user = jsonDecode(encode_user);
+      return user;
+    } else {
+      return null;
+    }
   }
 }

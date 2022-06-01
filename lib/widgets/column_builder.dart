@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RowBuilder extends StatelessWidget {
+class ColumnBuilder extends StatelessWidget {
   final IndexedWidgetBuilder itemBuilder;
   final MainAxisAlignment mainAxisAlignment;
   final MainAxisSize mainAxisSize;
@@ -9,7 +9,7 @@ class RowBuilder extends StatelessWidget {
   final VerticalDirection verticalDirection;
   final int itemCount;
 
-  const RowBuilder({
+  const ColumnBuilder({
     Key? key,
     required this.itemBuilder,
     required this.itemCount,

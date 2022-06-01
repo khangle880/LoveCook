@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/blocs/chat/chat_bloc.dart';
-import 'package:lovecook/pages/phone/chat/chat_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../blocs/blocs.dart';
 import '../../../widgets/widgets.dart';
+import '../phone.dart';
 
 class HomePage extends StatefulWidget {
   final ChatBloc chatBloc;
+  final ProfileBloc profileBloc;
 
-  const HomePage(this.chatBloc);
+  const HomePage(this.chatBloc, this.profileBloc);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       Scaffold(),
       ChatPage(widget.chatBloc),
       Scaffold(),
-      Scaffold(),
+      ProfilePage(widget.profileBloc),
     ];
     _icons = const [
       Icons.home,
