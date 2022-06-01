@@ -9,6 +9,7 @@ import 'network_dependencies.dart';
 import 'page_dependencies.dart';
 import 'remote_service_dependencies.dart';
 import 'repository_dependencies.dart';
+import 'response_dependencies.dart';
 
 class AppDependencies {
   static GetIt get injector => GetIt.I;
@@ -26,5 +27,6 @@ class AppDependencies {
     await RepositoryDependencies.setup(injector);
     await BlocDependencies.setup(injector);
     await PageDependencies.setup(injector);
+    await ResponseDependencies.setup(injector);
   }
 }

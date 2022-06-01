@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:lovecook/pages/phone/test_api/test_api_bloc.dart';
 
 import '../blocs/blocs.dart';
 
@@ -8,5 +9,15 @@ class BlocDependencies {
     injector.registerFactory<SplashBloc>(() => SplashBloc(injector()));
     injector
         .registerFactory<LoginBloc>(() => LoginBloc(injector(), injector()));
+    injector.registerFactory<TestApiBloc>(() => TestApiBloc(
+          injector(),
+          injector(),
+          injector(),
+          injector(),
+          injector(),
+          injector(),
+          injector(),
+          injector(),
+        ));
   }
 }

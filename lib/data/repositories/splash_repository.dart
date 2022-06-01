@@ -18,7 +18,8 @@ class SplashRepository extends ISplashRepository {
   });
 
   @override
-  Future<Either<Failure, SplashResponse>> getResponse({Map<String, dynamic>? params}) async {
+  Future<Either<Failure, SplashResponse>> getResponse(
+      {Map<String, dynamic>? params}) async {
     final isConnected = await networkInfo.isConnected;
     try {
       if (isConnected) {

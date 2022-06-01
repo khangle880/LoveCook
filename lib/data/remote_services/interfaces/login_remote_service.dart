@@ -1,5 +1,6 @@
-import '../../responses/responses.dart';
+import 'package:lovecook/core/base/base_response.dart';
+import 'package:lovecook/data/data.dart';
 
 abstract class ILoginRemoteService {
-  Future<LoginResponse> login({required Map<String, dynamic> params});
+  Future<SingleResponse<LoginModel>> login({required Map<String, dynamic> params});
 }

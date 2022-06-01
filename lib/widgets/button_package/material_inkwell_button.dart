@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viiv/resources/colors.dart';
+import 'package:lovecook/resources/colors.dart';
 
 class MaterialInkwellButton extends StatelessWidget {
   final String title;

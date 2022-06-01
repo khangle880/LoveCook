@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:lovecook/core/base/base_response.dart';
 
 import '../../core/core.dart';
 import '../data.dart';
-import '../responses/login_response.dart';
 
 class LoginRepository extends ILoginRepository {
   final INetworkInfo networkInfo;
@@ -11,7 +11,7 @@ class LoginRepository extends ILoginRepository {
   LoginRepository({required this.networkInfo, required this.remoteService});
 
   @override
-  Future<Either<Failure, LoginResponse>> login(
+  Future<Either<Failure, SingleResponse<LoginModel>>> login(
       {required Map<String, dynamic> params}) async {
     // final isConnected = await networkInfo.isConnected;
     try {

@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:viiv/blocs/login/login_state.dart';
-import 'package:viiv/core/core.dart';
-import 'package:viiv/data/data.dart';
+import 'package:lovecook/blocs/login/login_state.dart';
+import 'package:lovecook/core/core.dart';
+import 'package:lovecook/data/data.dart';
 import '../../../extensions/extensions.dart';
 
 class LoginBloc extends BaseBloc<LoginState> {
@@ -26,10 +26,11 @@ class LoginBloc extends BaseBloc<LoginState> {
         .login(params: {"email": email, "password": password});
 
     responseEither.fold((failure) {}, (data) {
-      if (data.tokens?.access?.token != null &&
-          data.tokens!.access!.token!.isNotEmpty) {
-        _sharedPreferences.saveToken(data.tokens!.access!.token!);
+      if (data.item?.tokens?.access?.token != null &&
+          data.item!.tokens!.access!.token!.isNotEmpty) {
+        _sharedPreferences.saveToken(data.item!.tokens!.access!.token!);
         print(_sharedPreferences.token);
+        print(data.item!.user);
         emit(LoginState(state: state, success: true));
       }
     });
