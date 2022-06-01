@@ -33,13 +33,17 @@ class Message extends StatelessWidget {
           message.buttons != null
               ? RowBuilder(
                   itemCount: message.buttons!.length,
-                  itemBuilder: (context, index) => MaterialInkwellButton(
-                    title: message.buttons?[index].title ?? 'Errro',
-                    hasBorder: false,
-                    onTap: () {
-                      chatBloc
-                          .sendMessage(message.buttons?[index].payload ?? '');
-                    },
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: MaterialInkwellButton(
+                      title: message.buttons?[index].title ?? 'Errro',
+                      hasBorder: false,
+                      constraints: BoxConstraints(maxWidth: 200),
+                      onTap: () {
+                        chatBloc
+                            .sendMessage(message.buttons?[index].payload ?? '');
+                      },
+                    ),
                   ),
                 )
               : SizedBox.shrink()

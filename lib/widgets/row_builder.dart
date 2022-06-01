@@ -22,12 +22,12 @@ class RowBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Row(
+    return new Column(
       crossAxisAlignment: this.crossAxisAlignment,
       mainAxisSize: this.mainAxisSize,
       mainAxisAlignment: this.mainAxisAlignment,
       verticalDirection: this.verticalDirection,
-      children: new List.generate(
+      children: List.generate(
           this.itemCount, (index) => this.itemBuilder(context, index)).toList(),
     );
   }
