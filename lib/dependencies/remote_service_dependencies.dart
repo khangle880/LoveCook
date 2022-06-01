@@ -14,5 +14,6 @@ class RemoteServiceDependencies {
     injector.registerFactory<ICommentRemoteService>(() => CommentRemoteService());
     injector.registerFactory<ILookupRemoteService>(() => LookupRemoteService());
     injector.registerFactory<ISearchRemoteService>(() => SearchRemoteService());
+    injector.registerFactory<IChatRemoteService>(() => ChatRemoteService());
   }
 }

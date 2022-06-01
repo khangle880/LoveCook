@@ -9,3 +9,4 @@ export 'recipe_repository.dart';
 export 'search_repository.dart';
 export 'splash_repository.dart';
 export 'user_repository.dart';
+export 'chat_repository.dart';

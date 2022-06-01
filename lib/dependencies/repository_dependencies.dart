@@ -45,5 +45,7 @@ class RepositoryDependencies {
           remoteService: injector(),
           networkInfo: injector(),
         ));
+    injector.registerFactory<IChatRepository>(() =>
+        ChatRepository(networkInfo: injector(), remoteService: injector()));
   }
 }

@@ -19,5 +19,6 @@ class BlocDependencies {
           injector(),
           injector(),
         ));
+    injector.registerFactory<ChatBloc>(() => ChatBloc(injector()));
   }
 }

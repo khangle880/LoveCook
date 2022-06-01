@@ -12,9 +12,10 @@ class PageDependencies {
         instanceName: Routes.splash);
     injector.registerFactory<Widget>(() => LoginPage(injector()),
         instanceName: Routes.login);
-    injector.registerFactory<Widget>(() => HomePage(),
+    injector.registerFactory<Widget>(() => HomePage(injector()),
         instanceName: Routes.home);
     injector.registerFactory<Widget>(() => TestApiPage(injector()),
         instanceName: Routes.testApi);
+    injector.registerFactory<Widget>(() => ChatPage(injector()));
   }
 }

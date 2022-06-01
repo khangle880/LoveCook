@@ -5,3 +5,4 @@ export 'wave_widget.dart';
 export 'profile_avatar.dart';
 export 'user_card.dart';
 export 'custom_widget/custom_widget.dart';
+export 'row_builder.dart';
