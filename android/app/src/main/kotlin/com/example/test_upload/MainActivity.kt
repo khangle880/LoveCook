@@ -1,4 +1,4 @@
-package com.lecle.viiv
+package com.nothingness.lovecook
 
 import io.flutter.embedding.android.FlutterActivity
 

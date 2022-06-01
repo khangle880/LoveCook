@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/responses/responses.dart';
+import '../data/models/models.dart';
 import 'widgets.dart';
 
 class UserCard extends StatelessWidget {

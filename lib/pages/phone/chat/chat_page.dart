@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viiv/data/responses/responses.dart';
+import 'package:lovecook/data/responses/chat_message_response.dart';
 
 import '../../../blocs/chat/chat_bloc.dart';
 import '../../../core/core.dart';

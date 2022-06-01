@@ -6,6 +6,7 @@ class Routes {
   static String get splash => '/splash';
   static String get login => '/login';
   static String get home => '/home';
+  static String get testApi => '/testApi';
 
   static getRoute(RouteSettings settings) {
     Widget widget;

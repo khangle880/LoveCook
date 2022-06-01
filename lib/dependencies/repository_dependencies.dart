@@ -13,6 +13,38 @@ class RepositoryDependencies {
           remoteService: injector(),
           networkInfo: injector(),
         ));
+    injector.registerFactory<IRecipeRepository>(() => RecipeRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
+    injector.registerFactory<IUserRepository>(() => UserRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
+    injector.registerFactory<IMeRepository>(() => MeRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
+    injector.registerFactory<IProductRepository>(() => ProductRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
+    injector.registerFactory<IPostRepository>(() => PostRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
+    injector.registerFactory<ICommentRepository>(() => CommentRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
+    injector.registerFactory<ILookupRepository>(() => LookupRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
+    injector.registerFactory<ISearchRepository>(() => SearchRepository(
+          remoteService: injector(),
+          networkInfo: injector(),
+        ));
     injector.registerFactory<IChatRepository>(() =>
         ChatRepository(networkInfo: injector(), remoteService: injector()));
   }

@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:viiv/core/core.dart';
-import 'package:viiv/data/data.dart';
-
+import '../../core/core.dart';
+import '../data.dart';
 import '../responses/responses.dart';
 
 class ChatRepository extends IChatRepository {

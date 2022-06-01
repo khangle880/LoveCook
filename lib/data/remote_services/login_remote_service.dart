@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:get_it/get_it.dart';
-import 'package:viiv/core/core.dart';
-import 'package:viiv/data/data.dart';
-import 'package:viiv/data/responses/login_response.dart';
+import 'package:lovecook/core/base/base_response.dart';
+import 'package:lovecook/core/core.dart';
+import 'package:lovecook/data/data.dart';
 
 class LoginRemoteService implements ILoginRemoteService {
   late final INetworkUtility _networkUtility;
@@ -13,15 +11,11 @@ class LoginRemoteService implements ILoginRemoteService {
             instanceName: NetworkConstant.authorizationDomain);
 
   @override
-  Future<LoginResponse> login({required Map<String, dynamic> params}) async {
+  Future<SingleResponse<LoginModel>> login(
+      {required Map<String, dynamic> params}) async {
     final response = await _networkUtility.request('v1/auth/login', Method.POST,
         data: params);
 
-    LoginResponse loginResponse =
-        LoginResponse.fromJson(json.decode(response.data));
-
-    print(loginResponse);
-
-    return loginResponse;
+    return SingleResponse<LoginModel>.fromJson(response);
   }
 }

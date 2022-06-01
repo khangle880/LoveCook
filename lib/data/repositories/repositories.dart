@@ -1,4 +1,12 @@
+export 'comment_repository.dart';
 export 'interfaces/interfaces.dart';
-export 'splash_repository.dart';
 export 'login_repository.dart';
+export 'lookup_repository.dart';
+export 'me_repository.dart';
+export 'post_repository.dart';
+export 'product_repository.dart';
+export 'recipe_repository.dart';
+export 'search_repository.dart';
+export 'splash_repository.dart';
+export 'user_repository.dart';
 export 'chat_repository.dart';

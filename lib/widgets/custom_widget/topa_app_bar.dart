@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../data/responses/responses.dart';
+import '../../data/models/models.dart';
 import '../../resources/resources.dart';
 import '../widgets.dart';
 

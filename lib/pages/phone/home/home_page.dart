@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lovecook/blocs/chat/chat_bloc.dart';
+import 'package:lovecook/pages/phone/chat/chat_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:viiv/blocs/chat/chat_bloc.dart';
-import 'package:viiv/pages/pages.dart';
 
 import '../../../widgets/widgets.dart';
 
