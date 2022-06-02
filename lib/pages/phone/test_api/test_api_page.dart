@@ -1,4 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:lovecook/data/data.dart';
+import '../../../core/base/base_response.dart';
+import '../../../widgets/pagination_widget/pagination_helper.dart';
+import '../../../widgets/pagination_widget/pagination_listview.dart';
 import 'test_api_bloc.dart';
 
 import '../../../core/base/base_state.dart';
@@ -14,6 +20,33 @@ class TestApiPage extends StatefulWidget {
 
 class _TestApiPageState extends BaseState<TestApiPage, TestApiBloc> {
   @override
+  void initState() {
+    super.initState();
+    getRecipes();
+  }
+
+  getRecipes() {
+    bloc.paginationHelper = PaginationHelper(asyncTask: (config) {
+      return asyncTask(config).then((value) {
+        config.canLoadMore = value.pagination.canLoadMore;
+        config.page = value.pagination.page;
+        return (value.items as List<PostModel>);
+      }).catchError((e) => throw e);
+    }, listener: () {
+      log(bloc.paginationHelper!.items.length.toString());
+      setState(() {});
+      // cách 2 là thêm streamcontroller và addItems cho stream tại đây
+      // https://github.com/khangle880/jayella/blob/master/lib/pages/feed/feed_default/following/feed_following_page.dart
+      // https://github.com/khangle880/jayella/invitations
+    });
+    return bloc.paginationHelper?.run();
+  }
+
+  Future<PagingListResponse> asyncTask(PaginationConfig config) {
+    return bloc.getPosts(page: config.page);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -21,29 +54,64 @@ class _TestApiPageState extends BaseState<TestApiPage, TestApiBloc> {
       ),
       body: Column(
         children: [
-          RaisedButton(
-            child: Text('Get Recipes'),
-            onPressed: () => bloc.loadRecipes(),
+          Row(
+            children: [
+              RaisedButton(
+                child: Text('Get Recipes'),
+                onPressed: () => bloc.loadRecipes(),
+              ),
+              RaisedButton(
+                child: Text('Get Products'),
+                onPressed: () => bloc.loadProducts(),
+              ),
+              RaisedButton(
+                child: Text('Get Posts'),
+                onPressed: () => bloc.loadPosts(),
+              ),
+            ],
           ),
-          RaisedButton(
-            child: Text('Get Products'),
-            onPressed: () => bloc.loadProducts(),
+          Row(
+            children: [
+              RaisedButton(
+                child: Text('Get Comments'),
+                onPressed: () => bloc.loadComments(),
+              ),
+              RaisedButton(
+                child: Text('Get Search'),
+                onPressed: () => bloc.loadSearch(),
+              ),
+              RaisedButton(
+                child: Text('Get Post Reactions'),
+                onPressed: () => bloc.loadPostReactions(),
+              ),
+            ],
           ),
-          RaisedButton(
-            child: Text('Get Posts'),
-            onPressed: () => bloc.loadPosts(),
-          ),
-          RaisedButton(
-            child: Text('Get Comments'),
-            onPressed: () => bloc.loadComments(),
-          ),
-          RaisedButton(
-            child: Text('Get Search'),
-            onPressed: () => bloc.loadSearch(),
-          ),
-          RaisedButton(
-            child: Text('Get Post Reactions'),
-            onPressed: () => bloc.loadPostReactions(),
+          SizedBox(
+            height: 400,
+            width: 400,
+            child: PaginationListView(
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 200,
+                  child: Container(
+                    color: Colors.amber,
+                    child: Text(
+                      bloc.paginationHelper!.items[index].creator?.name ??
+                          "okie",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                );
+              },
+              paginationController: bloc.paginationHelper!,
+              separatorBuilder: (context, index) {
+                return Divider(
+                  color: Colors.black,
+                  height: 8,
+                  thickness: 8,
+                );
+              },
+            ),
           ),
         ],
       ),

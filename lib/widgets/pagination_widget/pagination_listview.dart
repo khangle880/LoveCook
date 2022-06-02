@@ -142,7 +142,8 @@ class _PaginationListViewState extends State<PaginationListView> {
     );
   }
 
-  int get listLength => isFirstLoad ? widget.loadingEffectItemCount : length;
+  int get listLength =>
+      widget.paginationController.canLoadMore ? length + 1 : length;
 
   bool get isFirstLoad => widget.paginationController.isFirstLoad;
 
