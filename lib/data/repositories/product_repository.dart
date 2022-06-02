@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:lovecook/core/base/base_response.dart';
+import '../../core/base/base_response.dart';
 
 import '../../core/core.dart';
 import '../data.dart';

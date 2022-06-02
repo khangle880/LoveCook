@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lovecook/blocs/login/login_state.dart';
-import 'package:lovecook/core/core.dart';
-import 'package:lovecook/data/data.dart';
+import 'login_state.dart';
+import '../../core/core.dart';
+import '../../data/data.dart';
 import '../../../extensions/extensions.dart';
 
 class LoginBloc extends BaseBloc<LoginState> {

@@ -1,5 +1,4 @@
-import 'package:lovecook/core/base/base_response.dart';
-
+import '../../core/base/base_response.dart';
 import 'models.dart';
 
 class ReactionModel extends BaseResponse {

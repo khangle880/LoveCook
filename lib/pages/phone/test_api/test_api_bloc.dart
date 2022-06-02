@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/data/enum.dart';
-import 'package:lovecook/blocs/login/login_state.dart';
-import 'package:lovecook/core/core.dart';
-import 'package:lovecook/data/data.dart';
+import '../../../core/base/base_response.dart';
+import '../../../data/enum.dart';
+import '../../../blocs/login/login_state.dart';
+import '../../../core/core.dart';
+import '../../../data/data.dart';
 
 class TestApiBloc extends BaseBloc<LoginState> {
   final IUserRepository _loginRepository;

@@ -1,4 +1,4 @@
-import 'package:lovecook/core/base/base_response.dart';
+import '../../core/base/base_response.dart';
 
 class SingleType extends BaseResponse {
   final dynamic value;

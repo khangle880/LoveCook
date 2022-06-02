@@ -1,8 +1,8 @@
-import 'package:lovecook/blocs/chat/chat_state.dart';
-import 'package:lovecook/core/core.dart';
-import 'package:lovecook/data/data.dart';
-import 'package:lovecook/data/responses/responses.dart';
-import 'package:lovecook/enums.dart';
+import 'chat_state.dart';
+import '../../core/core.dart';
+import '../../data/data.dart';
+import '../../data/responses/responses.dart';
+import '../../enums.dart';
 
 class ChatBloc extends BaseBloc<ChatState> {
   final IChatRepository _chatRepository;

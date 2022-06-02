@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:lovecook/pages/phone/home/home_page.dart';
-import 'package:lovecook/pages/phone/test_api/test_api_page.dart';
+import '../pages/phone/home/home_page.dart';
+import '../pages/phone/test_api/test_api_page.dart';
 
 import '../pages/pages.dart';
 import '../router/router.dart';
