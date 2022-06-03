@@ -26,15 +26,17 @@ class _TestApiPageState extends BaseState<TestApiPage, TestApiBloc> {
   }
 
   getRecipes() {
-    bloc.paginationHelper = PaginationHelper(asyncTask: (config) {
-      return asyncTask(config).then((value) {
-        config.canLoadMore = value.pagination.canLoadMore;
-        config.page = value.pagination.page;
-        return (value.items as List<PostModel>);
-      }).catchError((e) => throw e);
-    }, listener: () {
+    bloc.paginationHelper = PaginationHelper(
+      asyncTask: (config) {
+        return asyncTask(config).then((value) {
+          config.canLoadMore = value.pagination.canLoadMore;
+          config.page = value.pagination.page;
+          return (value.items as List<PostModel>);
+        }).catchError((e) => throw e);
+      },
+    );
+    bloc.paginationHelper?.addListener(() {
       log(bloc.paginationHelper!.items.length.toString());
-      setState(() {});
       // cách 2 là thêm streamcontroller và addItems cho stream tại đây
       // https://github.com/khangle880/jayella/blob/master/lib/pages/feed/feed_default/following/feed_following_page.dart
       // https://github.com/khangle880/jayella/invitations
@@ -92,7 +94,7 @@ class _TestApiPageState extends BaseState<TestApiPage, TestApiBloc> {
             child: PaginationListView(
               itemBuilder: (BuildContext context, int index) {
                 return SizedBox(
-                  height: 200,
+                  height: 100,
                   child: Container(
                     color: Colors.amber,
                     child: Text(

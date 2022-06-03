@@ -38,6 +38,14 @@ class PaginationSliverListView extends StatefulWidget {
 }
 
 class _PaginationSliverListViewState extends State<PaginationSliverListView> {
+  @override
+  void initState() {
+    super.initState();
+    widget.paginationController.addListener(() {
+      setState(() {});
+    });
+  }
+
   Widget buildItem(int index) {
     //loading items
     if (isFirstLoad) {

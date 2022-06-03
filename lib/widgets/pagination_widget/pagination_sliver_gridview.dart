@@ -55,6 +55,14 @@ class PaginationSliverGridView extends StatefulWidget {
 class _PaginationSliverGridViewState extends State<PaginationSliverGridView> {
   late Function onUpdate;
 
+  @override
+  void initState() {
+    super.initState();
+    widget.paginationController.addListener(() {
+      setState(() {});
+    });
+  }
+
   Widget? buildItem(int index) {
     //loading items
     if (isFirstLoad) {
