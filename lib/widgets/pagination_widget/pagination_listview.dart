@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/widgets/pagination_widget/pagination_helper.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import 'pagination_helper.dart';
 
 ///only used for vertical ListView
 class PaginationListView extends StatefulWidget {
@@ -141,7 +142,8 @@ class _PaginationListViewState extends State<PaginationListView> {
     );
   }
 
-  int get listLength => isFirstLoad ? widget.loadingEffectItemCount : length;
+  int get listLength =>
+      widget.paginationController.canLoadMore ? length + 1 : length;
 
   bool get isFirstLoad => widget.paginationController.isFirstLoad;
 

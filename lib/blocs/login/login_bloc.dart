@@ -1,9 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../extensions/extensions.dart';
+import 'login_state.dart';
 import '../../core/core.dart';
 import '../../data/data.dart';
-import 'login_state.dart';
+import '../../../extensions/extensions.dart';
 
 class LoginBloc extends BaseBloc<LoginState> {
   final ILoginRepository _loginRepository;

@@ -1,6 +1,6 @@
-import 'package:lovecook/core/base/base_response.dart';
+import '../../core/base/base_response.dart';
 
-import 'package:lovecook/data/enum.dart';
+import '../enum.dart';
 
 import 'models.dart';
 

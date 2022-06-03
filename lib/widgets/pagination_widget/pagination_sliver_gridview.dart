@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/widgets/pagination_widget/pagination_helper.dart';
+import 'pagination_helper.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 ///only used for vertical ListView

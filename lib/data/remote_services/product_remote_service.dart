@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/core/core.dart';
-import 'package:lovecook/data/data.dart';
+import '../../core/base/base_response.dart';
+import '../../core/core.dart';
+import '../data.dart';
 
 class ProductRemoteService implements IProductRemoteService {
   late final INetworkUtility _networkUtility;

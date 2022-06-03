@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:get_it/get_it.dart';
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/core/core.dart';
-import 'package:lovecook/data/data.dart';
+import '../../core/base/base_response.dart';
+import '../../core/core.dart';
+import '../data.dart';
 
 class RecipeRemoteService implements IRecipeRemoteService {
   late final INetworkUtility _networkUtility;

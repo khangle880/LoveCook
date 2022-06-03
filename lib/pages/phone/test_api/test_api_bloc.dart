@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/data/enum.dart';
-import 'package:lovecook/blocs/login/login_state.dart';
-import 'package:lovecook/core/core.dart';
-import 'package:lovecook/data/data.dart';
+import '../../../core/base/base_response.dart';
+import '../../../data/enum.dart';
+import '../../../blocs/login/login_state.dart';
+import '../../../core/core.dart';
+import '../../../data/data.dart';
+import '../../../widgets/pagination_widget/pagination_helper.dart';
 
 class TestApiBloc extends BaseBloc<LoginState> {
   final IUserRepository _loginRepository;
@@ -15,6 +16,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
   final ICommentRepository _commentRepository;
   final ILookupRepository _lookupRepository;
   final ISearchRepository _searchRepository;
+  PaginationHelper<PostModel>? paginationHelper;
   TestApiBloc(
     this._loginRepository,
     this._meRepository,
@@ -72,7 +74,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
 
   Future<void> loadPosts() async {
     emitLoading(true);
-    getPosts().then((value) {
+    getPosts(page: 1).then((value) {
       if (value.success) {
         log(value.items.toString());
       } else {
@@ -83,8 +85,9 @@ class TestApiBloc extends BaseBloc<LoginState> {
     }).whenComplete(() => emitLoading(false));
   }
 
-  Future<PagingListResponse> getPosts() async {
-    final responseEither = await _postRepository.getPosts(query: {});
+  Future<PagingListResponse> getPosts({required int page}) async {
+    final responseEither =
+        await _postRepository.getPosts(query: {'page': page});
     return responseEither.fold((failure) {
       return Future.error(failure);
     }, (data) {

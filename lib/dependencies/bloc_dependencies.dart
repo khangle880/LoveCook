@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:lovecook/pages/phone/test_api/test_api_bloc.dart';
+import '../pages/phone/test_api/test_api_bloc.dart';
 
 import '../blocs/blocs.dart';
 

@@ -1,5 +1,5 @@
 
-import 'package:lovecook/data/responses/chat_message_response.dart';
+import '../../responses/chat_message_response.dart';
 
 abstract class IChatRemoteService {
   Future<List<ChatMessageResponse>> sendMessage(

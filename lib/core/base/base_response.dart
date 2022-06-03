@@ -64,7 +64,7 @@ class ListResponse<T extends BaseResponse> extends BaseResponse {
 
 class PagingListResponse<T extends BaseResponse> extends BaseResponse {
   late List<T> items;
-  Pagination? pagination;
+  late Pagination pagination;
 
   PagingListResponse(this.items) : super();
 

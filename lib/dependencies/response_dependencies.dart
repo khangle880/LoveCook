@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:lovecook/data/data.dart';
+import '../data/data.dart';
 
 class ResponseDependencies {
   static Future setup(GetIt injector) async {

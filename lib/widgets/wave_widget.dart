@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as Math;
+
+import 'package:flutter/material.dart';
 
 import 'clipper_widget.dart';
 

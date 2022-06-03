@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/data/data.dart';
+import '../../../core/base/base_response.dart';
+import '../../data.dart';
 
 import '../../../core/core.dart';
 

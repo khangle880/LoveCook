@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:lovecook/core/base/base_response.dart';
-
+import '../../core/base/base_response.dart';
 import '../enum.dart';
 
 class LoginModel extends BaseResponse {
