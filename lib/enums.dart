@@ -12,3 +12,5 @@ class SenderType {
 extension LanguageExt on Language {
   String get code => ['ko', 'en'][index];
 }
+
+enum MediaSource { video, image }

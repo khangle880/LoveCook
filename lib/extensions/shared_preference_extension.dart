@@ -21,8 +21,8 @@ extension SharedPreferencesExtension on SharedPreferences {
 
   User? get user {
     final encode_user = this.getString(SharedPreferencesKey.accountInfo);
-    if (encode_user != null) {
-      final User user = jsonDecode(encode_user);
+    if (encode_user != null && encode_user.isNotEmpty) {
+      final User user = User.fromJson(jsonDecode(encode_user));
       return user;
     } else {
       return null;

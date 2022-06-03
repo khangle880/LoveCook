@@ -4,6 +4,8 @@ enum SearchType { recipe, post, user, product, all }
 
 enum Gender { male, female, other }
 
+enum Language { vn, en }
+
 enum UserRole { user, admin }
 
 enum ViewRange { private, public }

@@ -140,7 +140,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
     super.blocListener(state);
 
     if (state.success) {
-      Navigator.pushNamed(context, Routes.testApi);
+      Navigator.pushNamed(context, Routes.home);
     }
   }
 

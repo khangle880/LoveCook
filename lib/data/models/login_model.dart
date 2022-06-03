@@ -107,6 +107,7 @@ class User extends BaseResponse {
   final String? avatarUrl;
   final String? phone;
   final Gender? gender;
+  final String? language;
   final UserRole? role;
   final String? status;
   final String? id;
@@ -119,6 +120,7 @@ class User extends BaseResponse {
     this.avatarUrl,
     this.phone,
     this.gender,
+    this.language,
     this.role,
     this.status,
     this.id,
@@ -140,6 +142,7 @@ class User extends BaseResponse {
         avatarUrl: json["avatarUrl"],
         phone: json["phone"],
         status: json["status"],
+        language: json["language"],
         gender: enumFromString<Gender>(Gender.values, json["gender"]),
         role: enumFromString<UserRole>(UserRole.values, json["role"]),
         id: json["id"],
@@ -155,6 +158,7 @@ class User extends BaseResponse {
         "phone": phone,
         "status": status,
         "gender": gender?.shortString,
+        "language": language,
         "role": role?.shortString,
         "id": id,
       };
@@ -169,6 +173,7 @@ class User extends BaseResponse {
     String? phone,
     Gender? gender,
     UserRole? role,
+    String? language,
     String? status,
     String? id,
   }) {
@@ -182,6 +187,7 @@ class User extends BaseResponse {
       phone: phone ?? this.phone,
       gender: gender ?? this.gender,
       role: role ?? this.role,
+      language: language ?? this.language,
       status: status ?? this.status,
       id: id ?? this.id,
     );

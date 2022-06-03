@@ -9,15 +9,8 @@ class ProfileTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-          ),
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.menu, color: Colors.white),

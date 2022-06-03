@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({
-    Key? key,
-  }) : super(key: key);
+  final IconData icon;
+  final String title;
+  final String content;
+
+  const ProfileCard(
+      {Key? key,
+      required this.icon,
+      required this.title,
+      required this.content})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
-            vertical: 21.0,
+            vertical: 20.0,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
