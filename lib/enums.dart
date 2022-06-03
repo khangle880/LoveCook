@@ -13,4 +13,6 @@ extension LanguageExt on Language {
   String get code => ['ko', 'en'][index];
 }
 
+enum ButtonSize { large, medium, small }
+
 enum MediaSource { video, image }

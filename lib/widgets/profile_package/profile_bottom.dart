@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lovecook/extensions/text_style.dart';
-import 'package:lovecook/widgets/widgets.dart';
 
 import '../../data/data.dart';
-import '../../resources/resources.dart';
 
 class ProfileBottom extends StatefulWidget {
   User? user;
 
-  ProfileBottom({Key? key, this.user}) : super(key: key);
+ ProfileBottom({Key? key, this.user}) : super(key: key);
 
   @override
   State<ProfileBottom> createState() => _ProfileBottomState();
