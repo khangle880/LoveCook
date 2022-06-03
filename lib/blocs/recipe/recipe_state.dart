@@ -1,20 +1,17 @@
 // import 'package:equatable/equatable.dart';
+// import 'package:lovecook/data/data.dart';
 
-
-// class CommentsState extends Equatable {
-//   final List<CommentModel>? comments;
-//   final Pagination? pagination;
+// class RecipeState extends Equatable {
+//   final List<RecipeModel>? recipes;
 //   final bool? success;
 //   final String? error;
 //   CommentsState({
 //     bool? success,
 //     String? error,
-//     CommentsState? state,
-//     Pagination? pagination,
+//     RecipeState? state,
 //     List<CommentModel>? comments,
 //   })  : success = success ?? state?.success,
 //         error = error ?? state?.error,
-//         pagination = pagination ?? state?.pagination,
 //         comments = comments ?? state?.comments;
 
 //   @override
