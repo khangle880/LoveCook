@@ -37,6 +37,10 @@ class _AppState extends State<App> {
         GlobalCupertinoLocalizations.delegate,
       ],
       locale: state?.locale,
+      theme: new ThemeData(
+        primarySwatch: Colors.teal,
+        canvasColor: Colors.transparent,
+      ),
     );
   }
 }

@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/extensions/text_style.dart';
 
+import '../../extensions/text_style.dart';
+import '../widgets.dart';
 import '../../data/data.dart';
 
 class ProfileBottom extends StatefulWidget {
-  User? user;
+  final User? user;
+  final Function(String)? changeName;
+  final Function(String)? changePhone;
+  final Function(String)? changeLanguage;
+  final Function(String)? changeAvatar;
 
- ProfileBottom({Key? key, this.user}) : super(key: key);
+  ProfileBottom(
+      {Key? key,
+      this.user,
+      this.changeName,
+      this.changeLanguage,
+      this.changeAvatar,
+      this.changePhone})
+      : super(key: key);
 
   @override
   State<ProfileBottom> createState() => _ProfileBottomState();
 }
 
 class _ProfileBottomState extends State<ProfileBottom> {
-  late User? _user;
+  User? get _user => widget.user;
 
-  @override
-  void initState() {
-    super.initState();
-    // print(widget.user?.name);
-    _user = widget.user;
-  }
+  Function(String)? get changeName => widget.changeName;
+  Function(String)? get changePhone => widget.changePhone;
+  Function(String)? get changeLanguage => widget.changeLanguage;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +42,6 @@ class _ProfileBottomState extends State<ProfileBottom> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // TODO Handle Number here
               ListTile(
                 title: Center(
                     child: _user != null
@@ -66,7 +74,6 @@ class _ProfileBottomState extends State<ProfileBottom> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 10.0),
-              // TODO Handle user infor here
               ListTile(
                 title: Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
@@ -92,27 +99,40 @@ class _ProfileBottomState extends State<ProfileBottom> {
               ListTile(
                 title: Text("Name"),
                 subtitle: Text(_user != null ? _user!.name! : ''),
-                trailing: Icon(Icons.edit_note),
+                trailing: IconButton(
+                  icon: Icon(Icons.edit_note),
+                  onPressed: () {
+                    ShowCustomBottomSheet.changeName(context, changeName);
+                  },
+                ),
+                // trailing: Icon(Icons.edit_note),
               ),
               ListTile(
                 title: Text("Phone"),
                 subtitle: Text(_user != null ? _user!.phone! : ''),
-                trailing: Icon(Icons.edit_note),
+                trailing: IconButton(
+                  icon: Icon(Icons.edit_note),
+                  onPressed: () {
+                    ShowCustomBottomSheet.changePhone(context, changePhone);
+                  },
+                ),
               ),
               ListTile(
                 title: Text("Language"),
-                subtitle:
-                    Text(_user != null ? _user!.language!.toString() : ''),
-                trailing: Icon(Icons.edit_note),
+                subtitle: Text(
+                    _user != null ? _user!.languageSetting!.toString() : ''),
+                trailing: IconButton(
+                  icon: Icon(Icons.edit_note),
+                  onPressed: () {
+                    ShowCustomBottomSheet.changeLanguage(
+                        context, changeLanguage);
+                  },
+                ),
               ),
-              // ProfileCard(icon: Icons.abc, title: 'title', content: 'content'),
-              // ProfileCard(icon: Icons.abc, title: 'title', content: 'content'),
-              // ProfileCard(icon: Icons.abc, title: 'title', content: 'content'),
             ],
           ),
         )
       ]),
-      // height: 300,
     );
   }
 }

@@ -8,3 +8,4 @@ export 'user_card.dart';
 export 'custom_widget/custom_widget.dart';
 export 'column_builder.dart';
 export 'profile_package/profile_package.dart';
+export 'bottom_sheet_package/bottom_sheet_package.dart';
