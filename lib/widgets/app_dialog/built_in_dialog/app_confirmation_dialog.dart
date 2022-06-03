@@ -3,7 +3,6 @@ import '../app_dialog.dart';
 import '../../widgets.dart';
 import '../../../extensions/extensions.dart';
 import '../../../resources/resources.dart';
-import '../../../generated/l10n.dart';
 
 /// Example
 ///

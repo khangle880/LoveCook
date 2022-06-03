@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../../blocs/chat/chat_bloc.dart';
-import '../chat/chat_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../blocs/blocs.dart';
 import '../../../widgets/widgets.dart';
+import '../phone.dart';
 
 class HomePage extends StatefulWidget {
   final ChatBloc chatBloc;
+  final ProfileBloc profileBloc;
+  final SharedPreferences sharedPreferences;
 
-  const HomePage(this.chatBloc);
+  const HomePage(this.chatBloc, this.profileBloc, this.sharedPreferences);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       Scaffold(),
       ChatPage(widget.chatBloc),
       Scaffold(),
-      Scaffold(),
+      ProfilePage(widget.profileBloc, widget.sharedPreferences),
     ];
     _icons = const [
       Icons.home,

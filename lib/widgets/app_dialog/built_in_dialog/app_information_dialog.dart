@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../generated/l10n.dart';
 import '../app_dialog.dart';
 import '../../../extensions/extensions.dart';
 import '../../widgets.dart';

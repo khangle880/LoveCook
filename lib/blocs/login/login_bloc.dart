@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'login_state.dart';
 import '../../core/core.dart';
 import '../../data/data.dart';
@@ -6,13 +7,23 @@ import '../../../extensions/extensions.dart';
 
 class LoginBloc extends BaseBloc<LoginState> {
   final ILoginRepository _loginRepository;
+  final IMeRepository _profileRepository;
   final SharedPreferences _sharedPreferences;
 
-  LoginBloc(this._loginRepository, this._sharedPreferences);
+  LoginBloc(
+      this._loginRepository, this._profileRepository, this._sharedPreferences);
 
   Future<void> checkToken() async {
     if (_sharedPreferences.token != null &&
         _sharedPreferences.token!.isNotEmpty) {
+      final responseEither = await _profileRepository.getInfo();
+
+      responseEither.fold((failure) {}, (data) {
+        if (data.item != null) {
+          _sharedPreferences.saveUser(data.item!);
+        }
+      });
+
       emit(LoginState(state: state, success: true));
     }
   }
@@ -29,6 +40,7 @@ class LoginBloc extends BaseBloc<LoginState> {
       if (data.item?.tokens?.access?.token != null &&
           data.item!.tokens!.access!.token!.isNotEmpty) {
         _sharedPreferences.saveToken(data.item!.tokens!.access!.token!);
+        _sharedPreferences.saveUser(data.item!.user!);
         print(_sharedPreferences.token);
         print(data.item!.user);
         emit(LoginState(state: state, success: true));

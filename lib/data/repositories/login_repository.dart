@@ -16,7 +16,6 @@ class LoginRepository extends ILoginRepository {
     // final isConnected = await networkInfo.isConnected;
     try {
       final remoteData = await remoteService.login(params: params);
-      print('Helloe');
       return Right(remoteData);
     } catch (e) {
       return Left(ServerFailure());

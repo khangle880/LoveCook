@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../extensions/extensions.dart';
-import '../../../generated/l10n.dart';
 import '../../../resources/resources.dart';
 import '../../app_dialog/app_dialog.dart';
 import '../../widgets.dart';

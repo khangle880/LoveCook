@@ -14,3 +14,5 @@ extension LanguageExt on Language {
 }
 
 enum ButtonSize { large, medium, small }
+
+enum MediaSource { video, image }

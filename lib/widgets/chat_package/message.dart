@@ -30,7 +30,7 @@ class Message extends StatelessWidget {
                 )
               : SizedBox.shrink(),
           message.buttons != null
-              ? RowBuilder(
+              ? ColumnBuilder(
                   itemCount: message.buttons!.length,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),

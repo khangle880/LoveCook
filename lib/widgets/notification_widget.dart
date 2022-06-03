@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-// ignore: implementation_imports
-import 'package:provider/src/provider.dart';
 
-import '../blocs/app/app.dart';
 import '../extensions/extensions.dart';
 import '../resources/resources.dart';
-import '../router/router.dart';
 
 const int MAX_NOTIFICATION = 10;
 

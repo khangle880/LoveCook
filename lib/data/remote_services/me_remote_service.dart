@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+
 import '../../core/base/base_response.dart';
 import '../../core/core.dart';
 import '../data.dart';

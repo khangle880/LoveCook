@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../generated/l10n.dart';
 import '../../gen/assets.gen.dart';
 import '../../resources/resources.dart';
 import '../../extensions/extensions.dart';

@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+
+import '../../resources/resources.dart';
 import '../../resources/colors.dart';
 
 class MaterialInkwellButton extends StatelessWidget {
@@ -35,7 +37,7 @@ class MaterialInkwellButton extends StatelessWidget {
             constraints: constraints,
             height: 60.0,
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 title,
                 maxLines: 1,
                 softWrap: true,
