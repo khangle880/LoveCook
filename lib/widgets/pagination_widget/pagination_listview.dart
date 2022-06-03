@@ -56,6 +56,9 @@ class _PaginationListViewState extends State<PaginationListView> {
   void initState() {
     super.initState();
     _scrollController = widget.scrollController ?? ScrollController();
+    widget.paginationController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override

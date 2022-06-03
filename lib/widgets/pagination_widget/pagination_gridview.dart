@@ -74,6 +74,9 @@ class _PaginationGridViewState extends State<PaginationGridView> {
   void initState() {
     super.initState();
     _scrollController = widget.scrollController ?? ScrollController();
+    widget.paginationController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override

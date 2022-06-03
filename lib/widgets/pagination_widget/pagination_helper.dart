@@ -5,7 +5,7 @@ class PaginationHelper<T> {
   bool isLoading = false;
   late final int limit;
   List<T> items = [];
-  final Function()? listener;
+  final List<Function> listeners = [];
 
   final PaginationConfig _config = PaginationConfig();
 
@@ -15,14 +15,19 @@ class PaginationHelper<T> {
 
   BehaviorSubject<bool> bsIsLoadingMore = BehaviorSubject.seeded(false);
 
-  PaginationHelper(
-      {required this.asyncTask, int? limit, this.listener, this.onRefresh}) {
+  PaginationHelper({required this.asyncTask, int? limit, this.onRefresh}) {
     this.limit = limit ?? 14;
+  }
+
+  void addListener(Function value) {
+    listeners.add(value);
   }
 
   void updateList(List<T> newItems) {
     items = newItems;
-    listener?.call();
+    listeners.forEach((element) {
+      element.call();
+    });
   }
 
   Future<void> run() {
@@ -37,7 +42,9 @@ class PaginationHelper<T> {
       if (value != null) {
         items.addAll(value);
       }
-      listener?.call();
+      listeners.forEach((element) {
+        element.call();
+      });
       bsIsLoadingMore.add(false);
       return value;
     }).catchError((e) {
