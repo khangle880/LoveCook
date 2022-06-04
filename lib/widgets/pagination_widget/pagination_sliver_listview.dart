@@ -12,7 +12,7 @@ class PaginationSliverListView extends StatefulWidget {
 
   ///build your main item
   final IndexedWidgetBuilder itemBuilder;
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
   ///pass into if you don't wanna use the default loading indicator [VueCircularProgressIndicator]
   final WidgetBuilder? loadingIndicatorBuilder;
@@ -27,7 +27,7 @@ class PaginationSliverListView extends StatefulWidget {
     required this.itemBuilder,
     this.loadingIndicatorBuilder,
     this.unloadingIndicatorBuilder,
-    required this.scrollController,
+    this.scrollController,
     this.itemPercentBeforeLoadMore = 30,
     this.separatorBuilder,
   });
@@ -38,9 +38,12 @@ class PaginationSliverListView extends StatefulWidget {
 }
 
 class _PaginationSliverListViewState extends State<PaginationSliverListView> {
+  late ScrollController scrollController;
+
   @override
   void initState() {
     super.initState();
+    scrollController = widget.scrollController ?? ScrollController();
     widget.paginationController.addListener(() {
       setState(() {});
     });

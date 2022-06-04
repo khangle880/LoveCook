@@ -129,10 +129,14 @@ class User extends BaseResponse {
   }
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        followingUsers: List<User>.from(
-            json["followingUsers"].map((x) => User.fromJson(x))),
-        followerUsers:
-            List<User>.from(json["followerUsers"].map((x) => User.fromJson(x))),
+        followingUsers: json["followingUsers"] == null
+            ? null
+            : List<User>.from(
+                json["followingUsers"]?.map((x) => User.fromJson(x))),
+        followerUsers: json["followerUsers"] == null
+            ? null
+            : List<User>.from(
+                json["followerUsers"]?.map((x) => User.fromJson(x))),
         name: json["name"],
         email: json["email"],
         bio: json["bio"],

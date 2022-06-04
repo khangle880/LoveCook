@@ -12,6 +12,8 @@ class PostModel extends BaseResponse {
   final String? backgroundColor;
   final String? content;
   final List<String>? tags;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   PostModel({
     this.id,
     this.creator,
@@ -21,6 +23,8 @@ class PostModel extends BaseResponse {
     this.backgroundColor,
     this.content,
     this.tags,
+    this.createdAt,
+    this.updatedAt,
   });
 
   PostModel copyWith({
@@ -32,17 +36,20 @@ class PostModel extends BaseResponse {
     String? backgroundColor,
     String? content,
     List<String>? tags,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return PostModel(
-      id: id ?? this.id,
-      creator: creator ?? this.creator,
-      photoUrls: photoUrls ?? this.photoUrls,
-      videoUrl: videoUrl ?? this.videoUrl,
-      viewRange: viewRange ?? this.viewRange,
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      content: content ?? this.content,
-      tags: tags ?? this.tags,
-    );
+        id: id ?? this.id,
+        creator: creator ?? this.creator,
+        photoUrls: photoUrls ?? this.photoUrls,
+        videoUrl: videoUrl ?? this.videoUrl,
+        viewRange: viewRange ?? this.viewRange,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+        content: content ?? this.content,
+        tags: tags ?? this.tags,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt);
   }
 
   @override
@@ -65,21 +72,29 @@ class PostModel extends BaseResponse {
       'backgroundColor': backgroundColor,
       'content': content,
       'tags': tags,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
-      id: json['id'] ?? '',
-      creator: json['creator'] != null ? User.fromJson(json['creator']) : null,
-      photoUrls: List<String>.from(json['photoUrls']),
-      videoUrl: json['videoUrl'],
-      viewRange: json['viewRange'] != null
-          ? enumFromString(ViewRange.values, json['viewRange'])
-          : null,
-      backgroundColor: json['backgroundColor'],
-      content: json['content'],
-      tags: List<String>.from(json['tags']),
-    );
+        id: json['id'] ?? '',
+        creator:
+            json['creator'] != null ? User.fromJson(json['creator']) : null,
+        photoUrls: List<String>.from(json['photoUrls']),
+        videoUrl: json['videoUrl'],
+        viewRange: json['viewRange'] != null
+            ? enumFromString(ViewRange.values, json['viewRange'])
+            : null,
+        backgroundColor: json['backgroundColor'],
+        content: json['content'],
+        tags: List<String>.from(json['tags']),
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]));
   }
 }
