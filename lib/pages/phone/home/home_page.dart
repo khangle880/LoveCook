@@ -7,12 +7,14 @@ import '../../../widgets/widgets.dart';
 import '../phone.dart';
 
 class HomePage extends StatefulWidget {
+  final FeedBloc feedBloc;
   final ChatBloc chatBloc;
   final ProfileBloc profileBloc;
   final RecipeBloc recipeBloc;
   final SharedPreferences sharedPreferences;
 
-  const HomePage(this.chatBloc, this.profileBloc, this.recipeBloc, this.sharedPreferences);
+  const HomePage(this.feedBloc,this.chatBloc, this.profileBloc, this.recipeBloc, this.sharedPreferences);
+
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _screens = [
-      Scaffold(),
+      FeedPage(widget.feedBloc, widget.sharedPreferences),
       RecipePage(widget.recipeBloc),
       ChatPage(widget.chatBloc),
       Scaffold(),
@@ -47,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     return DefaultTabController(
       length: _icons.length,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFFF2EBE9),
         body: IndexedStack(
           index: _selectedIndex,
           children: _screens,

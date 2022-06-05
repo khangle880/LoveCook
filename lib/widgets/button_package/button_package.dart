@@ -3,3 +3,4 @@ export 'circle_button.dart';
 export 'filled_button.dart';
 export 'material_inkwell_button.dart';
 export 'outline_button.dart';
+export 'reaction_data.dart';

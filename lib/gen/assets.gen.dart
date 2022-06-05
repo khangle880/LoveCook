@@ -34,6 +34,17 @@ class $AssetsImagesGen {
 class $AssetsImagesPngGen {
   const $AssetsImagesPngGen();
 
+  /// File path: assets/images/png/algeria-round.png
+  AssetGenImage get algeriaRound =>
+      const AssetGenImage('assets/images/png/algeria-round.png');
+
+  /// File path: assets/images/png/algeria.png
+  AssetGenImage get algeria =>
+      const AssetGenImage('assets/images/png/algeria.png');
+
+  /// File path: assets/images/png/angry.png
+  AssetGenImage get angry => const AssetGenImage('assets/images/png/angry.png');
+
   /// File path: assets/images/png/bg_calm_style.webp
   AssetGenImage get bgCalmStyle =>
       const AssetGenImage('assets/images/png/bg_calm_style.webp');
@@ -62,6 +73,13 @@ class $AssetsImagesPngGen {
   AssetGenImage get bgRomanticStyle =>
       const AssetGenImage('assets/images/png/bg_romantic_style.webp');
 
+  /// File path: assets/images/png/china-round.png
+  AssetGenImage get chinaRound =>
+      const AssetGenImage('assets/images/png/china-round.png');
+
+  /// File path: assets/images/png/china.png
+  AssetGenImage get china => const AssetGenImage('assets/images/png/china.png');
+
   /// File path: assets/images/png/default_avatar.png
   AssetGenImage get defaultAvatar =>
       const AssetGenImage('assets/images/png/default_avatar.png');
@@ -74,13 +92,46 @@ class $AssetsImagesPngGen {
   AssetGenImage get download =>
       const AssetGenImage('assets/images/png/download.png');
 
+  /// File path: assets/images/png/empty.png
+  AssetGenImage get empty => const AssetGenImage('assets/images/png/empty.png');
+
   /// File path: assets/images/png/facebook.png
   AssetGenImage get facebook =>
       const AssetGenImage('assets/images/png/facebook.png');
 
+  /// File path: assets/images/png/germany-round.png
+  AssetGenImage get germanyRound =>
+      const AssetGenImage('assets/images/png/germany-round.png');
+
+  /// File path: assets/images/png/germany.png
+  AssetGenImage get germany =>
+      const AssetGenImage('assets/images/png/germany.png');
+
+  /// File path: assets/images/png/happy.png
+  AssetGenImage get happy => const AssetGenImage('assets/images/png/happy.png');
+
   /// File path: assets/images/png/ic_chevron_up.png
   AssetGenImage get icChevronUp =>
       const AssetGenImage('assets/images/png/ic_chevron_up.png');
+
+  /// File path: assets/images/png/img1.jpg
+  AssetGenImage get img1 => const AssetGenImage('assets/images/png/img1.jpg');
+
+  /// File path: assets/images/png/img2.jpg
+  AssetGenImage get img2 => const AssetGenImage('assets/images/png/img2.jpg');
+
+  /// File path: assets/images/png/img3.jpg
+  AssetGenImage get img3 => const AssetGenImage('assets/images/png/img3.jpg');
+
+  /// File path: assets/images/png/img4.jpg
+  AssetGenImage get img4 => const AssetGenImage('assets/images/png/img4.jpg');
+
+  /// File path: assets/images/png/img5.jpg
+  AssetGenImage get img5 => const AssetGenImage('assets/images/png/img5.jpg');
+
+  /// File path: assets/images/png/in-love.png
+  AssetGenImage get inLove =>
+      const AssetGenImage('assets/images/png/in-love.png');
 
   /// File path: assets/images/png/instagram.png
   AssetGenImage get instagram =>
@@ -93,9 +144,37 @@ class $AssetsImagesPngGen {
   /// File path: assets/images/png/link.png
   AssetGenImage get link => const AssetGenImage('assets/images/png/link.png');
 
+  /// File path: assets/images/png/mad.png
+  AssetGenImage get mad => const AssetGenImage('assets/images/png/mad.png');
+
+  /// File path: assets/images/png/sad.png
+  AssetGenImage get sad => const AssetGenImage('assets/images/png/sad.png');
+
   /// File path: assets/images/png/search.png
   AssetGenImage get search =>
       const AssetGenImage('assets/images/png/search.png');
+
+  /// File path: assets/images/png/smile.png
+  AssetGenImage get smile => const AssetGenImage('assets/images/png/smile.png');
+
+  /// File path: assets/images/png/spain-round.png
+  AssetGenImage get spainRound =>
+      const AssetGenImage('assets/images/png/spain-round.png');
+
+  /// File path: assets/images/png/spain.png
+  AssetGenImage get spain => const AssetGenImage('assets/images/png/spain.png');
+
+  /// File path: assets/images/png/surprised.png
+  AssetGenImage get surprised =>
+      const AssetGenImage('assets/images/png/surprised.png');
+
+  /// File path: assets/images/png/united-kingdom-round.png
+  AssetGenImage get unitedKingdomRound =>
+      const AssetGenImage('assets/images/png/united-kingdom-round.png');
+
+  /// File path: assets/images/png/united-kingdom.png
+  AssetGenImage get unitedKingdom =>
+      const AssetGenImage('assets/images/png/united-kingdom.png');
 
   /// File path: assets/images/png/warning.png
   AssetGenImage get warning =>
@@ -532,10 +611,6 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/logo_app.svg
   SvgGenImage get logoApp =>
       const SvgGenImage('assets/images/svg/logo_app.svg');
-
-  /// File path: assets/images/svg/logo_single_letter.svg
-  SvgGenImage get logoSingleLetter =>
-      const SvgGenImage('assets/images/svg/logo_single_letter.svg');
 
   /// File path: assets/images/svg/more-horizontal.svg
   SvgGenImage get moreHorizontal =>

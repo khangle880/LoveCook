@@ -104,7 +104,7 @@ class User extends BaseResponse {
   final String? avatarUrl;
   final String? phone;
   final Gender? gender;
-  final String? language;
+  final String? languageSetting;
   final UserRole? role;
   final String? status;
   final String? id;
@@ -117,7 +117,7 @@ class User extends BaseResponse {
     this.avatarUrl,
     this.phone,
     this.gender,
-    this.language,
+    this.languageSetting,
     this.role,
     this.status,
     this.id,
@@ -129,17 +129,21 @@ class User extends BaseResponse {
   }
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        followingUsers: List<User>.from(
-            json["followingUsers"].map((x) => User.fromJson(x))),
-        followerUsers:
-            List<User>.from(json["followerUsers"].map((x) => User.fromJson(x))),
+        followingUsers: json["followingUsers"] == null
+            ? null
+            : List<User>.from(
+                json["followingUsers"]?.map((x) => User.fromJson(x))),
+        followerUsers: json["followerUsers"] == null
+            ? null
+            : List<User>.from(
+                json["followerUsers"]?.map((x) => User.fromJson(x))),
         name: json["name"],
         email: json["email"],
         bio: json["bio"],
         avatarUrl: json["avatarUrl"],
         phone: json["phone"],
         status: json["status"],
-        language: json["languageSetting"],
+        languageSetting: json["languageSetting"],
         gender: enumFromString<Gender>(Gender.values, json["gender"]),
         role: enumFromString<UserRole>(UserRole.values, json["role"]),
         id: json["id"],
@@ -155,7 +159,7 @@ class User extends BaseResponse {
         "phone": phone,
         "status": status,
         "gender": gender?.shortString,
-        "languageSetting": language,
+        "languageSetting": languageSetting,
         "role": role?.shortString,
         "id": id,
       };
@@ -184,7 +188,7 @@ class User extends BaseResponse {
       phone: phone ?? this.phone,
       gender: gender ?? this.gender,
       role: role ?? this.role,
-      language: language ?? this.language,
+      languageSetting: language ?? this.languageSetting,
       status: status ?? this.status,
       id: id ?? this.id,
     );

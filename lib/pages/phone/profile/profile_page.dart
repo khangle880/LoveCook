@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../blocs/blocs.dart';
 import '../../../core/core.dart';
 import '../../../data/data.dart';
-import '../../../router/router.dart';
 import '../../../widgets/widgets.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -42,6 +41,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
             }
 
             final user_data = snapshot.data;
+
             return Column(
               children: <Widget>[
                 ProfileStackBackground(
@@ -50,6 +50,15 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
                 Expanded(
                     child: ProfileBottom(
                   user: user_data,
+                  changeName: (username) {
+                    bloc.changeProfile(profile: {'name': username});
+                  },
+                  changePhone: (phone) {
+                    bloc.changeProfile(profile: {'phone': phone});
+                  },
+                  changeLanguage: (language) {
+                    bloc.changeProfile(profile: {'languageSetting': language});
+                  },
                 ))
                 // ProfileCard(),
                 // ProfileCard(),

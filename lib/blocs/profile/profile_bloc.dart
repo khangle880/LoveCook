@@ -29,4 +29,19 @@ class ProfileBloc extends BaseBloc<ProfileState> {
       });
     }
   }
+
+  Future<void> changeProfile({required Map<String, dynamic> profile}) async {
+    if (profile.isEmpty) {
+      return;
+    } else {
+      final responseEither = await _profileRepository.update(data: profile);
+
+      responseEither.fold((failure) {}, (data) {
+        if (data.item != null) {
+          _sharedPreferences.saveUser(data.item!);
+          emit(ProfileState(state: state, success: true, user: data.item));
+        }
+      });
+    }
+  }
 }

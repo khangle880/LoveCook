@@ -5,3 +5,4 @@ export 'login/login.dart';
 export 'profile/profile.dart';
 export 'recipe/recipe.dart';
 export 'splash/splash.dart';
+export 'feed/feed.dart';

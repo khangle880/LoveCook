@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../resources/resources.dart';
 
@@ -6,6 +7,8 @@ class TextFieldOutline extends StatelessWidget {
   final String? hintText;
   final IconData? prefixIconData;
   final IconData? suffixIconData;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   final bool obscureText;
   final Function(String)? onChanged;
 
@@ -13,6 +16,8 @@ class TextFieldOutline extends StatelessWidget {
     this.hintText,
     this.prefixIconData,
     this.suffixIconData,
+    this.keyboardType,
+    this.inputFormatters,
     this.obscureText = false,
     this.onChanged,
   });
@@ -25,6 +30,8 @@ class TextFieldOutline extends StatelessWidget {
       onChanged: onChanged,
       obscureText: obscureText,
       cursorColor: AppColors.mediumBlue,
+      keyboardType: keyboardType,
+      inputFormatters: [],
       style: TextStyle(
         color: AppColors.mediumBlue,
         fontSize: 14.0,
