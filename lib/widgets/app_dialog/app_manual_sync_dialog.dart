@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../generated/l10n.dart';
 import '../../../resources/resources.dart';
-import '../../app_dialog/app_dialog.dart';
-import '../../widgets.dart';
+import '../widgets.dart';
 
 class AppManualSyncDialog extends AppDialog {
   final VoidCallback onClickCancel;
@@ -31,7 +31,7 @@ class AppManualSyncDialog extends AppDialog {
           controller: controller,
         ),
         SizedBox(height: 24),
-        FilledViiButton(
+        FilledButton(
           onPressed: () {
             onClickCancel.call();
           },

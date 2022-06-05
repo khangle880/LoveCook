@@ -44,8 +44,8 @@ import '../../extensions/extensions.dart';
 ///   },
 /// )
 
-class FilledViiButton extends StatefulWidget {
-  const FilledViiButton({
+class FilledButton extends StatefulWidget {
+  const FilledButton({
     Key? key,
     this.text,
     this.contentBuilder,
@@ -86,10 +86,10 @@ class FilledViiButton extends StatefulWidget {
   final VoidCallback? onPressed;
 
   @override
-  _FilledViiButtonState createState() => _FilledViiButtonState();
+  _FilledButtonState createState() => _FilledButtonState();
 }
 
-class _FilledViiButtonState extends State<FilledViiButton> {
+class _FilledButtonState extends State<FilledButton> {
   late Color currentChildColor =
       widget.disable ? widget.disableChildColor : widget.defaultColor;
 
@@ -103,7 +103,7 @@ class _FilledViiButtonState extends State<FilledViiButton> {
   }
 
  @override
-  void didUpdateWidget(covariant FilledViiButton oldWidget) {
+  void didUpdateWidget(covariant FilledButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     currentChildColor =
         widget.disable ? widget.disableChildColor : widget.defaultColor;

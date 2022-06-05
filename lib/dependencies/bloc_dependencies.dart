@@ -6,7 +6,8 @@ import '../blocs/blocs.dart';
 class BlocDependencies {
   static Future setup(GetIt injector) async {
     injector.registerLazySingleton(() => AppBloc());
-    injector.registerFactory<SplashBloc>(() => SplashBloc(injector()));
+    injector.registerFactory<SplashBloc>(
+        () => SplashBloc(injector(), injector(), injector()));
     injector.registerFactory<LoginBloc>(
         () => LoginBloc(injector(), injector(), injector()));
     injector.registerFactory<TestApiBloc>(() => TestApiBloc(
@@ -22,5 +23,7 @@ class BlocDependencies {
     injector.registerFactory<ChatBloc>(() => ChatBloc(injector()));
     injector.registerFactory<ProfileBloc>(
         () => ProfileBloc(injector(), injector()));
+    injector
+        .registerFactory<RecipeBloc>(() => RecipeBloc(injector(), injector()));
   }
 }

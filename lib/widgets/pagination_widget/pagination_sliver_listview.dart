@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovecook/extensions/extensions.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'pagination_helper.dart';
@@ -49,7 +50,8 @@ class _PaginationSliverListViewState extends State<PaginationSliverListView> {
   Widget buildItem(int index) {
     //loading items
     if (isFirstLoad) {
-      return widget.loadingIndicatorBuilder?.call(context) ?? const SizedBox();
+      return widget.loadingIndicatorBuilder?.call(context) ??
+          SizedBox().appCenterProgressLoading;
     }
     if (index < length) {
       return widget.itemBuilder.call(context, index);
@@ -68,9 +70,9 @@ class _PaginationSliverListViewState extends State<PaginationSliverListView> {
                   }
                 },
                 child: widget.loadingIndicatorBuilder?.call(context) ??
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      child: CircularProgressIndicator(),
+                      child: SizedBox().appCenterProgressLoading,
                     ));
           });
     } else {

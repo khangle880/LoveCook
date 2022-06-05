@@ -20,12 +20,6 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
   String password = '';
 
   @override
-  void initData() {
-    super.initData();
-    bloc.checkToken();
-  }
-
-  @override
   bool get isCustomLayout => true;
 
   @override
@@ -137,10 +131,12 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
 
   @override
   void blocListener(state) {
-    super.blocListener(state);
-
-    if (state.success) {
-      Navigator.pushNamed(context, Routes.home);
+    if (mounted) {
+      super.blocListener(state);
+      if (state.success) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, Routes.home, (Route<dynamic> route) => false);
+      }
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
@@ -44,12 +46,6 @@ class _FavoriteButtonState extends State<FavoriteButton>
         duration: Duration(milliseconds: 300));
   }
 
-  @override
-  void didUpdateWidget(covariant FavoriteButton oldWidget) {
-    _isFavorite = widget.initFavorite;
-    super.didUpdateWidget(oldWidget);
-  }
-
   void handleLike() {
     _isFavorite = !_isFavorite;
     widget.onClicked(_isFavorite).then((value) {
@@ -83,7 +79,7 @@ class _FavoriteButtonState extends State<FavoriteButton>
         builder: (context, child) => (_isFavorite
                 ? Assets.images.svg.heartFilledRed
                 : widget.isFlatDefault
-                    ? Assets.images.svg.heartFilled
+                    ? Assets.images.svg.heart
                     : Assets.images.svg.heartFilledWhite)
             .svg(
           height: widget.size,

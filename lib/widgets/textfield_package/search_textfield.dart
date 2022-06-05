@@ -49,10 +49,10 @@ class _SearchTextFieldState extends State<SearchTextField> {
         onSubmitted: widget.onSubmitted,
         textInputAction: TextInputAction.search,
         controller: widget.controller,
-        style: ''.s16w400style(color: AppColors.whiteLight),
+        style: ''.s16w400style(color: AppColors.blackNormal),
         decoration: InputDecoration(
           filled: true,
-          fillColor: AppColors.blackNormal,
+          fillColor: AppColors.whiteNormal,
           hintStyle: ''.s16w400style(
             color: AppColors.grayLight,
           ),
@@ -63,7 +63,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
           focusedBorder: border,
           prefixIcon: Container(
             padding: EdgeInsets.symmetric(vertical: 9, horizontal: 10),
-            child: Assets.images.svg.searchOutline.svg(height: 18, width: 18,color: AppColors.whiteNormal),
+            child: Assets.images.svg.searchOutline.svg(height: 18, width: 18,color: AppColors.blackDarken),
           ),
           suffixIcon: _isEmptyText
               ? null
@@ -85,7 +85,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
           widget.onSubmitted?.call("");
           setState(() {});
         },
-        icon: Assets.images.svg.icClose.svg(color: AppColors.whiteNormal),
+        icon: Assets.images.svg.icClose.svg(color: AppColors.blackDarken),
       ),
     );
   }

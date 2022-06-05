@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../app_dialog.dart';
-import '../../widgets.dart';
 import '../../../extensions/extensions.dart';
 import '../../../resources/resources.dart';
+import '../../../generated/l10n.dart';
+import '../widgets.dart';
+import 'app_dialog_base.dart';
 
 /// Example
 ///
@@ -63,7 +64,7 @@ class AppConfirmationDialog extends AppDialog {
 
   Widget _getButton(bool v) {
     if (v) {
-      return FilledViiButton(
+      return FilledButton(
         onPressed: () {
           onConfirmClicked?.call();
         },
@@ -74,7 +75,7 @@ class AppConfirmationDialog extends AppDialog {
         },
       );
     } else {
-      return FilledViiButton(
+      return FilledButton(
         onPressed: () {
           onCancelClicked?.call();
         },

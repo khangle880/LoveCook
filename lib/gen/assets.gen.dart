@@ -66,6 +66,10 @@ class $AssetsImagesPngGen {
   AssetGenImage get defaultAvatar =>
       const AssetGenImage('assets/images/png/default_avatar.png');
 
+  /// File path: assets/images/png/default_recipe.png
+  AssetGenImage get defaultRecipe =>
+      const AssetGenImage('assets/images/png/default_recipe.png');
+
   /// File path: assets/images/png/download.png
   AssetGenImage get download =>
       const AssetGenImage('assets/images/png/download.png');
@@ -88,6 +92,10 @@ class $AssetsImagesPngGen {
 
   /// File path: assets/images/png/link.png
   AssetGenImage get link => const AssetGenImage('assets/images/png/link.png');
+
+  /// File path: assets/images/png/search.png
+  AssetGenImage get search =>
+      const AssetGenImage('assets/images/png/search.png');
 
   /// File path: assets/images/png/warning.png
   AssetGenImage get warning =>
@@ -597,9 +605,6 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/status_normal.svg
   SvgGenImage get statusNormal =>
       const SvgGenImage('assets/images/svg/status_normal.svg');
-
-  /// File path: assets/images/svg/v_logo.svg
-  SvgGenImage get vLogo => const SvgGenImage('assets/images/svg/v_logo.svg');
 
   /// File path: assets/images/svg/video-play_filled.svg
   SvgGenImage get videoPlayFilled =>

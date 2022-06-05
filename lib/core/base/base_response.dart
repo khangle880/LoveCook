@@ -28,6 +28,8 @@ class SingleResponse<T extends BaseResponse> extends BaseResponse {
   SingleResponse.fromJson(Response response) {
     this.statusCode = response.statusCode ?? 0;
 
+    if (response.data[0] != "{")
+      response.data = "{\"value\":\"${response.data}\"}";
     final map = JsonUtils.getMap(response.data);
     if (success) {
       final result = GetIt.I.get<T>();

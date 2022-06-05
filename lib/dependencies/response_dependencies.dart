@@ -19,6 +19,7 @@ class ResponseDependencies {
     injector.registerFactory<RatingModel>(() => RatingModel());
     injector.registerFactory<ReactionModel>(() => ReactionModel());
     injector.registerFactory<SearchModel>(() => SearchModel());
+    injector.registerFactory<SingleType>(() => SingleType());
     injector.registerFactory<User>(() => User());
   }
 }

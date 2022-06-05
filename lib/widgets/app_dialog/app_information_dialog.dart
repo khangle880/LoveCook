@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../app_dialog.dart';
 import '../../../extensions/extensions.dart';
-import '../../widgets.dart';
 import '../../../resources/resources.dart';
+import '../widgets.dart';
 
 /// Example
 ///
@@ -28,7 +27,7 @@ class AppInformationDialog extends AppDialog {
       children: [
         content.s15w400(color: AppColors.whiteLight),
         SizedBox(height: 24),
-        FilledViiButton(
+        FilledButton(
           onPressed: () {
             Navigator.pop(context);
           },

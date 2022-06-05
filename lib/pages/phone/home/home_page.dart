@@ -9,9 +9,10 @@ import '../phone.dart';
 class HomePage extends StatefulWidget {
   final ChatBloc chatBloc;
   final ProfileBloc profileBloc;
+  final RecipeBloc recipeBloc;
   final SharedPreferences sharedPreferences;
 
-  const HomePage(this.chatBloc, this.profileBloc, this.sharedPreferences);
+  const HomePage(this.chatBloc, this.profileBloc, this.recipeBloc, this.sharedPreferences);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _screens = [
       Scaffold(),
-      Scaffold(),
+      RecipePage(widget.recipeBloc),
       ChatPage(widget.chatBloc),
       Scaffold(),
       ProfilePage(widget.profileBloc, widget.sharedPreferences),

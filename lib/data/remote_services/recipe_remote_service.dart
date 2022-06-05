@@ -103,7 +103,6 @@ class RecipeRemoteService implements IRecipeRemoteService {
       {required Map<String, dynamic> query}) async {
     final response = await _networkUtility.request('v1/recipes/', Method.GET,
         queryParameters: query);
-    log(response.toString());
 
     return PagingListResponse<RecipeModel>.fromJson(response);
   }

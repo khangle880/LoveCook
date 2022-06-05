@@ -139,7 +139,7 @@ class User extends BaseResponse {
         avatarUrl: json["avatarUrl"],
         phone: json["phone"],
         status: json["status"],
-        language: json["language"],
+        language: json["languageSetting"],
         gender: enumFromString<Gender>(Gender.values, json["gender"]),
         role: enumFromString<UserRole>(UserRole.values, json["role"]),
         id: json["id"],
@@ -155,7 +155,7 @@ class User extends BaseResponse {
         "phone": phone,
         "status": status,
         "gender": gender?.shortString,
-        "language": language,
+        "languageSetting": language,
         "role": role?.shortString,
         "id": id,
       };
