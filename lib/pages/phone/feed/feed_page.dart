@@ -44,6 +44,10 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
       },
     );
 
+    bloc.postPagination?.addListener(() {
+      setState(() {});
+    });
+
     return bloc.postPagination?.run();
   }
 
@@ -57,8 +61,8 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
       slivers: <Widget>[
         FeedSliverAppBar(
           userInfor: user,
-          onImageCall: (listImageData) {
-            bloc.uploadImages(listImageData);
+          onPostCall: (content, listImagePath) {
+            bloc.createPost(content, listImagePath);
           },
         ),
         PaginationSliverListView(

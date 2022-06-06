@@ -1,9 +1,6 @@
-import 'dart:typed_data';
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../core/base/base_response.dart';
 import '../../core/core.dart';
 import '../data.dart';
 
@@ -33,12 +30,10 @@ class UploadRemoteService implements IUploadRemoteService {
 
   @override
   Future<bool> uploadFileData({
-    required Uint8List fileData,
+    required String filePath,
   }) async {
-    final multipartFile = MultipartFile.fromBytes(fileData);
-    FormData formData = FormData.fromMap({
-      "file": multipartFile,
-    });
+    final multipartFile = await MultipartFile.fromFile(filePath);
+    FormData formData = FormData.fromMap({"file": multipartFile});
 
     final response = await _networkUtility.request(
       'v1/photos',

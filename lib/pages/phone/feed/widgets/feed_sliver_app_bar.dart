@@ -8,9 +8,9 @@ import '../../../../widgets/widgets.dart';
 
 class FeedSliverAppBar extends StatelessWidget {
   final User? userInfor;
-  final Function(List<Uint8List>)? onImageCall;
+  final Function(String, List<String>)? onPostCall;
 
-  FeedSliverAppBar({this.userInfor, this.onImageCall});
+  FeedSliverAppBar({this.userInfor, this.onPostCall});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class FeedSliverAppBar extends StatelessWidget {
             ShowCustomBottomSheet.addPost(
               context,
               userInfor,
-              onImageCall,
+              onPostCall,
             );
           },
         ),

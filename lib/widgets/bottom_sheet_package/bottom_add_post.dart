@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,9 +12,9 @@ import '../../resources/colors.dart';
 
 class BottomAddPost extends StatefulWidget {
   final User? userInfor;
-  final Function(List<Uint8List>)? onImageCall;
+  final Function(String, List<String>)? onPostCall;
 
-  const BottomAddPost({Key? key, required this.userInfor, this.onImageCall})
+  const BottomAddPost({Key? key, required this.userInfor, this.onPostCall})
       : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class BottomAddPost extends StatefulWidget {
 }
 
 class _BottomAddPostState extends State<BottomAddPost> {
-  List<Uint8List> currentListImage = [];
+  List<String> currentListImage = [];
   String content = '';
 
   User? get userInfor => widget.userInfor;
@@ -104,7 +105,7 @@ class _BottomAddPostState extends State<BottomAddPost> {
             hasBorder: false,
             constraints: BoxConstraints(minWidth: 100, maxHeight: 40),
             onTap: () {
-              widget.onImageCall?.call(currentListImage);
+              widget.onPostCall?.call(content, currentListImage);
               Navigator.pop(context);
             },
           ),
@@ -126,7 +127,7 @@ class _BottomAddPostState extends State<BottomAddPost> {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.symmetric(horizontal: 5.0),
                 decoration: BoxDecoration(color: Colors.transparent),
-                child: Image.memory(imageData, fit: BoxFit.cover));
+                child: Image.file(File(imageData), fit: BoxFit.cover));
           },
         );
       }).toList(),
@@ -161,11 +162,10 @@ class _BottomAddPostState extends State<BottomAddPost> {
         [];
 
     for (final image in result) {
-      print(await image.originFile);
-      final bytesData = await image.originBytes;
+      final file = await image.originFile;
 
-      if (bytesData != null) {
-        currentListImage.add(bytesData);
+      if (file != null) {
+        currentListImage.add(file.path);
       }
     }
 

@@ -1,10 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
-
-import '../../../core/base/base_response.dart';
-import '../../../core/core.dart';
-import '../../../data/responses/responses.dart';
 
 abstract class IUploadRemoteService {
   Future<bool> uploadFile({
@@ -19,6 +13,6 @@ abstract class IUploadRemoteService {
   });
 
   Future<bool> uploadFileData({
-    required Uint8List fileData,
+    required String filePath,
   });
 }

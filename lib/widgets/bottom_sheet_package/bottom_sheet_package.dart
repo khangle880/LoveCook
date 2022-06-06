@@ -10,14 +10,14 @@ import 'bottom_change_phone.dart';
 
 class ShowCustomBottomSheet {
   static void addPost(BuildContext context, User? userInfor,
-      Function(List<Uint8List>)? onImageCall) {
+      final Function(String, List<String>)? onPostCall) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (builder) {
           return BottomAddPost(
             userInfor: userInfor,
-            onImageCall: onImageCall,
+            onPostCall: onPostCall,
           );
         });
   }

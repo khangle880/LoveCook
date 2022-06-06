@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/core.dart';
@@ -11,11 +10,11 @@ class UploadRepository extends IUploadRepository {
 
   @override
   Future<Either<Failure, bool>> uploadFileData({
-    required Uint8List fileData,
+    required String filePath,
   }) async {
     try {
       final result = await remoteService.uploadFileData(
-        fileData: fileData,
+        filePath: filePath,
       );
       return Right(result);
     } on ServerException catch (e) {
