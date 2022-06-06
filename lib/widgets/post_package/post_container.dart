@@ -38,8 +38,6 @@ class PostContainer extends StatelessWidget {
                 ],
               ),
             ),
-            // TODO Handl list image here
-
             post?.photoUrls != null && post!.photoUrls!.isNotEmpty
                 ? CarouselSlider(
                     options: CarouselOptions(height: 300.0),

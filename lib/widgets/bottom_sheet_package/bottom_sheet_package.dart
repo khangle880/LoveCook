@@ -1,10 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:lovecook/widgets/bottom_sheet_package/bottom_change_language.dart';
-import 'package:lovecook/widgets/bottom_sheet_package/bottom_change_phone.dart';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
+import 'package:lovecook/data/data.dart';
+
+import 'bottom_add_post.dart';
+import 'bottom_change_language.dart';
 import 'bottom_change_name.dart';
+import 'bottom_change_phone.dart';
 
 class ShowCustomBottomSheet {
+  static void addPost(BuildContext context, User? userInfor,
+      Function(List<Uint8List>)? onImageCall) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (builder) {
+          return BottomAddPost(
+            userInfor: userInfor,
+            onImageCall: onImageCall,
+          );
+        });
+  }
+
   static void changeName(BuildContext context, Function(String)? changeName) {
     showModalBottomSheet(
         context: context,

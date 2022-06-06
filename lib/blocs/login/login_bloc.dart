@@ -15,15 +15,7 @@ class LoginBloc extends BaseBloc<LoginState> {
 
   Future<void> checkToken() async {
     if (_sharedPreferences.token == null || _sharedPreferences.token!.isEmpty) {
-      final responseEither = await _profileRepository.getInfo();
-
-      responseEither.fold((failure) {}, (data) {
-        if (data.item != null) {
-          _sharedPreferences.saveUser(data.item!);
-        }
-      });
-
-      emit(LoginState(state: state, success: true));
+      emit(LoginState(state: state, success: false));
     }
     emit(LoginState(state: state, success: true));
   }

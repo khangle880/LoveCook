@@ -55,7 +55,12 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
-        FeedSliverAppBar(user?.avatarUrl, user?.name),
+        FeedSliverAppBar(
+          userInfor: user,
+          onImageCall: (listImageData) {
+            bloc.uploadImages(listImageData);
+          },
+        ),
         PaginationSliverListView(
           paginationController: bloc.postPagination!,
           itemBuilder: (BuildContext context, int index) {

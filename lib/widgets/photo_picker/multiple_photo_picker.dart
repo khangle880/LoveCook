@@ -1,9 +1,10 @@
 import 'dart:typed_data';
-
+import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 import '../../../extensions/extensions.dart';
+import '../multi_image_picker/multi_image_picker.dart';
 import 'add_photo_widget.dart';
 import 'image_data.dart';
 import 'photo_item.dart';
@@ -155,20 +156,15 @@ class _PhotoPickPhotoUpdateListState extends State<MultiplePhotoPicker> {
     int maxImage = 1,
     String? title,
   }) async {
-    try {
-      return await MultiImagePicker.pickImages(
-        maxImages: maxImage,
-        enableCamera: true,
-        selectedAssets: selectedAssets,
-        cupertinoOptions: const CupertinoOptions(),
-        materialOptions: MaterialOptions(
-          allViewTitle: title ?? '',
-          startInAllView: true,
-        ),
-      );
-    } on Exception catch (e) {
-      print("Exception : [getImageFromGallery] ${e.toString()}");
-      return [];
-    }
+    return await MultiImagePicker.pickImages(
+      maxImages: maxImage,
+      enableCamera: true,
+      selectedAssets: selectedAssets,
+      cupertinoOptions: const CupertinoOptions(),
+      materialOptions: MaterialOptions(
+        allViewTitle: title ?? '',
+        startInAllView: true,
+      ),
+    );
   }
 }
