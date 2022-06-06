@@ -11,12 +11,14 @@ class PageDependencies {
     injector.registerFactory<Widget>(() => LoginPage(injector()),
         instanceName: Routes.login);
     injector.registerFactory<Widget>(
-        () => HomePage(injector(), injector(), injector(), injector()),
+        () => HomePage(injector(), injector(), injector(), injector(), injector()),
         instanceName: Routes.home);
     injector.registerFactory<Widget>(() => TestApiPage(injector()),
         instanceName: Routes.testApi);
     injector.registerFactory<Widget>(() => ChatPage(injector()), instanceName: "ChatPage");
     injector.registerFactory<Widget>(() => RecipePage(injector()), instanceName: "RecipePage");
+    injector.registerFactory<Widget>(() => RecipeDetailPage(injector()), instanceName: Routes.recipeDetail);
+    injector.registerFactory<Widget>(() => AddRecipePage(injector()), instanceName: Routes.addRecipe);
     // injector.registerFactory<Widget>(() => ProfilePage(injector()));
   }
 }

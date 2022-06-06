@@ -164,30 +164,30 @@ class DishTypeModel extends BaseResponse {
   }
 }
 
-class IngredientModel extends BaseResponse {
+class IngredientTypeModel extends BaseResponse {
   final String? id;
   final List<String>? names;
-  IngredientModel({
+  IngredientTypeModel({
     this.id,
     this.names,
   });
 
-  IngredientModel copyWith({
+  IngredientTypeModel copyWith({
     String? id,
     List<String>? names,
   }) {
-    return IngredientModel(
+    return IngredientTypeModel(
       id: id ?? this.id,
       names: names ?? this.names,
     );
   }
 
   @override
-  String toString() => 'IngredientModel(id: $id, names: $names)';
+  String toString() => 'IngredientTypeModel(id: $id, names: $names)';
 
   @override
   T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
-    return IngredientModel.fromJson(json) as T;
+    return IngredientTypeModel.fromJson(json) as T;
   }
 
   Map<String, dynamic> toJson() {
@@ -197,8 +197,8 @@ class IngredientModel extends BaseResponse {
     };
   }
 
-  factory IngredientModel.fromJson(Map<String, dynamic> json) {
-    return IngredientModel(
+  factory IngredientTypeModel.fromJson(Map<String, dynamic> json) {
+    return IngredientTypeModel(
       id: json['id'] ?? '',
       names: List<String>.from(json['names']),
     );

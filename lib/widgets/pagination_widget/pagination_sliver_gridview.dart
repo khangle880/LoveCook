@@ -68,7 +68,10 @@ class _PaginationSliverGridViewState extends State<PaginationSliverGridView> {
     //loading items
     if (isFirstLoad) {
       return widget.loadingIndicatorBuilder?.call(context) ??
-          SizedBox().appCenterProgressLoading;
+          Container(
+            child: SizedBox().appCenterProgressLoading,
+            margin: EdgeInsets.all(32.0),
+          );
     }
     if (index < length) {
       return widget.itemBuilder.call(context, index);

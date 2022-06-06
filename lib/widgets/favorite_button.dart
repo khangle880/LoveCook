@@ -1,19 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
 import '../utils/helper/throttle_helper.dart';
 
 class FavoriteButton extends StatefulWidget {
-  final Future<bool> Function(bool value) onClicked;
+  final Future<bool> Function(bool value)? onClicked;
   final bool initFavorite;
   final bool isFlatDefault;
   final double size;
 
   const FavoriteButton({
-    required this.onClicked,
     required this.size,
+    this.onClicked,
     this.initFavorite = false,
     this.isFlatDefault = true,
   });
@@ -46,9 +44,22 @@ class _FavoriteButtonState extends State<FavoriteButton>
         duration: Duration(milliseconds: 300));
   }
 
+  @override
+  void didUpdateWidget(covariant FavoriteButton oldWidget) {
+    if (oldWidget.initFavorite != widget.initFavorite) {
+      _isFavorite = widget.initFavorite;
+      if (_isFavorite) {
+        _controller.animateTo(1.0, duration: Duration(milliseconds: 300));
+      } else {
+        _controller.animateBack(0, duration: Duration(milliseconds: 300));
+      }
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
   void handleLike() {
     _isFavorite = !_isFavorite;
-    widget.onClicked(_isFavorite).then((value) {
+    widget.onClicked?.call(_isFavorite).then((value) {
       setState(() {
         _isFavorite = value;
       });

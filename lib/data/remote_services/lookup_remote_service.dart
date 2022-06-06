@@ -27,11 +27,11 @@ class LookupRemoteService implements ILookupRemoteService {
   }
 
   @override
-  Future<PagingListResponse<IngredientModel>> getIngredients() async {
-    final response = await _networkUtility.request('v1/ingredients', Method.GET,
+  Future<PagingListResponse<IngredientTypeModel>> getIngredients() async {
+    final response = await _networkUtility.request('v1/ingredient-types', Method.GET,
         queryParameters: {'limit': 9999});
 
-    return PagingListResponse<IngredientModel>.fromJson(response);
+    return PagingListResponse<IngredientTypeModel>.fromJson(response);
   }
 
   @override

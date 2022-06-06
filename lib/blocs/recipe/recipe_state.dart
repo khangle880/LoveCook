@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:lovecook/data/data.dart';
 
 class RecipeState extends Equatable {
   final bool? success;
@@ -8,7 +7,6 @@ class RecipeState extends Equatable {
     bool? success,
     String? error,
     RecipeState? state,
-    List<CommentModel>? comments,
   })  : success = success ?? state?.success,
         error = error ?? state?.error;
 

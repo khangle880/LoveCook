@@ -74,7 +74,10 @@ class _PaginationListViewState extends State<PaginationListView> {
     //loading items
     if (isFirstLoad) {
       return widget.loadingEffectItemBuilder?.call(context, index) ??
-          SizedBox().appCenterProgressLoading;
+          Container(
+            child: SizedBox().appCenterProgressLoading,
+            margin: EdgeInsets.all(32.0),
+          );
     }
     if ((index) < length) {
       return widget.itemBuilder.call(context, index);

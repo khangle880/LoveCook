@@ -196,10 +196,6 @@ class $AssetsImagesSvgGen {
   SvgGenImage get addFriend =>
       const SvgGenImage('assets/images/svg/add_friend.svg');
 
-  /// File path: assets/images/svg/app_banner.svg
-  SvgGenImage get appBanner =>
-      const SvgGenImage('assets/images/svg/app_banner.svg');
-
   /// File path: assets/images/svg/apple_logo_svg.svg
   SvgGenImage get appleLogoSvg =>
       const SvgGenImage('assets/images/svg/apple_logo_svg.svg');
@@ -246,12 +242,12 @@ class $AssetsImagesSvgGen {
   SvgGenImage get closeCircle =>
       const SvgGenImage('assets/images/svg/close_circle.svg');
 
+  /// File path: assets/images/svg/cook_default.svg
+  SvgGenImage get cookDefault =>
+      const SvgGenImage('assets/images/svg/cook_default.svg');
+
   /// File path: assets/images/svg/delete.svg
   SvgGenImage get delete => const SvgGenImage('assets/images/svg/delete.svg');
-
-  /// File path: assets/images/svg/download.svg
-  SvgGenImage get download =>
-      const SvgGenImage('assets/images/svg/download.svg');
 
   /// File path: assets/images/svg/edit.svg
   SvgGenImage get edit => const SvgGenImage('assets/images/svg/edit.svg');
@@ -266,18 +262,6 @@ class $AssetsImagesSvgGen {
   SvgGenImage get eyeSlash =>
       const SvgGenImage('assets/images/svg/eye_slash.svg');
 
-  /// File path: assets/images/svg/facebook_circle.svg
-  SvgGenImage get facebookCircle =>
-      const SvgGenImage('assets/images/svg/facebook_circle.svg');
-
-  /// File path: assets/images/svg/facebook_logo.svg
-  SvgGenImage get facebookLogo =>
-      const SvgGenImage('assets/images/svg/facebook_logo.svg');
-
-  /// File path: assets/images/svg/facebook_logo_svg.svg
-  SvgGenImage get facebookLogoSvg =>
-      const SvgGenImage('assets/images/svg/facebook_logo_svg.svg');
-
   /// File path: assets/images/svg/follow_status_default.svg
   SvgGenImage get followStatusDefault =>
       const SvgGenImage('assets/images/svg/follow_status_default.svg');
@@ -289,17 +273,6 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/follow_status_following.svg
   SvgGenImage get followStatusFollowing =>
       const SvgGenImage('assets/images/svg/follow_status_following.svg');
-
-  /// File path: assets/images/svg/follow_status_friend.svg
-  SvgGenImage get followStatusFriend =>
-      const SvgGenImage('assets/images/svg/follow_status_friend.svg');
-
-  /// File path: assets/images/svg/google.svg
-  SvgGenImage get google => const SvgGenImage('assets/images/svg/google.svg');
-
-  /// File path: assets/images/svg/google_logo_svg.svg
-  SvgGenImage get googleLogoSvg =>
-      const SvgGenImage('assets/images/svg/google_logo_svg.svg');
 
   /// File path: assets/images/svg/heart.svg
   SvgGenImage get heart => const SvgGenImage('assets/images/svg/heart.svg');
@@ -324,84 +297,8 @@ class $AssetsImagesSvgGen {
   SvgGenImage get homeFilled =>
       const SvgGenImage('assets/images/svg/home_filled.svg');
 
-  /// File path: assets/images/svg/ic_add.svg
-  SvgGenImage get icAdd => const SvgGenImage('assets/images/svg/ic_add.svg');
-
-  /// File path: assets/images/svg/ic_add_filled.svg
-  SvgGenImage get icAddFilled =>
-      const SvgGenImage('assets/images/svg/ic_add_filled.svg');
-
-  /// File path: assets/images/svg/ic_add_people.svg
-  SvgGenImage get icAddPeople =>
-      const SvgGenImage('assets/images/svg/ic_add_people.svg');
-
-  /// File path: assets/images/svg/ic_add_people_outline.svg
-  SvgGenImage get icAddPeopleOutline =>
-      const SvgGenImage('assets/images/svg/ic_add_people_outline.svg');
-
-  /// File path: assets/images/svg/ic_app_version.svg
-  SvgGenImage get icAppVersion =>
-      const SvgGenImage('assets/images/svg/ic_app_version.svg');
-
-  /// File path: assets/images/svg/ic_apple_circle.svg
-  SvgGenImage get icAppleCircle =>
-      const SvgGenImage('assets/images/svg/ic_apple_circle.svg');
-
-  /// File path: assets/images/svg/ic_arrow_down.svg
-  SvgGenImage get icArrowDown =>
-      const SvgGenImage('assets/images/svg/ic_arrow_down.svg');
-
-  /// File path: assets/images/svg/ic_arrow_left.svg
-  SvgGenImage get icArrowLeft =>
-      const SvgGenImage('assets/images/svg/ic_arrow_left.svg');
-
-  /// File path: assets/images/svg/ic_arrow_right.svg
-  SvgGenImage get icArrowRight =>
-      const SvgGenImage('assets/images/svg/ic_arrow_right.svg');
-
-  /// File path: assets/images/svg/ic_block_user.svg
-  SvgGenImage get icBlockUser =>
-      const SvgGenImage('assets/images/svg/ic_block_user.svg');
-
-  /// File path: assets/images/svg/ic_calendar.svg
-  SvgGenImage get icCalendar =>
-      const SvgGenImage('assets/images/svg/ic_calendar.svg');
-
-  /// File path: assets/images/svg/ic_check_filled.svg
-  SvgGenImage get icCheckFilled =>
-      const SvgGenImage('assets/images/svg/ic_check_filled.svg');
-
-  /// File path: assets/images/svg/ic_check_outline.svg
-  SvgGenImage get icCheckOutline =>
-      const SvgGenImage('assets/images/svg/ic_check_outline.svg');
-
-  /// File path: assets/images/svg/ic_checkbox_checked.svg
-  SvgGenImage get icCheckboxChecked =>
-      const SvgGenImage('assets/images/svg/ic_checkbox_checked.svg');
-
-  /// File path: assets/images/svg/ic_checkbox_unchecked.svg
-  SvgGenImage get icCheckboxUnchecked =>
-      const SvgGenImage('assets/images/svg/ic_checkbox_unchecked.svg');
-
-  /// File path: assets/images/svg/ic_chevron_down.svg
-  SvgGenImage get icChevronDown =>
-      const SvgGenImage('assets/images/svg/ic_chevron_down.svg');
-
-  /// File path: assets/images/svg/ic_choose_style.svg
-  SvgGenImage get icChooseStyle =>
-      const SvgGenImage('assets/images/svg/ic_choose_style.svg');
-
-  /// File path: assets/images/svg/ic_close.svg
-  SvgGenImage get icClose =>
-      const SvgGenImage('assets/images/svg/ic_close.svg');
-
-  /// File path: assets/images/svg/ic_close_small_rounded.svg
-  SvgGenImage get icCloseSmallRounded =>
-      const SvgGenImage('assets/images/svg/ic_close_small_rounded.svg');
-
-  /// File path: assets/images/svg/ic_cutting_time.svg
-  SvgGenImage get icCuttingTime =>
-      const SvgGenImage('assets/images/svg/ic_cutting_time.svg');
+  /// File path: assets/images/svg/icAdd.svg
+  SvgGenImage get icAdd => const SvgGenImage('assets/images/svg/icAdd.svg');
 
   /// File path: assets/images/svg/ic_default_avatar.svg
   SvgGenImage get icDefaultAvatar =>
@@ -435,42 +332,6 @@ class $AssetsImagesSvgGen {
   SvgGenImage get icGroupPeople =>
       const SvgGenImage('assets/images/svg/ic_group_people.svg');
 
-  /// File path: assets/images/svg/ic_info_rounded.svg
-  SvgGenImage get icInfoRounded =>
-      const SvgGenImage('assets/images/svg/ic_info_rounded.svg');
-
-  /// File path: assets/images/svg/ic_invite_member.svg
-  SvgGenImage get icInviteMember =>
-      const SvgGenImage('assets/images/svg/ic_invite_member.svg');
-
-  /// File path: assets/images/svg/ic_language.svg
-  SvgGenImage get icLanguage =>
-      const SvgGenImage('assets/images/svg/ic_language.svg');
-
-  /// File path: assets/images/svg/ic_leading_back.svg
-  SvgGenImage get icLeadingBack =>
-      const SvgGenImage('assets/images/svg/ic_leading_back.svg');
-
-  /// File path: assets/images/svg/ic_logout.svg
-  SvgGenImage get icLogout =>
-      const SvgGenImage('assets/images/svg/ic_logout.svg');
-
-  /// File path: assets/images/svg/ic_navigate_next_rounded.svg
-  SvgGenImage get icNavigateNextRounded =>
-      const SvgGenImage('assets/images/svg/ic_navigate_next_rounded.svg');
-
-  /// File path: assets/images/svg/ic_network.svg
-  SvgGenImage get icNetwork =>
-      const SvgGenImage('assets/images/svg/ic_network.svg');
-
-  /// File path: assets/images/svg/ic_next_album.svg
-  SvgGenImage get icNextAlbum =>
-      const SvgGenImage('assets/images/svg/ic_next_album.svg');
-
-  /// File path: assets/images/svg/ic_normal_star.svg
-  SvgGenImage get icNormalStar =>
-      const SvgGenImage('assets/images/svg/ic_normal_star.svg');
-
   /// File path: assets/images/svg/ic_notification.svg
   SvgGenImage get icNotification =>
       const SvgGenImage('assets/images/svg/ic_notification.svg');
@@ -491,123 +352,6 @@ class $AssetsImagesSvgGen {
   SvgGenImage get icPickPhoto =>
       const SvgGenImage('assets/images/svg/ic_pick_photo.svg');
 
-  /// File path: assets/images/svg/ic_privacy.svg
-  SvgGenImage get icPrivacy =>
-      const SvgGenImage('assets/images/svg/ic_privacy.svg');
-
-  /// File path: assets/images/svg/ic_produce_source.svg
-  SvgGenImage get icProduceSource =>
-      const SvgGenImage('assets/images/svg/ic_produce_source.svg');
-
-  /// File path: assets/images/svg/ic_produce_video.svg
-  SvgGenImage get icProduceVideo =>
-      const SvgGenImage('assets/images/svg/ic_produce_video.svg');
-
-  /// File path: assets/images/svg/ic_radio_checked.svg
-  SvgGenImage get icRadioChecked =>
-      const SvgGenImage('assets/images/svg/ic_radio_checked.svg');
-
-  /// File path: assets/images/svg/ic_radio_uncheck.svg
-  SvgGenImage get icRadioUncheck =>
-      const SvgGenImage('assets/images/svg/ic_radio_uncheck.svg');
-
-  /// File path: assets/images/svg/ic_remove_source.svg
-  SvgGenImage get icRemoveSource =>
-      const SvgGenImage('assets/images/svg/ic_remove_source.svg');
-
-  /// File path: assets/images/svg/ic_remove_tag.svg
-  SvgGenImage get icRemoveTag =>
-      const SvgGenImage('assets/images/svg/ic_remove_tag.svg');
-
-  /// File path: assets/images/svg/ic_setting.svg
-  SvgGenImage get icSetting =>
-      const SvgGenImage('assets/images/svg/ic_setting.svg');
-
-  /// File path: assets/images/svg/ic_share.svg
-  SvgGenImage get icShare =>
-      const SvgGenImage('assets/images/svg/ic_share.svg');
-
-  /// File path: assets/images/svg/ic_small_star.svg
-  SvgGenImage get icSmallStar =>
-      const SvgGenImage('assets/images/svg/ic_small_star.svg');
-
-  /// File path: assets/images/svg/ic_sort.svg
-  SvgGenImage get icSort => const SvgGenImage('assets/images/svg/ic_sort.svg');
-
-  /// File path: assets/images/svg/ic_sort_selected.svg
-  SvgGenImage get icSortSelected =>
-      const SvgGenImage('assets/images/svg/ic_sort_selected.svg');
-
-  /// File path: assets/images/svg/ic_sync.svg
-  SvgGenImage get icSync => const SvgGenImage('assets/images/svg/ic_sync.svg');
-
-  /// File path: assets/images/svg/ic_term.svg
-  SvgGenImage get icTerm => const SvgGenImage('assets/images/svg/ic_term.svg');
-
-  /// File path: assets/images/svg/ic_tick.svg
-  SvgGenImage get icTick => const SvgGenImage('assets/images/svg/ic_tick.svg');
-
-  /// File path: assets/images/svg/ic_timer.svg
-  SvgGenImage get icTimer =>
-      const SvgGenImage('assets/images/svg/ic_timer.svg');
-
-  /// File path: assets/images/svg/ic_toggle_off.svg
-  SvgGenImage get icToggleOff =>
-      const SvgGenImage('assets/images/svg/ic_toggle_off.svg');
-
-  /// File path: assets/images/svg/ic_toggle_on.svg
-  SvgGenImage get icToggleOn =>
-      const SvgGenImage('assets/images/svg/ic_toggle_on.svg');
-
-  /// File path: assets/images/svg/ic_user_follow.svg
-  SvgGenImage get icUserFollow =>
-      const SvgGenImage('assets/images/svg/ic_user_follow.svg');
-
-  /// File path: assets/images/svg/ic_user_following.svg
-  SvgGenImage get icUserFollowing =>
-      const SvgGenImage('assets/images/svg/ic_user_following.svg');
-
-  /// File path: assets/images/svg/ic_warning.svg
-  SvgGenImage get icWarning =>
-      const SvgGenImage('assets/images/svg/ic_warning.svg');
-
-  /// File path: assets/images/svg/image.svg
-  SvgGenImage get image => const SvgGenImage('assets/images/svg/image.svg');
-
-  /// File path: assets/images/svg/image_filled.svg
-  SvgGenImage get imageFilled =>
-      const SvgGenImage('assets/images/svg/image_filled.svg');
-
-  /// File path: assets/images/svg/image_svg.svg
-  SvgGenImage get imageSvg =>
-      const SvgGenImage('assets/images/svg/image_svg.svg');
-
-  /// File path: assets/images/svg/instagram_circle.svg
-  SvgGenImage get instagramCircle =>
-      const SvgGenImage('assets/images/svg/instagram_circle.svg');
-
-  /// File path: assets/images/svg/instagram_logo.svg
-  SvgGenImage get instagramLogo =>
-      const SvgGenImage('assets/images/svg/instagram_logo.svg');
-
-  /// File path: assets/images/svg/instagram_logo_svg.svg
-  SvgGenImage get instagramLogoSvg =>
-      const SvgGenImage('assets/images/svg/instagram_logo_svg.svg');
-
-  /// File path: assets/images/svg/library_folder.svg
-  SvgGenImage get libraryFolder =>
-      const SvgGenImage('assets/images/svg/library_folder.svg');
-
-  /// File path: assets/images/svg/library_folder_filled.svg
-  SvgGenImage get libraryFolderFilled =>
-      const SvgGenImage('assets/images/svg/library_folder_filled.svg');
-
-  /// File path: assets/images/svg/link.svg
-  SvgGenImage get link => const SvgGenImage('assets/images/svg/link.svg');
-
-  /// File path: assets/images/svg/lock.svg
-  SvgGenImage get lock => const SvgGenImage('assets/images/svg/lock.svg');
-
   /// File path: assets/images/svg/logo_app.svg
   SvgGenImage get logoApp =>
       const SvgGenImage('assets/images/svg/logo_app.svg');
@@ -615,32 +359,6 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/more-horizontal.svg
   SvgGenImage get moreHorizontal =>
       const SvgGenImage('assets/images/svg/more-horizontal.svg');
-
-  /// File path: assets/images/svg/my_video2.svg
-  SvgGenImage get myVideo2 =>
-      const SvgGenImage('assets/images/svg/my_video2.svg');
-
-  /// File path: assets/images/svg/my_video2_filled.svg
-  SvgGenImage get myVideo2Filled =>
-      const SvgGenImage('assets/images/svg/my_video2_filled.svg');
-
-  /// File path: assets/images/svg/outline_female.svg
-  SvgGenImage get outlineFemale =>
-      const SvgGenImage('assets/images/svg/outline_female.svg');
-
-  /// File path: assets/images/svg/outline_male.svg
-  SvgGenImage get outlineMale =>
-      const SvgGenImage('assets/images/svg/outline_male.svg');
-
-  /// File path: assets/images/svg/play.svg
-  SvgGenImage get play => const SvgGenImage('assets/images/svg/play.svg');
-
-  /// File path: assets/images/svg/profile.svg
-  SvgGenImage get profile => const SvgGenImage('assets/images/svg/profile.svg');
-
-  /// File path: assets/images/svg/profile_filled.svg
-  SvgGenImage get profileFilled =>
-      const SvgGenImage('assets/images/svg/profile_filled.svg');
 
   /// File path: assets/images/svg/refresh_svg.svg
   SvgGenImage get refreshSvg =>
@@ -660,6 +378,9 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/send_filled.svg
   SvgGenImage get sendFilled =>
       const SvgGenImage('assets/images/svg/send_filled.svg');
+
+  /// File path: assets/images/svg/share.svg
+  SvgGenImage get share => const SvgGenImage('assets/images/svg/share.svg');
 
   /// File path: assets/images/svg/status_block.svg
   SvgGenImage get statusBlock =>
@@ -681,29 +402,8 @@ class $AssetsImagesSvgGen {
   SvgGenImage get statusNormal =>
       const SvgGenImage('assets/images/svg/status_normal.svg');
 
-  /// File path: assets/images/svg/video-play_filled.svg
-  SvgGenImage get videoPlayFilled =>
-      const SvgGenImage('assets/images/svg/video-play_filled.svg');
-
-  /// File path: assets/images/svg/video_play.svg
-  SvgGenImage get videoPlay =>
-      const SvgGenImage('assets/images/svg/video_play.svg');
-
-  /// File path: assets/images/svg/videomonster-logo.svg
-  SvgGenImage get videomonsterLogo =>
-      const SvgGenImage('assets/images/svg/videomonster-logo.svg');
-
-  /// File path: assets/images/svg/volumn_off.svg
-  SvgGenImage get volumnOff =>
-      const SvgGenImage('assets/images/svg/volumn_off.svg');
-
-  /// File path: assets/images/svg/volumn_on.svg
-  SvgGenImage get volumnOn =>
-      const SvgGenImage('assets/images/svg/volumn_on.svg');
-
-  /// File path: assets/images/svg/youtube_circle.svg
-  SvgGenImage get youtubeCircle =>
-      const SvgGenImage('assets/images/svg/youtube_circle.svg');
+  /// File path: assets/images/svg/view.svg
+  SvgGenImage get view => const SvgGenImage('assets/images/svg/view.svg');
 }
 
 class Assets {

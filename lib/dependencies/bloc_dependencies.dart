@@ -26,5 +26,8 @@ class BlocDependencies {
     injector
         .registerFactory<RecipeBloc>(() => RecipeBloc(injector(), injector()));
     injector.registerFactory<FeedBloc>(() => FeedBloc(injector()));
+    injector.registerFactory<RecipeDetailBloc>(
+        () => RecipeDetailBloc(injector(), injector()));
+    injector.registerFactory<AddRecipeBloc>(() => AddRecipeBloc(injector()));
   }
 }

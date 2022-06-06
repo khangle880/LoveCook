@@ -38,6 +38,20 @@ class UserRepository extends IUserRepository {
   }
 
   @override
+  Future<Either<Failure, PagingListResponse<RecipeModel>>> getRecipes(
+      {required String userId, required Map<String, dynamic> query}) async {
+    try {
+      final result =
+          await remoteService.getRecipes(userId: userId, query: query);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(exception: e));
+    } on Exception catch (e) {
+      return Left(UnknownFailure(exception: e));
+    }
+  }
+
+  @override
   Future<Either<Failure, SingleResponse<User>>> getUser(
       {required String userId}) async {
     try {

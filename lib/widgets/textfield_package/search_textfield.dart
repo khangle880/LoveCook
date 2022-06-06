@@ -85,7 +85,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
           widget.onSubmitted?.call("");
           setState(() {});
         },
-        icon: Assets.images.svg.icClose.svg(color: AppColors.blackDarken),
+        icon: Assets.images.svg.close.svg(color: AppColors.blackDarken),
       ),
     );
   }

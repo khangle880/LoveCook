@@ -50,7 +50,7 @@ class LookupRepository extends ILookupRepository {
   }
 
   @override
-  Future<Either<Failure, PagingListResponse<IngredientModel>>>
+  Future<Either<Failure, PagingListResponse<IngredientTypeModel>>>
       getIngredients() async {
     try {
       final result = await remoteService.getIngredients();

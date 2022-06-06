@@ -17,4 +17,11 @@ class AppConfig {
   }
 
   String get hostUrl => globalConfiguration.get('domain_url');
+
+  String formatLink(String text) {
+    if (text[0] == "/") {
+      return hostUrl + text.substring(1);
+    } else
+      return hostUrl + text;
+  }
 }

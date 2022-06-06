@@ -24,15 +24,18 @@ class SplashBloc extends BaseBloc<SplashState> {
       final responseEither = await _profileRepository.getInfo();
 
       responseEither.fold((failure) {
-        emit(SplashState(status: SplashStatus.not_authenticated));
+        emit(SplashState(state: state, status: SplashStatus.not_authenticated));
       }, (data) {
         if (data.success && data.item != null) {
           _sharedPreferences.saveUser(data.item!);
-          emit(SplashState(status: SplashStatus.authenticated));
+          emit(SplashState(state: state, status: SplashStatus.authenticated));
         } else {
-          emit(SplashState(status: SplashStatus.not_authenticated));
+          emit(SplashState(
+              state: state, status: SplashStatus.not_authenticated));
         }
       });
+    } else {
+      emit(SplashState(state: state, status: SplashStatus.not_authenticated));
     }
   }
 

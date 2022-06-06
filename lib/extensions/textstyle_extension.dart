@@ -383,6 +383,23 @@ extension TextStyleExtensions on String {
         .merge(style);
   }
 
+  TextExtCustomize s16w500(
+      {Color? color, TextStyle? style, TextStyleExtConfig? config}) {
+    return TextExtCustomize(
+      this,
+      config: config,
+      style: s16w600style(
+          color: color,
+          style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Aharoni',
+                  fontWeight: FontWeight.w500,
+                  color: color,
+                  height: 24 / 16)
+              .merge(style)),
+    );
+  }
+
   /// Button 1
   TextExtCustomize s16w600(
       {Color? color, TextStyle? style, TextStyleExtConfig? config}) {
@@ -502,7 +519,16 @@ extension TextStyleExtensions on String {
     );
   }
 
-    TextStyle? s14w400style({Color? color, TextStyle? style}) {
+  TextExtCustomize s14w400(
+      {Color? color, TextStyle? style, TextStyleExtConfig? config}) {
+    return TextExtCustomize(
+      this,
+      config: config,
+      style: s14w400style(color: color, style: style),
+    );
+  }
+
+  TextStyle? s14w400style({Color? color, TextStyle? style}) {
     return TextStyle(
             fontFamily: 'Aharoni',
             fontSize: 14,

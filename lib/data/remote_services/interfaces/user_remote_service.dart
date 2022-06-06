@@ -7,6 +7,8 @@ abstract class IUserRemoteService {
       {required Map<String, dynamic> query});
   Future<PagingListResponse<RecipeModel>> getLikedRecipes(
       {required String userId, required Map<String, dynamic> query});
+  Future<PagingListResponse<RecipeModel>> getRecipes(
+      {required String userId, required Map<String, dynamic> query});
   Future<SingleResponse<User>> follow({required String userId});
   Future<SingleResponse<User>> unfollow({required String userId});
 }

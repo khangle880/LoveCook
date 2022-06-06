@@ -9,7 +9,7 @@ class ResponseDependencies {
     injector.registerFactory<MenuTypeModel>(() => MenuTypeModel());
     injector.registerFactory<CuisineModel>(() => CuisineModel());
     injector.registerFactory<DishTypeModel>(() => DishTypeModel());
-    injector.registerFactory<IngredientModel>(() => IngredientModel());
+    injector.registerFactory<IngredientTypeModel>(() => IngredientTypeModel());
     injector.registerFactory<ProductTypeModel>(() => ProductTypeModel());
     injector.registerFactory<UnitModel>(() => UnitModel());
     injector.registerFactory<CookMethodModel>(() => CookMethodModel());

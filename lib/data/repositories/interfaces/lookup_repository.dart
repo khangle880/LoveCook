@@ -13,7 +13,7 @@ abstract class ILookupRepository {
       getCuisines();
   Future<Either<Failure, PagingListResponse<DishTypeModel>>>
       getDishTypes();
-  Future<Either<Failure, PagingListResponse<IngredientModel>>>
+  Future<Either<Failure, PagingListResponse<IngredientTypeModel>>>
       getIngredients();
   Future<Either<Failure, PagingListResponse<ProductTypeModel>>>
       getProductTypes();

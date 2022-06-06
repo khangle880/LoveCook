@@ -52,4 +52,14 @@ class UserRemoteService implements IUserRemoteService {
 
     return PagingListResponse<RecipeModel>.fromJson(response);
   }
+
+  @override
+  Future<PagingListResponse<RecipeModel>> getRecipes(
+      {required String userId, required Map<String, dynamic> query}) async {
+    final response = await _networkUtility.request(
+        'v1/users/$userId/recipes', Method.GET,
+        queryParameters: query);
+
+    return PagingListResponse<RecipeModel>.fromJson(response);
+  }
 }

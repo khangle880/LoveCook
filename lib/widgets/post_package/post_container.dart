@@ -1,16 +1,15 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../data/data.dart';
+import '../widgets.dart';
 import 'post_package.dart';
 
 class PostContainer extends StatelessWidget {
-  final PostModel? post;
+  final PostModel post;
 
   const PostContainer({
     Key? key,
-    this.post,
+    required this.post,
   }) : super(key: key);
 
   @override
@@ -31,35 +30,17 @@ class PostContainer extends StatelessWidget {
                 children: [
                   PostHeader(post: post),
                   const SizedBox(height: 4.0),
-                  Text(post?.content ?? ''),
-                  post?.photoUrls != null && post!.photoUrls!.isNotEmpty
+                  Text(post.content ?? ''),
+                  post.photoUrls != null && post.photoUrls!.isNotEmpty
                       ? const SizedBox(height: 10.0)
                       : const SizedBox.shrink(),
                 ],
               ),
             ),
-            // TODO Handl list image here
-
-            post?.photoUrls != null && post!.photoUrls!.isNotEmpty
-                ? CarouselSlider(
-                    options: CarouselOptions(height: 300.0),
-                    items: post?.photoUrls!.map((imageUrl) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration:
-                                  BoxDecoration(color: Colors.transparent),
-                              child: Image(
-                                  image: CachedNetworkImageProvider(
-                                imageUrl,
-                              )));
-                        },
-                      );
-                    }).toList(),
-                  )
-                : const SizedBox.shrink(),
+            PhotosSlider(
+              photoUrls: post.photoUrls ?? [],
+              itemMargin: EdgeInsets.symmetric(horizontal: 5.0),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: PostStats(post: post),

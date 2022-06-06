@@ -1,30 +1,34 @@
-import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 import '../../core/base/base_response.dart';
 import '../enum.dart';
 import 'models.dart';
 
-class IngredientInRecipeModel {
+class IngredientModel {
   final String? id;
-  final IngredientModel? ingredient;
+  final String? name;
+  final IngredientTypeModel? type;
   final UnitModel? unit;
   final double? quantity;
-  IngredientInRecipeModel({
+  IngredientModel({
     this.id,
-    this.ingredient,
+    this.name,
+    this.type,
     this.unit,
     this.quantity,
   });
 
-  IngredientInRecipeModel copyWith({
+  IngredientModel copyWith({
     String? id,
-    IngredientModel? ingredient,
+    String? name,
+    IngredientTypeModel? type,
     UnitModel? unit,
     double? quantity,
   }) {
-    return IngredientInRecipeModel(
+    return IngredientModel(
       id: id ?? this.id,
-      ingredient: ingredient ?? this.ingredient,
+      name: name ?? this.name,
+      type: type ?? this.type,
       unit: unit ?? this.unit,
       quantity: quantity ?? this.quantity,
     );
@@ -33,21 +37,49 @@ class IngredientInRecipeModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'ingredient': ingredient?.toJson(),
+      'name': name,
+      'type': type?.toJson(),
       'unit': unit?.toJson(),
       'quantity': quantity,
     };
   }
 
-  factory IngredientInRecipeModel.fromJson(Map<String, dynamic> json) {
-    return IngredientInRecipeModel(
-      id: json['id'] ?? '',
-      ingredient: json['ingredient'] != null
-          ? IngredientModel.fromJson(json['ingredient'])
+  factory IngredientModel.fromJson(Map<String, dynamic> json) {
+    return IngredientModel(
+      id: json['id'],
+      name: json['name'],
+      type: json['type'] != null
+          ? IngredientTypeModel.fromJson(json['type'])
           : null,
       unit: json['unit'] != null ? UnitModel.fromJson(json['unit']) : null,
       quantity: json['quantity']?.toDouble(),
     );
+  }
+
+  @override
+  String toString() {
+    return 'IngredientModel(id: $id, name: $name, type: $type, unit: $unit, quantity: $quantity)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is IngredientModel &&
+        other.id == id &&
+        other.name == name &&
+        other.type == type &&
+        other.unit == unit &&
+        other.quantity == quantity;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        type.hashCode ^
+        unit.hashCode ^
+        quantity.hashCode;
   }
 }
 
@@ -77,7 +109,7 @@ class CookStepModel {
   }
 }
 
-class RecipeModel extends BaseResponse {
+class RecipeModel extends BaseResponse with EquatableMixin {
   final String? id;
   final User? creator;
   final String? description;
@@ -90,7 +122,7 @@ class RecipeModel extends BaseResponse {
   final Level? level;
   final String? videoUrl;
   final String? videoThumbnail;
-  final List<IngredientInRecipeModel>? ingredients;
+  final List<IngredientModel>? ingredients;
   final List<SpecialGoalModel>? specialGoals;
   final List<MenuTypeModel>? menuTypes;
   final CuisineModel? cuisine;
@@ -183,8 +215,8 @@ class RecipeModel extends BaseResponse {
       videoUrl: json['videoUrl'],
       videoThumbnail: json['videoThumbnail'],
       ingredients: json['ingredients'] != null
-          ? List<IngredientInRecipeModel>.from(json['ingredients']
-              ?.map((x) => IngredientInRecipeModel.fromJson(x)))
+          ? List<IngredientModel>.from(
+              json['ingredients']?.map((x) => IngredientModel.fromJson(x)))
           : null,
       specialGoals: json['specialGoals'] != null
           ? List<SpecialGoalModel>.from(
@@ -230,7 +262,7 @@ class RecipeModel extends BaseResponse {
     Level? level,
     String? videoUrl,
     String? videoThumbnail,
-    List<IngredientInRecipeModel>? ingredients,
+    List<IngredientModel>? ingredients,
     List<SpecialGoalModel>? specialGoals,
     List<MenuTypeModel>? menuTypes,
     CuisineModel? cuisine,
@@ -270,4 +302,32 @@ class RecipeModel extends BaseResponse {
       idVoted: idVoted ?? this.idVoted,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        creator,
+        description,
+        name,
+        photoUrls,
+        servings,
+        steps,
+        totalTime,
+        totalView,
+        level,
+        videoUrl,
+        videoThumbnail,
+        ingredients,
+        specialGoals,
+        menuTypes,
+        cuisine,
+        dishType,
+        cookMethod,
+        totalLikes,
+        totalCooks,
+        totalRatings,
+        isLiked,
+        isCooked,
+        idVoted
+      ];
 }

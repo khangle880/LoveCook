@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:lovecook/extensions/extensions.dart';
 import 'package:lovecook/utils/app_config.dart';
 import '../../../blocs/blocs.dart';
@@ -12,6 +13,7 @@ import '../../../data/data.dart';
 import '../../../core/core.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../resources/resources.dart';
+import '../../../router/router.dart';
 import '../../../widgets/widgets.dart';
 
 class RecipePage extends StatefulWidget {
@@ -25,12 +27,11 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
   late TextEditingController _searchController;
-  late StreamController<List<RecipeModel>> recipeController;
+  bool _showFab = true;
 
   @override
   void initState() {
     _searchController = TextEditingController();
-    recipeController = StreamController<List<RecipeModel>>();
     getRecipes();
     super.initState();
   }
@@ -91,6 +92,24 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: AnimatedSlide(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+        offset: _showFab ? Offset.zero : const Offset(0, 1),
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 500),
+          opacity: _showFab ? 1 : 0,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                Routes.addRecipe,
+              );
+            },
+            child: Icon(Icons.add),
+          ),
+        ),
+      ),
       appBar: AppBar(
         title: SearchTextField(
           controller: _searchController,
@@ -105,78 +124,106 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          SizedBox(height: 8),
-          StreamBuilder<List<RecipeModel>?>(
-            stream: bloc.bsRecipes,
-            builder: (context, snp) {
-              if (snp.data == null) {
-                return Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
+      body: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          final ScrollDirection direction = notification.direction;
+          setState(() {
+            if (direction == ScrollDirection.reverse) {
+              _showFab = false;
+            } else if (direction == ScrollDirection.forward) {
+              _showFab = true;
+            }
+          });
+          return true;
+        },
+        child: Column(
+          children: [
+            SizedBox(height: 8),
+            StreamBuilder<List<RecipeModel>?>(
+              stream: bloc.bsRecipes,
+              builder: (context, snp) {
+                if (snp.data == null) {
+                  return Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                if (snp.data!.isNotEmpty) {
+                  return Expanded(
+                    child: PaginationGridView(
+                      itemBuilder: (BuildContext context, int index) {
+                        final item = bloc.paginationHelper!.items[index];
+                        return Material(
+                          color: Colors.white,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.recipeDetail,
+                                arguments: item,
+                              ).then((value) {
+                                bloc.updateItem(value as RecipeModel?);
+                              });
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: PreviewRecipe(item: item),
+                                ),
+                                SizedBox(height: 5),
+                                (item.name ?? 'Food').s14w500(
+                                  config: TextStyleExtConfig(
+                                      overflow: TextOverflow.ellipsis),
+                                ),
+                                SizedBox(height: 3),
+                                (item.creator!.name ?? 'User').s12w600(
+                                  color: AppColors.grayNormal.withOpacity(0.6),
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child:
+                                          (item.totalTime!.round().toString() +
+                                                  " Phút")
+                                              .s12w600(),
+                                    ),
+                                    FavoriteButton(
+                                      initFavorite: item.isLiked ?? false,
+                                      onClicked: (value) =>
+                                          bloc.handleLikeRecipe(item, value),
+                                      size: 18,
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      paginationController: bloc.paginationHelper!,
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 80 / 130,
+                      padding: EdgeInsets.all(10),
+                    ),
+                  );
+                }
+                return Column(
+                  children: [
+                    SizedBox(height: 50),
+                    Assets.images.png.search.image(),
+                    "Nothing".s16w400(),
+                  ],
                 );
-              }
-              if (snp.data!.isNotEmpty) {
-                return Expanded(
-                  child: PaginationGridView(
-                    itemBuilder: (BuildContext context, int index) {
-                      final item = bloc.paginationHelper!.items[index];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: PreviewRecipe(item: item),
-                          ),
-                          SizedBox(height: 5),
-                          (item.name ?? 'Food').s14w500(
-                            config: TextStyleExtConfig(
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                          SizedBox(height: 3),
-                          (item.creator!.name ?? 'User').s12w600(
-                            color: AppColors.grayNormal.withOpacity(0.6),
-                          ),
-                          SizedBox(height: 2),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: (item.totalTime!.round().toString() +
-                                        " Phút")
-                                    .s12w600(),
-                              ),
-                              FavoriteButton(
-                                initFavorite: item.isLiked ?? false,
-                                onClicked: (value) =>
-                                    bloc.handleLikeRecipe(item, value),
-                                size: 18,
-                              )
-                            ],
-                          )
-                        ],
-                      );
-                    },
-                    paginationController: bloc.paginationHelper!,
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 80 / 130,
-                    padding: EdgeInsets.all(10),
-                  ),
-                );
-              }
-              return Column(
-                children: [
-                  SizedBox(height: 50),
-                  Assets.images.png.search.image(),
-                  "Nothing".s16w400(),
-                ],
-              );
-            },
-          )
-        ],
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -221,25 +268,29 @@ class _PreviewRecipeState extends State<PreviewRecipe> {
     );
 
     if (photoUrl != null) {
-      return Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          CachedNetworkImage(
-            imageUrl: AppConfig.instance.hostUrl + photoUrl.substring(1),
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => errorWidget,
-          ),
-          // play button
-          if (widget.item.videoThumbnail != null)
-            Container(
-              child: CircleAvatar(
-                radius: 25,
-                backgroundColor: AppColors.whiteLight,
-                child:
-                    Icon(Icons.play_arrow, color: Colors.grey[800], size: 32),
-              ),
+      return Container(
+        height: 130,
+        width: 130,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            CachedNetworkImage(
+              imageUrl: AppConfig.instance.formatLink(photoUrl),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => errorWidget,
             ),
-        ],
+            // play button
+            if (widget.item.videoThumbnail != null)
+              Container(
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: AppColors.whiteLight,
+                  child:
+                      Icon(Icons.play_arrow, color: Colors.grey[800], size: 32),
+                ),
+              ),
+          ],
+        ),
       );
     }
     return errorWidget;

@@ -92,7 +92,10 @@ class _PaginationGridViewState extends State<PaginationGridView> {
     //loading items
     if (isFirstLoad) {
       return widget.loadingIndicatorBuilder?.call(context) ??
-          const SizedBox().appCenterProgressLoading;
+          Container(
+            child: SizedBox().appCenterProgressLoading,
+            margin: EdgeInsets.all(32.0),
+          );
     }
     if (index < length) {
       return widget.itemBuilder.call(context, index);
@@ -131,7 +134,7 @@ class _PaginationGridViewState extends State<PaginationGridView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       color: Theme.of(context).primaryColor,
       child: GridView.builder(
-          physics: widget.physics,
+          physics: widget.physics ?? AlwaysScrollableScrollPhysics(),
           padding: widget.padding,
           shrinkWrap: widget.shrinkWap,
           scrollDirection: widget.scrollDirection,

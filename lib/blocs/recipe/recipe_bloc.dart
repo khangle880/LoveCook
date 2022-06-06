@@ -5,12 +5,12 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../core/base/base_response.dart';
 import '../../../data/enum.dart';
-import '../../../blocs/login/login_state.dart';
 import '../../../core/core.dart';
 import '../../../data/data.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
+import 'recipe_state.dart';
 
-class RecipeBloc extends BaseBloc<LoginState> {
+class RecipeBloc extends BaseBloc<RecipeState> {
   final IRecipeRepository _recipeRepository;
   final ISearchRepository _searchRepository;
   PaginationHelper<RecipeModel>? paginationHelper;
@@ -53,12 +53,19 @@ class RecipeBloc extends BaseBloc<LoginState> {
       final newList = List<RecipeModel>.from(bsRecipes.value ?? [])
           .replaceItem(newRecipe, (element) => element.id == newRecipe.id);
       bsRecipes.add(newList);
-      log('success');
+      paginationHelper!.updateList(newList);
       return liked;
     }).catchError((e) {
-      log('fail');
       return !liked;
     });
+  }
+
+  void updateItem(RecipeModel? recipe) async {
+    if (recipe == null) return;
+    final newList = List<RecipeModel>.from(bsRecipes.value ?? [])
+        .replaceItem(recipe, (element) => element.id == recipe.id);
+    bsRecipes.add(newList);
+    paginationHelper!.updateList(newList);
   }
 
   @override

@@ -34,15 +34,16 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
   }
 
   getPost() {
-    bloc.postPagination = PaginationHelper(
-      asyncTask: (config) {
-        return asyncTask(config).then((value) {
-          config.canLoadMore = value.pagination.canLoadMore;
-          config.page = value.pagination.page;
-          return (value.items as List<PostModel>);
-        }).catchError((e) => throw e);
-      },
-    );
+    bloc.postPagination = PaginationHelper(asyncTask: (config) {
+      return asyncTask(config).then((value) {
+        config.canLoadMore = value.pagination.canLoadMore;
+        config.page = value.pagination.page;
+        return (value.items as List<PostModel>);
+      }).catchError((e) => throw e);
+    }, onRefresh: () {
+      setState(() {});
+      bloc.postPagination?.run();
+    });
 
     return bloc.postPagination?.run();
   }
@@ -53,25 +54,33 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        FeedSliverAppBar(user?.avatarUrl, user?.name),
-        PaginationSliverListView(
-          paginationController: bloc.postPagination!,
-          itemBuilder: (BuildContext context, int index) {
-            return PostContainer(
-              post: bloc.postPagination?.items[index],
-            );
-          },
-          separatorBuilder: (context, index) {
-            return Divider(
-              color: Color(0xFFF2EBE9),
-              height: 8,
-              thickness: 8,
-            );
-          },
-        ),
-      ],
+    return RefreshIndicator(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      color: Theme.of(context).primaryColor,
+      onRefresh: () async {
+        bloc.postPagination?.refresh();
+      },
+      edgeOffset: 80,
+      child: CustomScrollView(
+        slivers: <Widget>[
+          FeedSliverAppBar(user?.avatarUrl, user?.name),
+          PaginationSliverListView(
+            paginationController: bloc.postPagination!,
+            itemBuilder: (BuildContext context, int index) {
+              return PostContainer(
+                post: bloc.postPagination!.items[index],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: Color(0xFFF2EBE9),
+                height: 8,
+                thickness: 8,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
