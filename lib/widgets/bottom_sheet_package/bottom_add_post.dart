@@ -1,18 +1,19 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:lovecook/data/data.dart';
-import 'package:lovecook/extensions/extensions.dart';
-import 'package:lovecook/widgets/widgets.dart';
+import 'package:lovecook/widgets/pick_media/video_widget.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
+import '../../data/data.dart';
+import '../../extensions/extensions.dart';
+import '../../gen/assets.gen.dart';
 import '../../resources/colors.dart';
+import '../widgets.dart';
 
 class BottomAddPost extends StatefulWidget {
   final User? userInfor;
-  final Function(String, List<String>)? onPostCall;
+  final Function(String, List<String>, List<String>)? onPostCall;
 
   const BottomAddPost({Key? key, required this.userInfor, this.onPostCall})
       : super(key: key);
@@ -23,6 +24,7 @@ class BottomAddPost extends StatefulWidget {
 
 class _BottomAddPostState extends State<BottomAddPost> {
   List<String> currentListImage = [];
+  List<String> currentListVideo = [];
   String content = '';
 
   User? get userInfor => widget.userInfor;
@@ -64,13 +66,30 @@ class _BottomAddPostState extends State<BottomAddPost> {
                     currentListImage.isNotEmpty
                         ? _buildListImage()
                         : SizedBox.shrink(),
+                    currentListVideo.isNotEmpty
+                        ? _buildVideoSlide()
+                        : SizedBox.shrink(),
                     SizedBox(
                       height: 15,
                     ),
-                    CustomIconButton(
-                      onTap: () async {
-                        _multiImagePick();
-                      },
+                    Row(
+                      children: [
+                        CustomIconButton(
+                          icon: Assets.images.svg.icPickPhoto
+                              .svg(color: Color(0xFF73777B)),
+                          onTap: () async {
+                            _multiImagePick();
+                          },
+                        ),
+                        SizedBox(width: 5),
+                        CustomIconButton(
+                          icon: Assets.images.svg.video
+                              .svg(color: Color(0xFF73777B)),
+                          onTap: () async {
+                            _multiVideoPick();
+                          },
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -78,6 +97,21 @@ class _BottomAddPostState extends State<BottomAddPost> {
             ),
           ]),
         ));
+  }
+
+  CarouselSlider _buildVideoSlide() {
+    return CarouselSlider(
+      options: CarouselOptions(height: 300.0, enableInfiniteScroll: false),
+      items: currentListVideo.map((videoData) {
+        return Builder(
+          builder: (BuildContext context) {
+            return VideoWidget(
+              file: videoData,
+            );
+          },
+        );
+      }).toList(),
+    );
   }
 
   Row _buildAppBar(BuildContext context) {
@@ -105,7 +139,8 @@ class _BottomAddPostState extends State<BottomAddPost> {
             hasBorder: false,
             constraints: BoxConstraints(minWidth: 100, maxHeight: 40),
             onTap: () {
-              widget.onPostCall?.call(content, currentListImage);
+              widget.onPostCall
+                  ?.call(content, currentListImage, currentListVideo);
               Navigator.pop(context);
             },
           ),
@@ -157,7 +192,7 @@ class _BottomAddPostState extends State<BottomAddPost> {
   void _multiImagePick() async {
     final List<AssetEntity> result = await AssetPicker.pickAssets(
           context,
-          pickerConfig: const AssetPickerConfig(),
+          pickerConfig: const AssetPickerConfig(requestType: RequestType.image),
         ) ??
         [];
 
@@ -166,6 +201,24 @@ class _BottomAddPostState extends State<BottomAddPost> {
 
       if (file != null) {
         currentListImage.add(file.path);
+      }
+    }
+
+    setState(() {});
+  }
+
+  void _multiVideoPick() async {
+    final List<AssetEntity> result = await AssetPicker.pickAssets(
+          context,
+          pickerConfig: const AssetPickerConfig(requestType: RequestType.video),
+        ) ??
+        [];
+
+    for (final video in result) {
+      final file = await video.originFile;
+
+      if (file != null) {
+        currentListVideo.add(file.path);
       }
     }
 

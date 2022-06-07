@@ -20,5 +20,6 @@ class ResponseDependencies {
     injector.registerFactory<ReactionModel>(() => ReactionModel());
     injector.registerFactory<SearchModel>(() => SearchModel());
     injector.registerFactory<User>(() => User());
+    injector.registerFactory<UploadModel>(() => UploadModel());
   }
 }

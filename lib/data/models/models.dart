@@ -9,3 +9,4 @@ export 'recipe_model.dart';
 export 'search_model.dart';
 export 'single_type.dart';
 export 'splash_model.dart';
+export 'upload_model.dart';

@@ -18,6 +18,8 @@ class PageDependencies {
     injector.registerFactory<Widget>(() => TestApiPage(injector()),
         instanceName: Routes.testApi);
     injector.registerFactory<Widget>(() => ChatPage(injector()));
+    injector.registerFactory<Widget>(() => FeedCommentPage(injector()),
+        instanceName: Routes.feedComment);
     // injector.registerFactory<Widget>(() => ProfilePage(injector()));
   }
 }

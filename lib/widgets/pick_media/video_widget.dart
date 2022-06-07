@@ -10,7 +10,7 @@ class VideoWidget extends StatefulWidget {
             "you should only enter file or path"),
         super(key: key);
 
-  final File? file;
+  final String? file;
   final String? path;
 
   @override
@@ -28,13 +28,16 @@ class VideoWidgetState extends State<VideoWidget> {
     initVideoController();
 
     chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-    );
+        videoPlayerController: videoPlayerController,
+        showOptions: false,
+        allowFullScreen: false,
+        allowPlaybackSpeedChanging: false,
+        allowMuting: false);
   }
 
   void initVideoController() async {
     if (widget.file != null) {
-      videoPlayerController = VideoPlayerController.file(widget.file!);
+      videoPlayerController = VideoPlayerController.file(File(widget.file!));
     } else {
       videoPlayerController = VideoPlayerController.network(widget.path!);
     }

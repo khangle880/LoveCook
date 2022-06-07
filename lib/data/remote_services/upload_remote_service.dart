@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../core/base/base_response.dart';
 import '../../core/core.dart';
 import '../data.dart';
 
@@ -29,7 +30,23 @@ class UploadRemoteService implements IUploadRemoteService {
   }
 
   @override
-  Future<bool> uploadFileData({
+  Future<SingleResponse<UploadModel>> uploadVideoData({
+    required String filePath,
+  }) async {
+    final multipartFile = await MultipartFile.fromFile(filePath);
+    FormData formData = FormData.fromMap({"file": multipartFile});
+
+    final response = await _networkUtility.request(
+      'v1/videos',
+      Method.POST,
+      data: formData,
+    );
+
+    return SingleResponse<UploadModel>.fromJson(response);
+  }
+
+  @override
+  Future<SingleResponse<UploadModel>> uploadFileData({
     required String filePath,
   }) async {
     final multipartFile = await MultipartFile.fromFile(filePath);
@@ -41,8 +58,6 @@ class UploadRemoteService implements IUploadRemoteService {
       data: formData,
     );
 
-    print(response.data);
-
-    return Future.value(true);
+    return SingleResponse<UploadModel>.fromJson(response);
   }
 }

@@ -7,11 +7,13 @@ import '../../resources/resources.dart';
 class CustomIconButton extends StatelessWidget {
   final double size;
   final bool disable;
+  final Widget icon;
   final VoidCallback? onTap;
 
   const CustomIconButton({
     Key? key,
     this.disable = false,
+    required this.icon,
     this.size = 44,
     this.onTap,
   }) : super(key: key);
@@ -33,8 +35,7 @@ class CustomIconButton extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
-              child:
-                  Assets.images.svg.icPickPhoto.svg(color: Color(0xFF73777B)),
+              child: icon,
             ),
           ],
         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lovecook/pages/pages.dart';
+import 'package:lovecook/router/route_arguments.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../blocs/feed/feed.dart';
@@ -6,6 +8,7 @@ import '../../../core/base/base_response.dart';
 import '../../../core/base/base_state.dart';
 import '../../../data/data.dart';
 import '../../../extensions/extensions.dart';
+import '../../../router/router.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
 import '../../../widgets/pagination_widget/pagination_sliver_listview.dart';
 import '../../../widgets/post_package/post_package.dart';
@@ -61,8 +64,8 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
       slivers: <Widget>[
         FeedSliverAppBar(
           userInfor: user,
-          onPostCall: (content, listImagePath) {
-            bloc.createPost(content, listImagePath);
+          onPostCall: (content, listImagePath, listVideoPath) {
+            bloc.createPost(content, listImagePath, listVideoPath);
           },
         ),
         PaginationSliverListView(
@@ -70,6 +73,12 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
           itemBuilder: (BuildContext context, int index) {
             return PostContainer(
               post: bloc.postPagination?.items[index],
+              onCommentPress: () {
+                if (bloc.postPagination?.items[index] != null)
+                  Navigator.pushNamed(context, Routes.feedComment,
+                      arguments: RouteArguments(
+                          data: bloc.postPagination!.items[index]));
+              },
             );
           },
           separatorBuilder: (context, index) {

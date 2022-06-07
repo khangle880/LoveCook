@@ -1,17 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lovecook/widgets/pick_media/video_widget.dart';
 
 import '../../data/data.dart';
+import '../../utils/utils.dart';
 import 'post_package.dart';
 
 class PostContainer extends StatelessWidget {
   final PostModel? post;
+  final VoidCallback? onCommentPress;
 
-  const PostContainer({
-    Key? key,
-    this.post,
-  }) : super(key: key);
+  const PostContainer({Key? key, this.post, this.onCommentPress})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class PostContainer extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         color: Colors.white,
         child: Column(
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
@@ -39,32 +40,50 @@ class PostContainer extends StatelessWidget {
               ),
             ),
             post?.photoUrls != null && post!.photoUrls!.isNotEmpty
-                ? CarouselSlider(
-                    options: CarouselOptions(height: 300.0),
-                    items: post?.photoUrls!.map((imageUrl) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration:
-                                  BoxDecoration(color: Colors.transparent),
-                              child: Image(
-                                  image: CachedNetworkImageProvider(
-                                imageUrl,
-                              )));
-                        },
-                      );
-                    }).toList(),
-                  )
+                ? _buildImageSlider()
+                : const SizedBox.shrink(),
+            post?.videoUrl != null && post!.videoUrl!.isNotEmpty
+                ? _buildVideoSlider()
                 : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: PostStats(post: post),
+              child: PostStats(
+                post: post,
+                onCommentPress: onCommentPress,
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  CarouselSlider _buildVideoSlider() {
+    return CarouselSlider(
+      options: CarouselOptions(height: 300.0, enableInfiniteScroll: false),
+      items: [
+        VideoWidget(path: AppConfig.instance.formatLink(post!.videoUrl!))
+      ],
+    );
+  }
+
+  CarouselSlider _buildImageSlider() {
+    return CarouselSlider(
+      options: CarouselOptions(height: 300.0),
+      items: post?.photoUrls!.map((imageUrl) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(color: Colors.transparent),
+                child: Image(
+                    image: CachedNetworkImageProvider(
+                  AppConfig.instance.formatLink(imageUrl),
+                )));
+          },
+        );
+      }).toList(),
     );
   }
 }

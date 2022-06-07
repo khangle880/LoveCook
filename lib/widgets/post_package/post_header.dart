@@ -24,8 +24,7 @@ class PostHeader extends StatelessWidget {
               Text(
                 post?.creator?.name ?? 'Error',
                 style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                    fontWeight: FontWeight.w600, color: Colors.black),
               ),
               Row(
                 children: [

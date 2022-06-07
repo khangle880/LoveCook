@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 
+import '../../../core/base/base_response.dart';
+import '../../data.dart';
+
 abstract class IUploadRemoteService {
   Future<bool> uploadFile({
     required String fileName,
@@ -12,7 +15,11 @@ abstract class IUploadRemoteService {
     CancelToken? cancelToken,
   });
 
-  Future<bool> uploadFileData({
+  Future<SingleResponse<UploadModel>> uploadVideoData({
+    required String filePath,
+  });
+
+  Future<SingleResponse<UploadModel>> uploadFileData({
     required String filePath,
   });
 }

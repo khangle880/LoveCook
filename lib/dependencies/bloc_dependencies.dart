@@ -23,5 +23,7 @@ class BlocDependencies {
     injector.registerFactory<ProfileBloc>(
         () => ProfileBloc(injector(), injector()));
     injector.registerFactory<FeedBloc>(() => FeedBloc(injector(), injector()));
+    injector
+        .registerFactory<FeedCommentBloc>(() => FeedCommentBloc(injector()));
   }
 }

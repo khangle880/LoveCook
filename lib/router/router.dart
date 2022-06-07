@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import 'route_arguments.dart';
+
 class Routes {
   static String get splash => '/splash';
   static String get login => '/login';
   static String get home => '/home';
   static String get testApi => '/testApi';
+  static String get feedComment => '/feedComment';
 
   static getRoute(RouteSettings settings) {
     Widget widget;
@@ -31,6 +34,18 @@ class Routes {
         ),
       );
     }
-    return CupertinoPageRoute(builder: (_) => widget, settings: settings);
+    if (settings.arguments is RouteArguments &&
+        !(settings.arguments as RouteArguments).opaque) {
+      return PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (_, __, ___) => widget,
+        settings: settings.copyWith(
+            arguments: (settings.arguments as RouteArguments).data),
+      );
+    }
+    return CupertinoPageRoute(
+      builder: (_) => widget,
+      settings: settings,
+    );
   }
 }

@@ -25,16 +25,44 @@ class FeedBloc extends BaseBloc<FeedState> {
     });
   }
 
-  Future<void> createPost(String content, List<String> listImageData) async {
-    if (listImageData.isNotEmpty) {
-      for (final imagePath in listImageData) {
-        // TODO Handle response either
-        _uploadRepository.uploadFileData(filePath: imagePath);
+  Future<void> createPost(String content, List<String> listImageData,
+      List<String> listVideoPath) async {
+    List<String> listImagePath = [];
+    String videoUrlPath = '';
+
+    if (listVideoPath.isNotEmpty) {
+      for (final videoPath in listVideoPath) {
+        final imageResponseEither =
+            await _uploadRepository.uploadVideoData(filePath: videoPath);
+        imageResponseEither.fold((failure) {}, (data) {
+          videoUrlPath = data.item?.urls?[0] ?? '';
+        });
       }
     }
 
-    final responseEither = await _postRepository
-        .createPost(data: {"viewRange": "PUBLIC", "content": content});
+    print(videoUrlPath);
+
+    if (listImageData.isNotEmpty) {
+      for (final imagePath in listImageData) {
+        final imageResponseEither =
+            await _uploadRepository.uploadFileData(filePath: imagePath);
+        imageResponseEither.fold((failure) {}, (data) {
+          listImagePath.addAll(data.item?.urls ?? []);
+        });
+      }
+    }
+
+    final data = {
+      "viewRange": "PUBLIC",
+      "content": content,
+      'photoUrls': listImagePath,
+    };
+
+    if (videoUrlPath.isNotEmpty) {
+      data['videoUrl'] = videoUrlPath;
+    }
+
+    final responseEither = await _postRepository.createPost(data: data);
 
     responseEither.fold((failer) {}, (data) {
       final postContent = data.item;

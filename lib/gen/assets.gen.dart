@@ -143,6 +143,9 @@ class $AssetsImagesPngGen {
   /// File path: assets/images/png/mad.png
   AssetGenImage get mad => const AssetGenImage('assets/images/png/mad.png');
 
+  /// File path: assets/images/png/play.png
+  AssetGenImage get play => const AssetGenImage('assets/images/png/play.png');
+
   /// File path: assets/images/png/sad.png
   AssetGenImage get sad => const AssetGenImage('assets/images/png/sad.png');
 
@@ -683,6 +686,9 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/video-play_filled.svg
   SvgGenImage get videoPlayFilled =>
       const SvgGenImage('assets/images/svg/video-play_filled.svg');
+
+  /// File path: assets/images/svg/video.svg
+  SvgGenImage get video => const SvgGenImage('assets/images/svg/video.svg');
 
   /// File path: assets/images/svg/video_play.svg
   SvgGenImage get videoPlay =>

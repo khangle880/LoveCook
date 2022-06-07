@@ -87,7 +87,8 @@ class _VideoPlayBuilderState extends State<VideoPlayBuilder> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        VideoPlayerPackUtil.formatDuration(_latestValue.position)
+                        VideoPlayerPackUtil.formatDuration(
+                                _latestValue.position)
                             .s13w400(color: AppColors.whiteNormal),
                         SizedBox(width: 10),
                         Expanded(
@@ -102,7 +103,8 @@ class _VideoPlayBuilderState extends State<VideoPlayBuilder> {
                           ),
                         ),
                         SizedBox(width: 10),
-                        VideoPlayerPackUtil.formatDuration(_latestValue.duration)
+                        VideoPlayerPackUtil.formatDuration(
+                                _latestValue.duration)
                             .s13w400(color: AppColors.whiteNormal)
                       ],
                     ),

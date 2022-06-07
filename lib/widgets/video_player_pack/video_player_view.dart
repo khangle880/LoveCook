@@ -57,6 +57,13 @@ class VideoPlayerViewState extends State<VideoPlayerView> {
     controller.addListener(listener);
   }
 
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   controller.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     if (initialized) {
