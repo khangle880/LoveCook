@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:lovecook/extensions/extensions.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -62,8 +60,17 @@ class RecipeBloc extends BaseBloc<RecipeState> {
 
   void updateItem(RecipeModel? recipe) async {
     if (recipe == null) return;
-    final newList = List<RecipeModel>.from(bsRecipes.value ?? [])
-        .replaceItem(recipe, (element) => element.id == recipe.id);
+    final index = (bsRecipes.value ?? [])
+        .indexWhere((element) => element.id == recipe.id);
+    var newList;
+    if (index == -1) {
+      newList = List<RecipeModel>.from(bsRecipes.value ?? [])
+        ..insert(0, recipe);
+    } else {
+      newList = List<RecipeModel>.from(bsRecipes.value ?? [])
+          .replaceItem(recipe, (element) => element.id == recipe.id);
+    }
+
     bsRecipes.add(newList);
     paginationHelper!.updateList(newList);
   }

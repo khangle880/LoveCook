@@ -35,6 +35,9 @@ class LoginModel extends BaseResponse {
         user: user ?? this.user,
         tokens: tokens ?? this.tokens,
       );
+
+  @override
+  List<Object?> get props => [user, tokens];
 }
 
 class Tokens {
@@ -193,4 +196,20 @@ class User extends BaseResponse {
       id: id ?? this.id,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        followingUsers,
+        followerUsers,
+        name,
+        email,
+        bio,
+        avatarUrl,
+        phone,
+        gender,
+        role,
+        languageSetting,
+        status,
+        id,
+      ];
 }

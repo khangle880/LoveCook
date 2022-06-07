@@ -112,4 +112,16 @@ class LookupRepository extends ILookupRepository {
       return Left(UnknownFailure(exception: e));
     }
   }
+
+  @override
+  Future<Either<Failure, SingleResponse<LookupModel>>> getLookup() async {
+    try {
+      final result = await remoteService.getLookup();
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(exception: e));
+    } on Exception catch (e) {
+      return Left(UnknownFailure(exception: e));
+    }
+  }
 }

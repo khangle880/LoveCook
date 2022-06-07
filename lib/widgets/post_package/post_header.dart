@@ -22,7 +22,7 @@ class PostHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                post?.creator?.name ?? 'Error',
+                post?.creator?.name ?? 'User',
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                 ),

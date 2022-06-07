@@ -74,6 +74,8 @@ dependencies:
   modal_bottom_sheet: ^2.0.1
   path_provider: ^2.0.10
   flutter_reaction_button: ^2.0.1
+  dropdown_button2: ^1.5.3
+  focused_menu: ^1.0.5
 
 dev_dependencies:
   flutter_test:

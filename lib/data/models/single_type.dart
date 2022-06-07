@@ -33,4 +33,7 @@ class SingleType extends BaseResponse {
 
   @override
   String toString() => 'SingleType(value: $value)';
+
+  @override
+  List<Object?> get props => [value];
 }

@@ -13,6 +13,7 @@ class ResponseDependencies {
     injector.registerFactory<ProductTypeModel>(() => ProductTypeModel());
     injector.registerFactory<UnitModel>(() => UnitModel());
     injector.registerFactory<CookMethodModel>(() => CookMethodModel());
+    injector.registerFactory<LookupModel>(() => LookupModel());
     injector.registerFactory<PostModel>(() => PostModel());
     injector.registerFactory<ProductModel>(() => ProductModel());
     injector.registerFactory<RecipeModel>(() => RecipeModel());

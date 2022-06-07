@@ -4,7 +4,7 @@ import '../../core/base/base_response.dart';
 import '../enum.dart';
 import 'models.dart';
 
-class IngredientModel {
+class IngredientModel extends Equatable {
   final String? id;
   final String? name;
   final IngredientTypeModel? type;
@@ -62,24 +62,14 @@ class IngredientModel {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is IngredientModel &&
-        other.id == id &&
-        other.name == name &&
-        other.type == type &&
-        other.unit == unit &&
-        other.quantity == quantity;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        type.hashCode ^
-        unit.hashCode ^
-        quantity.hashCode;
+  List<Object?> get props {
+    return [
+      id,
+      name,
+      type,
+      unit,
+      quantity,
+    ];
   }
 }
 
@@ -107,9 +97,19 @@ class CookStepModel {
       photoUrls: List<String>.from(json['photoUrls']),
     );
   }
+
+  CookStepModel copyWith({
+    String? content,
+    List<String>? photoUrls,
+  }) {
+    return CookStepModel(
+      content: content ?? this.content,
+      photoUrls: photoUrls ?? this.photoUrls,
+    );
+  }
 }
 
-class RecipeModel extends BaseResponse with EquatableMixin {
+class RecipeModel extends BaseResponse {
   final String? id;
   final User? creator;
   final String? description;

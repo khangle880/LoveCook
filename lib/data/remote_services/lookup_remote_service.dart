@@ -28,7 +28,8 @@ class LookupRemoteService implements ILookupRemoteService {
 
   @override
   Future<PagingListResponse<IngredientTypeModel>> getIngredients() async {
-    final response = await _networkUtility.request('v1/ingredient-types', Method.GET,
+    final response = await _networkUtility.request(
+        'v1/ingredient-types', Method.GET,
         queryParameters: {'limit': 9999});
 
     return PagingListResponse<IngredientTypeModel>.fromJson(response);
@@ -70,9 +71,20 @@ class LookupRemoteService implements ILookupRemoteService {
 
   @override
   Future<PagingListResponse<CookMethodModel>> getCookMethods() async {
-    final response = await _networkUtility
-        .request('v1/cook-methods', Method.GET, queryParameters: {'limit': 9999});
+    final response = await _networkUtility.request(
+        'v1/cook-methods', Method.GET,
+        queryParameters: {'limit': 9999});
 
     return PagingListResponse<CookMethodModel>.fromJson(response);
+  }
+
+  @override
+  Future<SingleResponse<LookupModel>> getLookup() async {
+    final response = await _networkUtility.request(
+      'v1/lookup',
+      Method.GET,
+    );
+
+    return SingleResponse<LookupModel>.fromJson(response);
   }
 }

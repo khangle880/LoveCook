@@ -86,4 +86,17 @@ class ProductModel extends BaseResponse {
   String toString() {
     return 'CommentModel(id: $id, creator: $creator, productType: $productType, photoUrls: $photoUrls, videoUrl: $videoUrl, description: $description, price: $price, unit: $unit, saleLocations: $saleLocations)';
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        creator,
+        productType,
+        photoUrls,
+        videoUrl,
+        description,
+        price,
+        unit,
+        saleLocations,
+      ];
 }

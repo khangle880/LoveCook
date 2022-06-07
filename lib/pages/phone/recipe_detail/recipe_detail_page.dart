@@ -1,23 +1,16 @@
-import 'dart:async';
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:lovecook/extensions/extensions.dart';
-import 'package:lovecook/utils/app_config.dart';
-import 'package:lovecook/widgets/pick_media/pick_media.dart';
-import 'package:lovecook/widgets/widgets.dart';
-import 'package:video_player/video_player.dart';
-import '../../../blocs/blocs.dart';
-import '../../../core/base/base_response.dart';
-import '../../../data/data.dart';
 
+import '../../../blocs/blocs.dart';
 import '../../../core/core.dart';
+import '../../../data/data.dart';
+import '../../../extensions/extensions.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../resources/resources.dart';
+import '../../../utils/app_config.dart';
+import '../../../widgets/widgets.dart';
 
 class RecipeDetailPage extends StatefulWidget {
   final RecipeDetailBloc bloc;
@@ -277,6 +270,7 @@ class CookSteps extends StatelessWidget {
               SizedBox(width: 3),
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     e.content!.s12w400(
                       config: TextStyleExtConfig(maxLines: 10),

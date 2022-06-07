@@ -40,4 +40,7 @@ class ReactionModel extends BaseResponse {
 
   @override
   String toString() => 'ReactionModel(user: $user, type: $type)';
+
+  @override
+  List<Object?> get props => [user, type];
 }
