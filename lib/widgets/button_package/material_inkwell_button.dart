@@ -9,11 +9,13 @@ class MaterialInkwellButton extends StatelessWidget {
   final bool hasBorder;
   final BoxConstraints? constraints;
   final VoidCallback? onTap;
+  final Color backgroundColor;
 
   MaterialInkwellButton(
       {required this.title,
       required this.hasBorder,
       this.constraints,
+      this.backgroundColor = AppColors.mediumBlue,
       this.onTap});
 
   @override
@@ -21,7 +23,7 @@ class MaterialInkwellButton extends StatelessWidget {
     return Material(
       child: Ink(
         decoration: BoxDecoration(
-          color: hasBorder ? AppColors.white : AppColors.mediumBlue,
+          color: hasBorder ? AppColors.white : backgroundColor,
           borderRadius: BorderRadius.circular(10),
           border: hasBorder
               ? Border.all(
@@ -43,7 +45,7 @@ class MaterialInkwellButton extends StatelessWidget {
                 softWrap: true,
                 overflow: TextOverflow.clip,
                 style: TextStyle(
-                  color: hasBorder ? AppColors.mediumBlue : AppColors.white,
+                  color: hasBorder ? backgroundColor : AppColors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 14.0,
                 ),

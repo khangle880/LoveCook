@@ -25,10 +25,12 @@ class PickLookup<T> extends StatelessWidget {
     return DropdownButtonFormField2<T>(
       value: value,
       decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
         isDense: true,
         contentPadding: EdgeInsets.fromLTRB(20, 0, 10, 0),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
       isExpanded: true,
@@ -43,7 +45,7 @@ class PickLookup<T> extends StatelessWidget {
       iconSize: 30,
       buttonHeight: 40,
       dropdownDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
       ),
       items: items
           .map((item) => DropdownMenuItem<T>(
@@ -133,7 +135,7 @@ class _MultiPickLookupState<T> extends State<MultiPickLookup<T>> {
         isDense: true,
         contentPadding: EdgeInsets.fromLTRB(20, 0, 10, 0),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
       isExpanded: true,
@@ -148,7 +150,7 @@ class _MultiPickLookupState<T> extends State<MultiPickLookup<T>> {
       iconSize: 30,
       buttonHeight: 40,
       dropdownDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
       ),
       items: widget.items
           .map(

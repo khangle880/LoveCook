@@ -46,7 +46,7 @@ class CookStepSection extends StatelessWidget {
                           e.content!.s12w400(
                             config: TextStyleExtConfig(maxLines: 10),
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 10),
                           if ((e.photoUrls ?? []).isNotEmpty)
                             SizedBox(
                               width: double.infinity,
@@ -121,22 +121,28 @@ class CookStepSection extends StatelessWidget {
                   ],
                 ))
             .toList(),
-        TextButton(
-          onPressed: () {
-            showModalBottomSheet<void>(
-              context: context,
-              isScrollControlled: true,
-              builder: (BuildContext context) {
-                return AddCookStepWidget(
-                  lookup: lookup,
-                  onSaved: (CookStepModel step) {
-                    bloc.updateField(steps: steps..add(step));
-                  },
-                );
-              },
-            );
-          },
-          child: const Text('Add cook step'),
+        Align(
+          alignment: Alignment.centerRight,
+          child: MaterialInkwellButton(
+            hasBorder: false,
+            constraints: BoxConstraints(maxWidth: 150, maxHeight: 40),
+            backgroundColor: AppColors.successNormal,
+            onTap: () {
+              showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                builder: (BuildContext context) {
+                  return AddCookStepWidget(
+                    lookup: lookup,
+                    onSaved: (CookStepModel step) {
+                      bloc.updateField(steps: steps..add(step));
+                    },
+                  );
+                },
+              );
+            },
+            title: 'Add cook step',
+          ),
         ),
       ],
     );
@@ -170,56 +176,63 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: MediaQuery.of(context).viewInsets,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 20,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              '${widget.step != null ? "Update" : "Add"} Cook Step',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+    return SafeArea(
+      child: Container(
+        color: Colors.white,
+        padding: MediaQuery.of(context).viewInsets,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                '${widget.step != null ? "Update" : "Add"} Cook Step',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            InputTextWidget(
-              initValue: widget.step?.content,
-              hintText: 'Content',
-              maxLine: 4,
-              onChanged: (value) {
-                newStep = newStep.copyWith(content: value);
-              },
-            ),
-            SizedBox(height: 10),
-            buildListImage(newStep.photoUrls ?? []),
-            SizedBox(height: 10),
-            CustomIconButton(
-              icon: Assets.images.svg.icPickPhoto.svg(color: Color(0xFF73777B)),
-              onTap: () async {
-                final photoUrls = await multiImagePick(context);
-                if (photoUrls.isNotEmpty) {
-                  newStep = newStep.copyWith(photoUrls: photoUrls);
-                  setState(() {});
-                }
-              },
-            ),
-            SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                widget.onSaved(newStep);
-                Navigator.of(context).pop();
-              },
-              child: const Text('Save'),
-            ),
-          ],
+              SizedBox(height: 20),
+              InputTextWidget(
+                initValue: widget.step?.content,
+                hintText: 'Content',
+                maxLine: 4,
+                onChanged: (value) {
+                  newStep = newStep.copyWith(content: value);
+                },
+              ),
+              SizedBox(height: 10),
+              buildListImage(newStep.photoUrls ?? []),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: CustomIconButton(
+                  icon: Assets.images.svg.icPickPhoto
+                      .svg(color: Color(0xFF73777B)),
+                  onTap: () async {
+                    final photoUrls = await multiImagePick(context);
+                    if (photoUrls.isNotEmpty) {
+                      newStep = newStep.copyWith(photoUrls: photoUrls);
+                      setState(() {});
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 10),
+              MaterialInkwellButton(
+                  title: "Save",
+                  hasBorder: false,
+                  backgroundColor: AppColors.successNormal,
+                  onTap: () {
+                    widget.onSaved(newStep);
+                    Navigator.of(context).pop();
+                  }),
+            ],
+          ),
         ),
       ),
     );

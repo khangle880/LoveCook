@@ -258,18 +258,20 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
                       paginationController: bloc.paginationHelper!,
                       crossAxisCount: 3,
                       crossAxisSpacing: 3,
-                      mainAxisSpacing: 3,
-                      childAspectRatio: 80 / 130,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 80 / 140,
                       padding: EdgeInsets.all(10),
                     ),
                   );
                 }
-                return Column(
-                  children: [
-                    SizedBox(height: 50),
-                    Assets.images.png.search.image(),
-                    "Nothing".s16w400(),
-                  ],
+                return Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 50),
+                      Assets.images.png.search.image(height: 150, width: 150),
+                      "Nothing".s16w400(),
+                    ],
+                  ),
                 );
               },
             )

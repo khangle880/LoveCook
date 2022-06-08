@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -8,7 +7,9 @@ import '../../../blocs/blocs.dart';
 import '../../../core/base/base.dart';
 import '../../../data/data.dart';
 import '../../../data/enum.dart';
+import '../../../extensions/extensions.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../resources/resources.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/app_dialog/app_dialog.dart';
 import '../../../widgets/widgets.dart';
@@ -50,7 +51,9 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
         return false;
       },
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: "Create recipe".s20w600(),
+        ),
         backgroundColor: Colors.white,
         body: StreamBuilder<AddRecipeState>(
           stream: bloc.stateStream,
@@ -71,170 +74,269 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 5),
-                        Text(
-                          "Overview",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        SizedBox(height: 10),
+                        "Recipe detail".s24w700(),
+                        SizedBox(height: 20),
                         //? Name
+                        "Recipe name".s14w600(color: AppColors.successDarken),
+                        SizedBox(height: 10),
                         InputTextWidget(
                           initValue: state.name,
-                          hintText: 'Recipe name',
+                          hintText: 'Cánh gà chiện giòn',
                           onChanged: (value) {
                             bloc.updateField(name: value);
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 20),
                         //? Description
+                        "Description".s14w600(color: AppColors.successDarken),
+                        SizedBox(height: 10),
                         InputTextWidget(
                           initValue: state.description,
-                          hintText: 'Description',
+                          hintText: 'Cánh được chiên trong vòng 10 phút',
                           maxLine: 4,
                           onChanged: (value) {
                             bloc.updateField(description: value);
                           },
                         ),
+                        SizedBox(height: 20),
+                        "Level".s14w600(color: AppColors.successDarken),
                         SizedBox(height: 10),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: PickLookup<Level>(
+                            value: state.level,
+                            hintText: 'Easy',
+                            items: Level.values,
+                            getText: (item) => item.shortString,
+                            onChanged: (value) {
+                              bloc.updateField(level: value);
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        "Cooking Method"
+                            .s14w600(color: AppColors.successDarken),
+                        SizedBox(height: 10),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: PickLookup<CookMethodModel>(
+                            value: state.cookMethod,
+                            hintText: 'Chiện - xào',
+                            items: lookup.cookMethods!,
+                            getText: (item) => item.names!.join(' - '),
+                            onChanged: (value) {
+                              bloc.updateField(cookMethod: value);
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 25),
                         //? Servings, total time, level
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 100,
-                              child: InputTextWidget(
-                                initValue: state.servings == null
-                                    ? null
-                                    : state.servings.toString(),
-                                hintText: 'Servings',
-                                keyboardType: TextInputType.number,
-                                onChanged: (value) {
-                                  bloc.updateField(
-                                    servings: int.tryParse(value),
-                                  );
-                                },
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 80,
-                                  child: InputTextWidget(
-                                    initValue: state.totalTime == null
-                                        ? null
-                                        : state.totalTime?.round().toString(),
-                                    hintText: 'Time',
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-                                      bloc.updateField(
-                                        totalTime: double.tryParse(value),
-                                      );
-                                    },
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xFFDAEAF1),
+                              borderRadius: BorderRadius.all(Radius.circular(
+                                      10.0) //                 <--- border radius here
+                                  )),
+                          padding: EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Serving"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: InputTextWidget(
+                                      initValue: state.servings == null
+                                          ? null
+                                          : state.servings.toString(),
+                                      hintText: '4',
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (value) {
+                                        bloc.updateField(
+                                          servings: int.tryParse(value),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 10),
-                                Text("Minutes"),
-                              ],
-                            ),
-                            Container(
-                              width: 120,
-                              child: PickLookup<Level>(
-                                value: state.level,
-                                hintText: 'Level',
-                                items: Level.values,
-                                getText: (item) => item.shortString,
-                                onChanged: (value) {
-                                  bloc.updateField(level: value);
-                                },
+                                ],
                               ),
-                            ),
-                          ],
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(height: 30),
+                                  "--".s20w600(),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Times"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: InputTextWidget(
+                                      initValue: state.totalTime == null
+                                          ? null
+                                          : state.totalTime?.round().toString(),
+                                      hintText: 'Minutes',
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (value) {
+                                        bloc.updateField(
+                                          totalTime: double.tryParse(value),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         //? menuTypes, specialGoals
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 180,
-                              child: PickLookup<MenuTypeModel>(
-                                value: state.menuTypes?.first,
-                                hintText: 'Menu types',
-                                items: lookup.menuTypes!,
-                                getText: (item) => item.names!.join(' - '),
-                                onChanged: (value) {
-                                  bloc.updateField(
-                                      menuTypes:
-                                          value == null ? null : [value]);
-                                },
+                        SizedBox(height: 25),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xFFDAEAF1),
+                              borderRadius: BorderRadius.all(Radius.circular(
+                                      10.0) //                 <--- border radius here
+                                  )),
+                          padding: EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Menu Type"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: PickLookup<MenuTypeModel>(
+                                      value: state.menuTypes?.first,
+                                      hintText: 'Món chính',
+                                      items: lookup.menuTypes!,
+                                      getText: (item) =>
+                                          item.names!.join(' - '),
+                                      onChanged: (value) {
+                                        bloc.updateField(
+                                            menuTypes:
+                                                value == null ? null : [value]);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Container(
-                              width: 180,
-                              child: PickLookup<SpecialGoalModel>(
-                                value: state.specialGoals?.first,
-                                hintText: 'Special goals',
-                                items: lookup.goals!,
-                                getText: (item) => item.names!.join(' - '),
-                                onChanged: (value) {
-                                  bloc.updateField(
-                                      specialGoals:
-                                          value == null ? null : [value]);
-                                },
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(height: 30),
+                                  "--".s20w600(),
+                                ],
                               ),
-                            ),
-                          ],
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Special goals"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: PickLookup<SpecialGoalModel>(
+                                      value: state.specialGoals?.first,
+                                      hintText: 'Tăng cân',
+                                      items: lookup.goals!,
+                                      getText: (item) =>
+                                          item.names!.join(' - '),
+                                      onChanged: (value) {
+                                        bloc.updateField(
+                                            specialGoals:
+                                                value == null ? null : [value]);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         //? cuisine, dishType, cookMethod
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 120,
-                              child: PickLookup<CuisineModel>(
-                                value: state.cuisine,
-                                hintText: 'Cuisine',
-                                items: lookup.cuisines!,
-                                getText: (item) => item.names!.join(' - '),
-                                onChanged: (value) {
-                                  bloc.updateField(cuisine: value);
-                                },
+                        SizedBox(height: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xFFDAEAF1),
+                              borderRadius: BorderRadius.all(Radius.circular(
+                                      10.0) //                 <--- border radius here
+                                  )),
+                          padding: EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Cuisine"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: PickLookup<CuisineModel>(
+                                      value: state.cuisine,
+                                      hintText: 'Món Việt',
+                                      items: lookup.cuisines!,
+                                      getText: (item) =>
+                                          item.names!.join(' - '),
+                                      onChanged: (value) {
+                                        bloc.updateField(cuisine: value);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Container(
-                              width: 120,
-                              child: PickLookup<DishTypeModel>(
-                                value: state.dishType,
-                                hintText: 'Dish type',
-                                items: lookup.dishTypes!,
-                                getText: (item) => item.names!.join(' - '),
-                                onChanged: (value) {
-                                  bloc.updateField(dishType: value);
-                                },
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(height: 30),
+                                  "--".s20w600(),
+                                ],
                               ),
-                            ),
-                            Container(
-                              width: 120,
-                              child: PickLookup<CookMethodModel>(
-                                value: state.cookMethod,
-                                hintText: 'Cook method',
-                                items: lookup.cookMethods!,
-                                getText: (item) => item.names!.join(' - '),
-                                onChanged: (value) {
-                                  bloc.updateField(cookMethod: value);
-                                },
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Disk type"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: PickLookup<DishTypeModel>(
+                                      value: state.dishType,
+                                      hintText: 'Lẩu',
+                                      items: lookup.dishTypes!,
+                                      getText: (item) =>
+                                          item.names!.join(' - '),
+                                      onChanged: (value) {
+                                        bloc.updateField(dishType: value);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         //? Ingredients
                         SizedBox(height: 20),
-                        Text(
-                          "Ingredients",
-                          style: TextStyle(fontSize: 15),
-                        ),
+                        "Ingredients".s14w600(color: AppColors.successDarken),
                         SizedBox(height: 10),
                         IngredientSection(
                           ingredients: state.ingredients ?? [],
@@ -243,10 +345,7 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         ),
                         SizedBox(height: 10),
                         //? Cook steps
-                        Text(
-                          "Cook steps",
-                          style: TextStyle(fontSize: 15),
-                        ),
+                        "Cook steps".s14w600(color: AppColors.successDarken),
                         SizedBox(height: 10),
                         CookStepSection(
                           bloc: bloc,
@@ -262,22 +361,25 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomIconButton(
-                              icon: Assets.images.svg.icPickPhoto
-                                  .svg(color: Color(0xFF73777B)),
-                              onTap: () async {
+                            OutlineButton(
+                              onPressed: () async {
                                 final photoUrls = await multiImagePick(context);
                                 if (photoUrls.isNotEmpty) {
                                   bloc.updateField(photoUrls: photoUrls);
                                 }
                               },
+                              color: Color(0xFFDAEAF1),
+                              height: 100,
+                              width: 100,
+                              contentBuilder: (color) => Assets
+                                  .images.svg.icPickPhoto
+                                  .svg(color: Color(0xFF73777B), height: 40),
                             ),
-                            SizedBox(width: 5),
-                            CustomIconButton(
-                              icon: Assets.images.svg.video
-                                  .svg(color: Color(0xFF73777B)),
-                              onTap: () async {
-                                final videoUrl = await singleVideoPick(context);
+                            SizedBox(width: 10),
+                            OutlineButton(
+                              onPressed: () async {
+                                final String? videoUrl =
+                                    await singleVideoPick(context);
                                 showDialog(
                                   context: context,
                                   builder: (context) => AppConfirmationDialog(
@@ -297,30 +399,97 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                                   ),
                                 );
                               },
-                            )
+                              color: Color(0xFFDAEAF1),
+                              height: 100,
+                              width: 100,
+                              contentBuilder: (color) => Assets.images.svg.video
+                                  .svg(color: Color(0xFF73777B), height: 40),
+                            ),
                           ],
                         ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     CustomIconButton(
+                        //       icon: Assets.images.svg.icPickPhoto
+                        //           .svg(color: Color(0xFF73777B)),
+                        //       onTap: () async {
+                        //         final photoUrls = await multiImagePick(context);
+                        //         if (photoUrls.isNotEmpty) {
+                        //           bloc.updateField(photoUrls: photoUrls);
+                        //         }
+                        //       },
+                        //     ),
+                        //     SizedBox(width: 5),
+                        //     CustomIconButton(
+                        //       icon: Assets.images.svg.video
+                        //           .svg(color: Color(0xFF73777B)),
+                        //       onTap: () async {
+                        //         final String? videoUrl =
+                        //             await singleVideoPick(context);
+                        //         showDialog(
+                        //           context: context,
+                        //           builder: (context) => AppConfirmationDialog(
+                        //             content: "Please choose thumnail for video",
+                        //             onConfirmClicked: () async {
+                        //               final thumnail =
+                        //                   await singleImagePick(context);
+                        //               bloc.updateField(
+                        //                 videoUrl: videoUrl,
+                        //                 videoThumbnail: thumnail,
+                        //               );
+                        //               Navigator.pop(context);
+                        //             },
+                        //             onCancelClicked: () {
+                        //               Navigator.pop(context);
+                        //             },
+                        //           ),
+                        //         );
+                        //       },
+                        //     )
+                        //   ],
+                        // ),
                         //? Submit
                         const SizedBox(height: 10),
-                        TextButton(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              var value = await bloc.saveRecipe();
-                              await Future.delayed(
-                                  Duration(milliseconds: 1000));
-                              Navigator.pop(context, value);
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AppInformationDialog(
-                                    content:
-                                        "You need fullfill form before save!"),
-                              );
-                            }
-                          },
-                          child: const Text('Submit'),
-                        ),
+                        MaterialInkwellButton(
+                            title: 'Submit',
+                            hasBorder: false,
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                var value = await bloc.saveRecipe();
+                                await Future.delayed(
+                                    Duration(milliseconds: 1000));
+                                Navigator.pop(context, value);
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => AppInformationDialog(
+                                      content:
+                                          "You need fullfill form before save!"),
+                                );
+                              }
+                            }),
+                        const SizedBox(height: 30),
+                        // TextButton(
+                        //   onPressed: () async {
+                        //     if (_formKey.currentState!.validate()) {
+                        //       _formKey.currentState!.save();
+                        //       var value = await bloc.saveRecipe();
+                        //       await Future.delayed(
+                        //           Duration(milliseconds: 1000));
+                        //       Navigator.pop(context, value);
+                        //     } else {
+                        //       showDialog(
+                        //         context: context,
+                        //         builder: (_) => AppInformationDialog(
+                        //             content:
+                        //                 "You need fullfill form before save!"),
+                        //       );
+                        //     }
+                        //   },
+                        //   child: const Text('Submit'),
+                        // ),
                       ],
                     ),
                   ),
