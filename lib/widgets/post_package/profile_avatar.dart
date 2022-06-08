@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import '../../resources/colors.dart';
 import '../../utils/app_config.dart';
 

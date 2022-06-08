@@ -10,3 +10,4 @@ export 'profile/profile.dart';
 export 'recipe/recipe.dart';
 export 'recipe_detail/recipe_detail.dart';
 export 'splash/splash.dart';
+export 'feed_comment/feed_comment.dart';

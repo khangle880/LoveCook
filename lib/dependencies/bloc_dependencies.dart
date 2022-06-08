@@ -8,8 +8,8 @@ class BlocDependencies {
     injector.registerLazySingleton(() => AppBloc());
     injector.registerFactory<SplashBloc>(
         () => SplashBloc(injector(), injector(), injector()));
-    injector.registerFactory<LoginBloc>(
-        () => LoginBloc(injector(), injector(), injector()));
+    injector
+        .registerFactory<LoginBloc>(() => LoginBloc(injector(), injector()));
     injector.registerFactory<TestApiBloc>(() => TestApiBloc(
           injector(),
           injector(),
@@ -25,7 +25,6 @@ class BlocDependencies {
         () => ProfileBloc(injector(), injector()));
     injector
         .registerFactory<RecipeBloc>(() => RecipeBloc(injector(), injector()));
-    injector.registerFactory<FeedBloc>(() => FeedBloc(injector()));
     injector.registerFactory<RecipeDetailBloc>(
         () => RecipeDetailBloc(injector(), injector()));
     injector.registerFactory<AddRecipeBloc>(
@@ -33,5 +32,8 @@ class BlocDependencies {
     injector.registerFactory<ProductBloc>(() => ProductBloc(injector()));
     injector.registerFactory<AddProductBloc>(
         () => AddProductBloc(injector(), injector()));
+    injector.registerFactory<FeedBloc>(() => FeedBloc(injector(), injector()));
+    injector
+        .registerFactory<FeedCommentBloc>(() => FeedCommentBloc(injector()));
   }
 }

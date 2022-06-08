@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../../data/data.dart';
 import '../../../../extensions/extensions.dart';
 import '../../../../widgets/widgets.dart';
 
 class FeedSliverAppBar extends StatelessWidget {
-  final String? avtarUrl;
-  final String? userName;
+  final User? userInfor;
+  final Function(String, List<String>, List<String>)? onPostCall;
 
-  FeedSliverAppBar(this.avtarUrl, this.userName);
+  FeedSliverAppBar({this.userInfor, this.onPostCall});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +17,12 @@ class FeedSliverAppBar extends StatelessWidget {
       leading: Padding(
         padding: const EdgeInsets.only(left: 8.0, top: 7.0),
         child: ProfileAvatar(
-            imageUrl:
-                avtarUrl!.isEmpty ? "https://i.pravatar.cc/300" : avtarUrl!),
+            imageUrl: userInfor!.avatarUrl!.isEmpty
+                ? "https://i.pravatar.cc/300"
+                : userInfor!.avatarUrl!),
       ),
-      title: userName != null
-          ? userName!.s20w700(color: Color(0xFF646FD4))
+      title: userInfor?.name != null
+          ? userInfor!.name!.s20w700(color: Color(0xFF646FD4))
           : Text(''),
       centerTitle: false,
       floating: true,
@@ -28,7 +30,13 @@ class FeedSliverAppBar extends StatelessWidget {
         CircleButton(
           icon: Icons.add,
           iconSize: 30.0,
-          onPressed: () => print('Search'),
+          onPressed: () {
+            ShowCustomBottomSheet.addPost(
+              context,
+              userInfor,
+              onPostCall,
+            );
+          },
         ),
         CircleButton(
           icon: Icons.search,

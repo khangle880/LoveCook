@@ -2,9 +2,14 @@
 /// *****************************************************
 ///  FlutterGen
 /// *****************************************************
-import 'package:flutter/services.dart';
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// ignore_for_file: directives_ordering,unnecessary_import
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
 
 class $AssetsCfgGen {
   const $AssetsCfgGen();
@@ -141,6 +146,9 @@ class $AssetsImagesPngGen {
 
   /// File path: assets/images/png/mad.png
   AssetGenImage get mad => const AssetGenImage('assets/images/png/mad.png');
+
+  /// File path: assets/images/png/play.png
+  AssetGenImage get play => const AssetGenImage('assets/images/png/play.png');
 
   /// File path: assets/images/png/sad.png
   AssetGenImage get sad => const AssetGenImage('assets/images/png/sad.png');
@@ -396,6 +404,9 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/status_normal.svg
   SvgGenImage get statusNormal =>
       const SvgGenImage('assets/images/svg/status_normal.svg');
+
+  /// File path: assets/images/svg/video.svg
+  SvgGenImage get video => const SvgGenImage('assets/images/svg/video.svg');
 
   /// File path: assets/images/svg/view.svg
   SvgGenImage get view => const SvgGenImage('assets/images/svg/view.svg');

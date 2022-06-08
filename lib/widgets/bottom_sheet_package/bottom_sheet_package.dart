@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+
+import '../../data/data.dart';
+import 'bottom_add_post.dart';
 import 'bottom_change_language.dart';
+import 'bottom_change_name.dart';
 import 'bottom_change_phone.dart';
 
-import 'bottom_change_name.dart';
-
 class ShowCustomBottomSheet {
+  static void addPost(BuildContext context, User? userInfor,
+      final Function(String, List<String>, List<String>)? onPostCall) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (builder) {
+          return BottomAddPost(
+            userInfor: userInfor,
+            onPostCall: onPostCall,
+          );
+        });
+  }
+
   static void changeName(BuildContext context, Function(String)? changeName) {
     showModalBottomSheet(
         context: context,

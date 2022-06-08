@@ -7,8 +7,8 @@ class LoginModel extends BaseResponse {
     this.tokens,
   });
 
-  User? user;
-  Tokens? tokens;
+  final User? user;
+  final Tokens? tokens;
 
   @override
   T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {

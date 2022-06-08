@@ -6,9 +6,12 @@ import '../../../core/base/base_response.dart';
 import '../../../core/base/base_state.dart';
 import '../../../data/data.dart';
 import '../../../extensions/extensions.dart';
+import '../../../router/route_arguments.dart';
+import '../../../router/router.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
 import '../../../widgets/pagination_widget/pagination_sliver_listview.dart';
 import '../../../widgets/post_package/post_package.dart';
+import '../../pages.dart';
 import 'widgets/feed_sliver_app_bar.dart';
 
 class FeedPage extends StatefulWidget {
@@ -45,6 +48,10 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
       bloc.postPagination?.run();
     });
 
+    bloc.postPagination?.addListener(() {
+      setState(() {});
+    });
+
     return bloc.postPagination?.run();
   }
 
@@ -63,12 +70,23 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
       edgeOffset: 80,
       child: CustomScrollView(
         slivers: <Widget>[
-          FeedSliverAppBar(user?.avatarUrl, user?.name),
+          FeedSliverAppBar(
+            userInfor: user,
+            onPostCall: (content, listImagePath, listVideoPath) {
+              bloc.createPost(content, listImagePath, listVideoPath);
+            },
+          ),
           PaginationSliverListView(
             paginationController: bloc.postPagination!,
             itemBuilder: (BuildContext context, int index) {
               return PostContainer(
                 post: bloc.postPagination!.items[index],
+                onCommentPress: () {
+                  if (bloc.postPagination?.items[index] != null)
+                    Navigator.pushNamed(context, Routes.feedComment,
+                        arguments: RouteArguments(
+                            data: bloc.postPagination!.items[index]));
+                },
               );
             },
             separatorBuilder: (context, index) {

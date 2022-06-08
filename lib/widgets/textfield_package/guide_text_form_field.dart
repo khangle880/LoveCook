@@ -93,15 +93,15 @@ class _GuideTextFormFieldState extends State<GuideTextFormField> {
   Widget build(BuildContext context) {
     final defaultBorder = UnderlineInputBorder(
         borderSide: BorderSide(color: AppColors.whiteLight));
-    final OutlineInputBorder border = widget.enableBorder ??
-        OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100),
-          borderSide: BorderSide(
-            color: _validate?.isValid ?? true
-                ? AppColors.grayNormal
-                : AppColors.errorNormal,
-          ),
-        );
+    // final OutlineInputBorder border = widget.enableBorder ??
+    //     OutlineInputBorder(
+    //       borderRadius: BorderRadius.circular(100),
+    //       borderSide: BorderSide(
+    //         color: _validate?.isValid ?? true
+    //             ? AppColors.grayNormal
+    //             : AppColors.errorNormal,
+    //       ),
+    //     );
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

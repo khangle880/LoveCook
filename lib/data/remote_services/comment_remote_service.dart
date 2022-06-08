@@ -14,8 +14,8 @@ class CommentRemoteService implements ICommentRemoteService {
   @override
   Future<SingleResponse<CommentModel>> createComment(
       {required Map<String, dynamic> data}) async {
-    final response = await _networkUtility.request('v1/comments/', Method.POST,
-        data: data);
+    final response =
+        await _networkUtility.request('v1/comments/', Method.POST, data: data);
 
     return SingleResponse<CommentModel>.fromJson(response);
   }

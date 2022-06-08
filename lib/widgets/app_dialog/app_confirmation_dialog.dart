@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../../extensions/extensions.dart';
 import '../../../resources/resources.dart';
-import '../../../generated/l10n.dart';
 import '../widgets.dart';
-import 'app_dialog_base.dart';
 
 /// Example
 ///

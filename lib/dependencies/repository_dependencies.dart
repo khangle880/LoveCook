@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:lovecook/data/repositories/upload_repository.dart';
 
 import '../data/data.dart';
 
@@ -47,5 +48,7 @@ class RepositoryDependencies {
         ));
     injector.registerFactory<IChatRepository>(() =>
         ChatRepository(networkInfo: injector(), remoteService: injector()));
+    injector
+        .registerFactory<IUploadRepository>(() => UploadRepository(injector()));
   }
 }
