@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../extensions/extensions.dart';
 import '../../gen/assets.gen.dart';
 import '../../resources/resources.dart';
-import '../../extensions/extensions.dart';
 
 class SearchTextField extends StatefulWidget {
   const SearchTextField({Key? key, this.controller, this.onSubmitted})

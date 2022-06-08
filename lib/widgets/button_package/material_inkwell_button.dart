@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../../resources/resources.dart';
 import '../../resources/colors.dart';
+import '../../resources/resources.dart';
 
 class MaterialInkwellButton extends StatelessWidget {
   final String title;

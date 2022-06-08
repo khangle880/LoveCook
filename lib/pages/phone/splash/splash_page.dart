@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:lovecook/extensions/extensions.dart';
+import '../../../extensions/extensions.dart';
 
 import '../../../blocs/blocs.dart';
 import '../../../core/core.dart';

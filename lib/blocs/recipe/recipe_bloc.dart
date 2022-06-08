@@ -1,4 +1,4 @@
-import 'package:lovecook/extensions/extensions.dart';
+import '../../extensions/extensions.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../core/base/base_response.dart';

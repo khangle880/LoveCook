@@ -1,9 +1,11 @@
+export 'add_product/add_product.dart';
 export 'add_recipe/add_recipe.dart';
 export 'app/app.dart';
 export 'chat/chat.dart';
 export 'feed/feed.dart';
 export 'home/home.dart';
 export 'login/login.dart';
+export 'product/product.dart';
 export 'profile/profile.dart';
 export 'recipe/recipe.dart';
 export 'recipe_detail/recipe_detail.dart';

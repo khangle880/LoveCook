@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:lovecook/data/data.dart';
+import '../../data/data.dart';
 
 class RecipeDetailState extends Equatable {
   final bool? success;

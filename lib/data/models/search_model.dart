@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import '../../core/base/base_response.dart';
 
+import '../../core/base/base_response.dart';
 import 'models.dart';
 
 class SearchModel extends BaseResponse {

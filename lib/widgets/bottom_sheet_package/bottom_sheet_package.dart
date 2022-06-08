@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/widgets/bottom_sheet_package/bottom_change_language.dart';
-import 'package:lovecook/widgets/bottom_sheet_package/bottom_change_phone.dart';
+import 'bottom_change_language.dart';
+import 'bottom_change_phone.dart';
 
 import 'bottom_change_name.dart';
 

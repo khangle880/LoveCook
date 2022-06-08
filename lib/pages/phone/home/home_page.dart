@@ -11,10 +11,17 @@ class HomePage extends StatefulWidget {
   final ChatBloc chatBloc;
   final ProfileBloc profileBloc;
   final RecipeBloc recipeBloc;
+  final ProductBloc productBloc;
   final SharedPreferences sharedPreferences;
 
-  const HomePage(this.feedBloc,this.chatBloc, this.profileBloc, this.recipeBloc, this.sharedPreferences);
-
+  const HomePage(
+    this.feedBloc,
+    this.chatBloc,
+    this.profileBloc,
+    this.recipeBloc,
+    this.sharedPreferences,
+    this.productBloc,
+  );
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -32,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       FeedPage(widget.feedBloc, widget.sharedPreferences),
       RecipePage(widget.recipeBloc),
       ChatPage(widget.chatBloc),
-      Scaffold(),
+      ProductPage(widget.productBloc),
       ProfilePage(widget.profileBloc, widget.sharedPreferences),
     ];
     _icons = const [

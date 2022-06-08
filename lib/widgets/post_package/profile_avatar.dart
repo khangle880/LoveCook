@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:lovecook/resources/colors.dart';
-import 'package:lovecook/utils/app_config.dart';
+import '../../resources/colors.dart';
+import '../../utils/app_config.dart';
 
 class ProfileAvatar extends StatelessWidget {
   final String? imageUrl;

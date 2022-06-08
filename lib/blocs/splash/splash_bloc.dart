@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:lovecook/extensions/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/core.dart';
 import '../../data/data.dart';
+import '../../extensions/extensions.dart';
 import 'splash_state.dart';
 
 class SplashBloc extends BaseBloc<SplashState> {

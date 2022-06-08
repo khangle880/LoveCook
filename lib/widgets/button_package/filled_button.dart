@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../enums.dart';
-import '../../resources/resources.dart';
 import '../../extensions/extensions.dart';
+import '../../resources/resources.dart';
 
 /// Expand full width
 /// You can't change width if [expand] set to true

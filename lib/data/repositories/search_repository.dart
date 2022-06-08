@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import '../../core/base/base_response.dart';
-import '../enum.dart';
 
+import '../../core/base/base_response.dart';
 import '../../core/core.dart';
 import '../data.dart';
+import '../enum.dart';
 
 class SearchRepository extends ISearchRepository {
   final INetworkInfo networkInfo;

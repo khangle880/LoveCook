@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:lovecook/resources/colors.dart';
+import '../../resources/colors.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'package:lovecook/resources/colors.dart';
-import 'package:lovecook/widgets/widgets.dart';
+import '../../resources/colors.dart';
+import '../widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../data/data.dart';

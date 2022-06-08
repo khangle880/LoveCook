@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
-import 'package:lovecook/extensions/extensions.dart';
-import 'package:lovecook/utils/app_config.dart';
+import '../../../extensions/extensions.dart';
+import '../../../utils/app_config.dart';
 import '../../../blocs/blocs.dart';
 import '../../../core/base/base_response.dart';
 import '../../../data/data.dart';

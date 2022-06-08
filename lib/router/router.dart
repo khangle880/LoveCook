@@ -9,6 +9,7 @@ class Routes {
   static String get testApi => '/testApi';
   static String get recipeDetail => '/recipeDetail';
   static String get addRecipe => '/addRecipe';
+  static String get addProduct => '/addProduct';
 
   static getRoute(RouteSettings settings) {
     Widget widget;

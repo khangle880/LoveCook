@@ -5,7 +5,7 @@ import '../../../../blocs/blocs.dart';
 import '../../../../data/data.dart';
 import '../../../../extensions/extensions.dart';
 import '../../../../gen/assets.gen.dart';
-import 'widgets.dart';
+import '../../../../widgets/form_pack/form_pack.dart';
 
 class IngredientSection extends StatelessWidget {
   const IngredientSection(

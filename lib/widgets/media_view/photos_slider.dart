@@ -1,10 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:lovecook/utils/utils.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../resources/colors.dart';
+import '../../utils/utils.dart';
 
 class PhotosSlider extends StatelessWidget {
   final List<String> photoUrls;

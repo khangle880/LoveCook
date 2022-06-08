@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'package:lovecook/gen/assets.gen.dart';
+import '../../gen/assets.gen.dart';
 
 Container _buildTitle(String title) {
   return Container(

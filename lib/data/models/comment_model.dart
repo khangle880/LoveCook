@@ -1,5 +1,4 @@
 import '../../core/base/base_response.dart';
-
 import 'models.dart';
 
 class CommentModel extends BaseResponse {

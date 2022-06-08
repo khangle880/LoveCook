@@ -1,5 +1,5 @@
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/data/data.dart';
+import '../../core/base/base_response.dart';
+import '../../data/data.dart';
 
 import '../../core/core.dart';
 import '../../widgets/pagination_widget/pagination_helper.dart';

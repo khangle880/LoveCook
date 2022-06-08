@@ -8,7 +8,6 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../resources/colors.dart';
 import '../../../../utils/app_config.dart';
 import '../../../../widgets/widgets.dart';
-import 'widgets.dart';
 
 class CookStepSection extends StatelessWidget {
   const CookStepSection(
@@ -180,6 +179,7 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
                 newStep = newStep.copyWith(content: value);
               },
             ),
+            // TODO: add photos
             SizedBox(height: 10),
             TextButton(
               onPressed: () {

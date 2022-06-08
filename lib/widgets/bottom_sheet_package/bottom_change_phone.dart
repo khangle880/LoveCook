@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lovecook/widgets/widgets.dart';
+import '../widgets.dart';
 import '../../extensions/text_style.dart';
 
 class BottomChangePhone extends StatefulWidget {

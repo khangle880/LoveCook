@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../resources/resources.dart';
 
 abstract class AppDialog extends StatelessWidget {
