@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import '../../../../blocs/blocs.dart';
 import '../../../../data/data.dart';
@@ -7,6 +11,7 @@ import '../../../../extensions/extensions.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../resources/colors.dart';
 import '../../../../utils/app_config.dart';
+import '../../../../utils/utils.dart';
 import '../../../../widgets/widgets.dart';
 
 class CookStepSection extends StatelessWidget {
@@ -49,21 +54,35 @@ class CookStepSection extends StatelessWidget {
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  ...(e.photoUrls ?? []).map((e) =>
-                                      CachedNetworkImage(
-                                        imageUrl:
-                                            AppConfig.instance.formatLink(e),
-                                        placeholder: (context, url) => Center(
-                                          child: SizedBox(
-                                            height: 50,
+                                  ...(e.photoUrls ?? []).map((e) {
+                                    if (e.contains('/storage')) {
+                                      return Builder(
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            padding: EdgeInsets.only(right: 5),
                                             width: 50,
-                                            child: CircularProgressIndicator(),
-                                          ),
+                                            height: 50,
+                                            child: Image.file(File(e),
+                                                fit: BoxFit.cover),
+                                          );
+                                        },
+                                      );
+                                    }
+                                    return CachedNetworkImage(
+                                      imageUrl:
+                                          AppConfig.instance.formatLink(e),
+                                      placeholder: (context, url) => Center(
+                                        child: SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: CircularProgressIndicator(),
                                         ),
-                                        errorWidget: (context, url, error) =>
-                                            errorWidget,
-                                        fit: BoxFit.cover,
-                                      )),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          errorWidget,
+                                      fit: BoxFit.cover,
+                                    );
+                                  }),
                                 ],
                               ),
                             ),
@@ -179,7 +198,19 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
                 newStep = newStep.copyWith(content: value);
               },
             ),
-            // TODO: add photos
+            SizedBox(height: 10),
+            buildListImage(newStep.photoUrls ?? []),
+            SizedBox(height: 10),
+            CustomIconButton(
+              icon: Assets.images.svg.icPickPhoto.svg(color: Color(0xFF73777B)),
+              onTap: () async {
+                final photoUrls = await multiImagePick(context);
+                if (photoUrls.isNotEmpty) {
+                  newStep = newStep.copyWith(photoUrls: photoUrls);
+                  setState(() {});
+                }
+              },
+            ),
             SizedBox(height: 10),
             TextButton(
               onPressed: () {
@@ -191,6 +222,24 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildListImage(List<String> filePaths) {
+    if (filePaths.isEmpty) return SizedBox.shrink();
+    return CarouselSlider(
+      options: CarouselOptions(height: 300.0),
+      items: filePaths.map((imageData) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(color: Colors.transparent),
+                child: Image.file(File(imageData), fit: BoxFit.cover));
+          },
+        );
+      }).toList(),
     );
   }
 }

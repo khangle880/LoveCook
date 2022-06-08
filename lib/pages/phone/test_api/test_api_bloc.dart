@@ -34,7 +34,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
       if (value.success) {
         log(value.items.toString());
       } else {
-        log(value.error?.error ?? '');
+        log(value.error?.errorMessage ?? '');
       }
     }, onError: (e) {
       log(e.toString());
@@ -56,7 +56,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
       if (value.success) {
         log(value.items.toString());
       } else {
-        log(value.error?.error ?? '');
+        log(value.error?.errorMessage ?? '');
       }
     }, onError: (e) {
       log(e.toString());
@@ -78,7 +78,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
       if (value.success) {
         log(value.items.toString());
       } else {
-        log(value.error?.error ?? '');
+        log(value.error?.errorMessage ?? '');
       }
     }, onError: (e) {
       log(e.toString());
@@ -101,7 +101,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
       if (value.success) {
         log(value.items.toString());
       } else {
-        log(value.error?.error ?? '');
+        log(value.error?.errorMessage ?? '');
       }
     }, onError: (e) {
       log(e.toString());
@@ -124,7 +124,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
       if (value.success) {
         log(value.items.toString());
       } else {
-        log(value.error?.error ?? '');
+        log(value.error?.errorMessage ?? '');
       }
     }, onError: (e) {
       log(e.toString());
@@ -146,7 +146,7 @@ class TestApiBloc extends BaseBloc<LoginState> {
       if (value.success) {
         log(value.item.toString());
       } else {
-        log(value.error?.error ?? '');
+        log(value.error?.errorMessage ?? '');
       }
     }, onError: (e) {
       log(e.toString());
