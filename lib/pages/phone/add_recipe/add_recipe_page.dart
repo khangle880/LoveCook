@@ -1,9 +1,15 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../blocs/blocs.dart';
 import '../../../core/base/base.dart';
 import '../../../data/data.dart';
 import '../../../data/enum.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/app_dialog/app_dialog.dart';
 import '../../../widgets/widgets.dart';
 import 'widgets/widgets.dart';
@@ -249,7 +255,53 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         ),
                         SizedBox(height: 10),
                         const SizedBox(height: 10),
+                        buildVideo(state.videoUrl),
+                        const SizedBox(height: 10),
+                        buildListImage(state.photoUrls ?? []),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomIconButton(
+                              icon: Assets.images.svg.icPickPhoto
+                                  .svg(color: Color(0xFF73777B)),
+                              onTap: () async {
+                                final photoUrls = await multiImagePick(context);
+                                if (photoUrls.isNotEmpty) {
+                                  bloc.updateField(photoUrls: photoUrls);
+                                }
+                              },
+                            ),
+                            SizedBox(width: 5),
+                            CustomIconButton(
+                              icon: Assets.images.svg.video
+                                  .svg(color: Color(0xFF73777B)),
+                              onTap: () async {
+                                final videoUrl = await singleVideoPick(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AppConfirmationDialog(
+                                    content: "Please choose thumnail for video",
+                                    onConfirmClicked: () async {
+                                      final thumnail =
+                                          await singleImagePick(context);
+                                      bloc.updateField(
+                                        videoUrl: videoUrl,
+                                        videoThumbnail: thumnail,
+                                      );
+                                      Navigator.pop(context);
+                                    },
+                                    onCancelClicked: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                );
+                              },
+                            )
+                          ],
+                        ),
                         //? Submit
+                        const SizedBox(height: 10),
                         TextButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
@@ -278,6 +330,38 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
           },
         ),
       ),
+    );
+  }
+
+  Widget buildListImage(List<String> filePaths) {
+    if (filePaths.isEmpty) return SizedBox.shrink();
+    return CarouselSlider(
+      options: CarouselOptions(height: 300.0),
+      items: filePaths.map((imageData) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(color: Colors.transparent),
+                child: Image.file(File(imageData), fit: BoxFit.cover));
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  Widget buildVideo(String? videoPath) {
+    if (videoPath == null) return SizedBox.shrink();
+    return Builder(
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height / 2,
+          child: VideoWidget(
+            file: videoPath,
+          ),
+        );
+      },
     );
   }
 }

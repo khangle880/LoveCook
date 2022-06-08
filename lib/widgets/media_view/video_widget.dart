@@ -2,17 +2,23 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import '../../resources/colors.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
-  const VideoWidget({Key? key, this.file, this.path})
-      : assert((file != null) ^ (path != null),
+  const VideoWidget({
+    Key? key,
+    this.file,
+    this.path,
+    this.backgroundColor,
+    this.allowFullScreen = false,
+  })  : assert((file != null) ^ (path != null),
             "you should only enter file or path"),
         super(key: key);
 
   final String? file;
   final String? path;
+  final Color? backgroundColor;
+  final bool allowFullScreen;
 
   @override
   VideoWidgetState createState() => VideoWidgetState();
@@ -27,13 +33,6 @@ class VideoWidgetState extends State<VideoWidget> {
   void initState() {
     super.initState();
     initVideoController();
-
-    chewieController = ChewieController(
-        videoPlayerController: videoPlayerController,
-        showOptions: false,
-        allowFullScreen: false,
-        allowPlaybackSpeedChanging: false,
-        allowMuting: false);
   }
 
   void initVideoController() async {
@@ -47,6 +46,23 @@ class VideoWidgetState extends State<VideoWidget> {
       _isLoaded = true;
       setState(() {});
     });
+    chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      showOptions: false,
+      allowFullScreen: widget.allowFullScreen,
+      allowPlaybackSpeedChanging: false,
+      allowMuting: false,
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant VideoWidget oldWidget) {
+    if (oldWidget.file != widget.file || oldWidget.path != widget.path) {
+      _isLoaded = false;
+      setState(() {});
+      initVideoController();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -61,7 +77,7 @@ class VideoWidgetState extends State<VideoWidget> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Container(
-          color: AppColors.blurDark,
+          color: widget.backgroundColor ?? Colors.white,
           height:
               videoPlayerController.value.aspectRatio * constraints.maxWidth,
           child: Center(

@@ -22,10 +22,12 @@ class LoginBloc extends BaseBloc<LoginState> {
     if (email.length == 0 || password.length == 0) {
       return;
     }
+    emitWaiting(true);
 
     final responseEither = await _loginRepository
         .login(params: {"email": email, "password": password});
 
+    emitWaiting(false);
     responseEither.fold((failure) {}, (data) {
       if (data.item?.tokens?.access?.token != null &&
           data.item!.tokens!.access!.token!.isNotEmpty) {

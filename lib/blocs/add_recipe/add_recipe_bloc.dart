@@ -8,7 +8,9 @@ import 'add_recipe_state.dart';
 class AddRecipeBloc extends BaseBloc<AddRecipeState> {
   final IRecipeRepository _recipeRepository;
   final ILookupRepository _lookupRepository;
-  AddRecipeBloc(this._recipeRepository, this._lookupRepository);
+  final IUploadRepository _uploadRepository;
+  AddRecipeBloc(
+      this._recipeRepository, this._lookupRepository, this._uploadRepository);
 
   Stream<bool?> get successStream =>
       stateStream.map((event) => event.success).distinct();
@@ -81,20 +83,32 @@ class AddRecipeBloc extends BaseBloc<AddRecipeState> {
     ));
   }
 
+  Future<String> uploadVideo(String filePath) async {
+    final imageResponseEither =
+        await _uploadRepository.uploadVideoData(filePath: filePath);
+    return imageResponseEither.fold((failure) {
+      return Future.error(failure);
+    }, (data) {
+      return data.item?.urls?[0] ?? '';
+    });
+  }
+
+  Future<String> uploadImage(String filePath) async {
+    final imageResponseEither =
+        await _uploadRepository.uploadFileData(filePath: filePath);
+    return imageResponseEither.fold((failure) {
+      return Future.error(failure);
+    }, (data) {
+      return data.item?.urls?[0] ?? '';
+    });
+  }
+
   Future<RecipeModel> saveRecipe() async {
     emitWaiting(true);
-    final map = {
+    var map = {
       'description': state?.description,
       'name': state?.name,
-      // TODO: this is spam
-      'photoUrls': List.from(["/v1/photos/629ad0dc20ca36e40e94f1e6"]),
       'servings': state?.servings,
-      'steps': state?.steps
-          ?.map((e) => {
-                'content': e.content,
-                // TODO: add photo
-              })
-          .toList(),
       'totalTime': state?.totalTime,
       'level': state?.level?.shortString,
       'videoUrl': state?.videoUrl,
@@ -113,6 +127,37 @@ class AddRecipeBloc extends BaseBloc<AddRecipeState> {
       'dishTypeId': state?.dishType?.id,
       'cookMethodId': state?.cookMethod?.id,
     };
+    if (state?.photoUrls != null) {
+      map['photoUrls'] = await Future.wait(state!.photoUrls!.map((e) async {
+        if (e.contains('/storage')) {
+          return await uploadImage(e);
+        }
+        return e;
+      }));
+    }
+    if (state?.videoUrl != null) {
+      map['videoUrl'] = state!.videoUrl!.contains('/storage')
+          ? await uploadVideo(state!.videoUrl!)
+          : state!.videoUrl;
+      map['videoThumbnail'] = state!.videoThumbnail!.contains('/storage')
+          ? await uploadImage(state!.videoThumbnail!)
+          : state!.videoThumbnail;
+    }
+    final List<Map<String, dynamic>> steps = [];
+    if ((state?.steps ?? []).isNotEmpty) {
+      await Future.forEach<CookStepModel>(state!.steps!, (step) async {
+        if ((step.photoUrls ?? []).isNotEmpty) {
+          final photoUrls = await Future.wait(step.photoUrls!.map((e) async {
+            if (e.contains('/storage')) {
+              return await uploadImage(e);
+            }
+            return e;
+          }));
+          steps.add({'content': step.content, 'photoUrls': photoUrls});
+        }
+      });
+    }
+    map['steps'] = steps;
 
     map.removeWhere((key, value) => value == null);
     Either response;
@@ -123,11 +168,10 @@ class AddRecipeBloc extends BaseBloc<AddRecipeState> {
       response = await _recipeRepository.createRecipe(data: map);
     }
 
+    emitWaiting(false);
     return response.fold((failure) {
-      emitWaiting(false);
       return Future.error(failure);
     }, (data) {
-      emitWaiting(false);
       return data.item;
     });
   }

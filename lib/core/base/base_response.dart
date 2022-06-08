@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
@@ -21,7 +19,7 @@ abstract class BaseResponse extends Equatable {
 }
 
 class SingleResponse<T extends BaseResponse> extends BaseResponse {
-  late T? item;
+  T? item;
 
   SingleResponse(this.item) : super();
 
@@ -48,7 +46,7 @@ class SingleResponse<T extends BaseResponse> extends BaseResponse {
 }
 
 class ListResponse<T extends BaseResponse> extends BaseResponse {
-  late List<T> items;
+  List<T>? items;
 
   ListResponse(this.items) : super();
 
@@ -125,13 +123,11 @@ class Pagination {
 }
 
 class ErrorResponse {
-  String error;
   String errorMessage;
   String data;
   List<ErrorMessageResponse> errorMessageList;
 
   ErrorResponse({
-    required this.error,
     required this.errorMessageList,
     required this.errorMessage,
     required this.data,
@@ -156,7 +152,6 @@ class ErrorResponse {
       errorMessage = json["message"];
     }
     return ErrorResponse(
-      error: json['error'],
       errorMessageList: errorList,
       errorMessage: errorMessage,
       data: data,

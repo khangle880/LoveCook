@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -194,8 +193,12 @@ class MediaView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (item.videoUrl != null) {
       return Container(
-        width: MediaQuery.of(context).size.width,
-        child: VideoWidget(path: AppConfig.instance.formatLink(item.videoUrl!)),
+        height: MediaQuery.of(context).size.height / 2,
+        child: VideoWidget(
+          path: AppConfig.instance.formatLink(item.videoUrl!),
+          backgroundColor: AppColors.blurDark,
+          allowFullScreen: true,
+        ),
       );
     }
     return PhotosSlider(
@@ -285,7 +288,8 @@ class CookSteps extends StatelessWidget {
                           ...(e.photoUrls ?? []).map((e) => CachedNetworkImage(
                                 imageUrl: AppConfig.instance.formatLink(e),
                                 placeholder: (context, url) => Center(
-                                  child: SizedBox(
+                                  child: Container(
+                                    padding: EdgeInsets.only(right: 5),
                                     height: 50,
                                     width: 50,
                                     child: CircularProgressIndicator(),
