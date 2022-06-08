@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'post_package.dart';
 import '../../data/data.dart';
+import 'post_package.dart';
 
 class PostHeader extends StatelessWidget {
   final PostModel? post;
@@ -22,7 +22,7 @@ class PostHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                post?.creator?.name ?? 'Error',
+                post?.creator?.name ?? 'User',
                 style: const TextStyle(
                     fontWeight: FontWeight.w600, color: Colors.black),
               ),

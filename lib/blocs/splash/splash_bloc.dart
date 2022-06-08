@@ -1,17 +1,43 @@
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../core/core.dart';
 import '../../data/data.dart';
+import '../../extensions/extensions.dart';
 import 'splash_state.dart';
 
 class SplashBloc extends BaseBloc<SplashState> {
   final ISplashRepository _splashRepository;
+  final IMeRepository _profileRepository;
+  final SharedPreferences _sharedPreferences;
 
-  SplashBloc(this._splashRepository);
+  SplashBloc(
+      this._splashRepository, this._profileRepository, this._sharedPreferences);
 
   Stream<bool?> get successStream =>
       stateStream.map((event) => event.success).distinct();
   Stream<String?> get errorStream => stateStream.map((event) => event.error);
+  Future<void> checkToken() async {
+    if (_sharedPreferences.token != null &&
+        _sharedPreferences.token!.isNotEmpty) {
+      final responseEither = await _profileRepository.getInfo();
+
+      responseEither.fold((failure) {
+        emit(SplashState(state: state, status: SplashStatus.not_authenticated));
+      }, (data) {
+        if (data.success && data.item != null) {
+          _sharedPreferences.saveUser(data.item!);
+          emit(SplashState(state: state, status: SplashStatus.authenticated));
+        } else {
+          emit(SplashState(
+              state: state, status: SplashStatus.not_authenticated));
+        }
+      });
+    } else {
+      emit(SplashState(state: state, status: SplashStatus.not_authenticated));
+    }
+  }
 
   Future<void> loadData() async {
     emitLoading(true);

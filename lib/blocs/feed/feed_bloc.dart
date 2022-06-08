@@ -1,9 +1,6 @@
-import 'dart:typed_data';
-
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/data/data.dart';
-
+import '../../core/base/base_response.dart';
 import '../../core/core.dart';
+import '../../data/data.dart';
 import '../../widgets/pagination_widget/pagination_helper.dart';
 import 'feed.dart';
 

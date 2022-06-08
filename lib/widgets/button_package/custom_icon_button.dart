@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/extensions.dart';
-import '../../gen/assets.gen.dart';
-import '../../resources/resources.dart';
-
 class CustomIconButton extends StatelessWidget {
   final double size;
   final bool disable;

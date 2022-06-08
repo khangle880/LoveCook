@@ -1,10 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../extensions/extensions.dart';
 import '../../utils/utils.dart';
 
-abstract class BaseResponse {
+abstract class BaseResponse extends Equatable {
   int statusCode;
   ErrorResponse? error;
 
@@ -28,6 +31,8 @@ class SingleResponse<T extends BaseResponse> extends BaseResponse {
   SingleResponse.fromJson(Response response) {
     this.statusCode = response.statusCode ?? 0;
 
+    if (response.data[0] != "{")
+      response.data = "{\"value\":\"${response.data}\"}";
     final map = JsonUtils.getMap(response.data);
     if (success) {
       final result = GetIt.I.get<T>();
@@ -37,6 +42,9 @@ class SingleResponse<T extends BaseResponse> extends BaseResponse {
       this.error = ErrorResponse.fromJson(map);
     }
   }
+
+  @override
+  List<Object?> get props => [item];
 }
 
 class ListResponse<T extends BaseResponse> extends BaseResponse {
@@ -60,6 +68,9 @@ class ListResponse<T extends BaseResponse> extends BaseResponse {
       items = [];
     }
   }
+
+  @override
+  List<Object?> get props => [items];
 }
 
 class PagingListResponse<T extends BaseResponse> extends BaseResponse {
@@ -86,6 +97,9 @@ class PagingListResponse<T extends BaseResponse> extends BaseResponse {
       items = [];
     }
   }
+
+  @override
+  List<Object?> get props => [items, pagination];
 }
 
 class Pagination {

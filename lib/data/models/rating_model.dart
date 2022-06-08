@@ -40,4 +40,7 @@ class RatingModel extends BaseResponse {
   }
   @override
   String toString() => 'RatingModel(user: $user, point: $point)';
+
+  @override
+  List<Object?> get props => [user, point];
 }

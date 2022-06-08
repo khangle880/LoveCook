@@ -6,9 +6,10 @@ import '../blocs/blocs.dart';
 class BlocDependencies {
   static Future setup(GetIt injector) async {
     injector.registerLazySingleton(() => AppBloc());
-    injector.registerFactory<SplashBloc>(() => SplashBloc(injector()));
-    injector.registerFactory<LoginBloc>(
-        () => LoginBloc(injector(), injector(), injector()));
+    injector.registerFactory<SplashBloc>(
+        () => SplashBloc(injector(), injector(), injector()));
+    injector
+        .registerFactory<LoginBloc>(() => LoginBloc(injector(), injector()));
     injector.registerFactory<TestApiBloc>(() => TestApiBloc(
           injector(),
           injector(),
@@ -22,6 +23,15 @@ class BlocDependencies {
     injector.registerFactory<ChatBloc>(() => ChatBloc(injector()));
     injector.registerFactory<ProfileBloc>(
         () => ProfileBloc(injector(), injector()));
+    injector
+        .registerFactory<RecipeBloc>(() => RecipeBloc(injector(), injector()));
+    injector.registerFactory<RecipeDetailBloc>(
+        () => RecipeDetailBloc(injector(), injector()));
+    injector.registerFactory<AddRecipeBloc>(
+        () => AddRecipeBloc(injector(), injector()));
+    injector.registerFactory<ProductBloc>(() => ProductBloc(injector()));
+    injector.registerFactory<AddProductBloc>(
+        () => AddProductBloc(injector(), injector()));
     injector.registerFactory<FeedBloc>(() => FeedBloc(injector(), injector()));
     injector
         .registerFactory<FeedCommentBloc>(() => FeedCommentBloc(injector()));

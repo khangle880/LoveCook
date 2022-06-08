@@ -26,3 +26,13 @@ extension IndexedIterable<E> on Iterable<E> {
     return null;
   }
 }
+
+extension AppListExtension<T> on List<T> {
+  List<T> replaceItem(T item, bool Function(T item) sorter) {
+    int findIndex = indexWhere(sorter);
+    if (findIndex != -1) {
+      this[findIndex] = item;
+    }
+    return List.from(this);
+  }
+}

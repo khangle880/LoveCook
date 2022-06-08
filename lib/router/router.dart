@@ -9,6 +9,9 @@ class Routes {
   static String get login => '/login';
   static String get home => '/home';
   static String get testApi => '/testApi';
+  static String get recipeDetail => '/recipeDetail';
+  static String get addRecipe => '/addRecipe';
+  static String get addProduct => '/addProduct';
   static String get feedComment => '/feedComment';
 
   static getRoute(RouteSettings settings) {

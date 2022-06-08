@@ -80,7 +80,7 @@ class PhotoItem extends StatelessWidget {
             border: Border.all(width: 1, color: AppColors.grayLight),
           ),
           child: Center(
-            child: Assets.images.svg.icCloseSmallRounded.svg(
+            child: Assets.images.svg.closeCircle.svg(
               width: 5.75,
               height: 5.75,
             ),

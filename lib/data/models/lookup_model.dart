@@ -1,6 +1,9 @@
+
+import 'package:equatable/equatable.dart';
+
 import '../../core/base/base_response.dart';
 
-class SpecialGoalModel extends BaseResponse {
+class SpecialGoalModel extends BaseResponse with EquatableMixin {
   final String? id;
   final List<String>? names;
   SpecialGoalModel({
@@ -39,6 +42,9 @@ class SpecialGoalModel extends BaseResponse {
       names: List<String>.from(json['names']),
     );
   }
+
+  @override
+  List<Object?> get props => [id, names];
 }
 
 class MenuTypeModel extends BaseResponse {
@@ -80,6 +86,9 @@ class MenuTypeModel extends BaseResponse {
       names: List<String>.from(json['names']),
     );
   }
+
+  @override
+  List<Object?> get props => [id, names];
 }
 
 class CuisineModel extends BaseResponse {
@@ -121,9 +130,12 @@ class CuisineModel extends BaseResponse {
       names: List<String>.from(json['names']),
     );
   }
+
+  @override
+  List<Object?> get props => [id, names];
 }
 
-class DishTypeModel extends BaseResponse {
+class DishTypeModel extends BaseResponse with EquatableMixin {
   final String? id;
   final List<String>? names;
   DishTypeModel({
@@ -162,32 +174,35 @@ class DishTypeModel extends BaseResponse {
       names: List<String>.from(json['names']),
     );
   }
+
+  @override
+  List<Object?> get props => [id, names];
 }
 
-class IngredientModel extends BaseResponse {
+class IngredientTypeModel extends BaseResponse {
   final String? id;
   final List<String>? names;
-  IngredientModel({
+  IngredientTypeModel({
     this.id,
     this.names,
   });
 
-  IngredientModel copyWith({
+  IngredientTypeModel copyWith({
     String? id,
     List<String>? names,
   }) {
-    return IngredientModel(
+    return IngredientTypeModel(
       id: id ?? this.id,
       names: names ?? this.names,
     );
   }
 
   @override
-  String toString() => 'IngredientModel(id: $id, names: $names)';
+  String toString() => 'IngredientTypeModel(id: $id, names: $names)';
 
   @override
   T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
-    return IngredientModel.fromJson(json) as T;
+    return IngredientTypeModel.fromJson(json) as T;
   }
 
   Map<String, dynamic> toJson() {
@@ -197,12 +212,15 @@ class IngredientModel extends BaseResponse {
     };
   }
 
-  factory IngredientModel.fromJson(Map<String, dynamic> json) {
-    return IngredientModel(
+  factory IngredientTypeModel.fromJson(Map<String, dynamic> json) {
+    return IngredientTypeModel(
       id: json['id'] ?? '',
       names: List<String>.from(json['names']),
     );
   }
+
+  @override
+  List<Object?> get props => [id, names];
 }
 
 class ProductTypeModel extends BaseResponse {
@@ -244,6 +262,9 @@ class ProductTypeModel extends BaseResponse {
       names: List<String>.from(json['names']),
     );
   }
+
+  @override
+  List<Object?> get props => [id, names];
 }
 
 class UnitModel extends BaseResponse {
@@ -285,45 +306,158 @@ class UnitModel extends BaseResponse {
       name: json['name'] ?? '',
     );
   }
+  
+  @override
+  List<Object?> get props => [id, name];
 }
 
 class CookMethodModel extends BaseResponse {
   final String? id;
-  final String? name;
+  final List<String>? names;
   CookMethodModel({
     this.id,
-    this.name,
+    this.names,
   });
-
-  CookMethodModel copyWith({
-    String? id,
-    String? name,
-  }) {
-    return CookMethodModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-    );
-  }
-
-  @override
-  String toString() => 'CookMethod(id: $id, name: $name)';
 
   @override
   T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
     return CookMethodModel.fromJson(json) as T;
   }
 
+  CookMethodModel copyWith({
+    String? id,
+    List<String>? names,
+  }) {
+    return CookMethodModel(
+      id: id ?? this.id,
+      names: names ?? this.names,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': name,
+      'names': names,
     };
   }
 
   factory CookMethodModel.fromJson(Map<String, dynamic> json) {
     return CookMethodModel(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
+      id: json['id'],
+      names: List<String>.from(json['names']),
     );
   }
+
+  @override
+  String toString() => 'CookMethodModel(id: $id, names: $names)';
+
+  @override
+  List<Object?> get props => [id, names];
+}
+
+class LookupModel extends BaseResponse {
+  final List<SpecialGoalModel>? goals;
+  final List<MenuTypeModel>? menuTypes;
+  final List<CuisineModel>? cuisines;
+  final List<DishTypeModel>? dishTypes;
+  final List<IngredientTypeModel>? ingredientTypes;
+  final List<ProductTypeModel>? productTypes;
+  final List<UnitModel>? units;
+  final List<CookMethodModel>? cookMethods;
+  LookupModel({
+    this.goals,
+    this.menuTypes,
+    this.cuisines,
+    this.dishTypes,
+    this.ingredientTypes,
+    this.productTypes,
+    this.units,
+    this.cookMethods,
+  });
+
+  @override
+  T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
+    return LookupModel.fromJson(json) as T;
+  }
+
+  LookupModel copyWith({
+    List<SpecialGoalModel>? goals,
+    List<MenuTypeModel>? menuTypes,
+    List<CuisineModel>? cuisines,
+    List<DishTypeModel>? dishTypes,
+    List<IngredientTypeModel>? ingredientTypes,
+    List<ProductTypeModel>? productTypes,
+    List<UnitModel>? units,
+    List<CookMethodModel>? cookMethods,
+  }) {
+    return LookupModel(
+      goals: goals ?? this.goals,
+      menuTypes: menuTypes ?? this.menuTypes,
+      cuisines: cuisines ?? this.cuisines,
+      dishTypes: dishTypes ?? this.dishTypes,
+      ingredientTypes: ingredientTypes ?? this.ingredientTypes,
+      productTypes: productTypes ?? this.productTypes,
+      units: units ?? this.units,
+      cookMethods: cookMethods ?? this.cookMethods,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'goals': goals?.map((x) => x.toJson()).toList(),
+      'menuTypes': menuTypes?.map((x) => x.toJson()).toList(),
+      'cuisines': cuisines?.map((x) => x.toJson()).toList(),
+      'dishTypes': dishTypes?.map((x) => x.toJson()).toList(),
+      'ingredientTypes': ingredientTypes?.map((x) => x.toJson()).toList(),
+      'productTypes': productTypes?.map((x) => x.toJson()).toList(),
+      'units': units?.map((x) => x.toJson()).toList(),
+      'cookMethods': cookMethods?.map((x) => x.toJson()).toList(),
+    };
+  }
+
+  factory LookupModel.fromJson(Map<String, dynamic> json) {
+    return LookupModel(
+      goals: json['goals'] != null
+          ? List<SpecialGoalModel>.from(
+              json['goals']?.map((x) => SpecialGoalModel.fromJson(x)))
+          : null,
+      menuTypes: json['menuTypes'] != null
+          ? List<MenuTypeModel>.from(
+              json['menuTypes']?.map((x) => MenuTypeModel.fromJson(x)))
+          : null,
+      cuisines: json['cuisines'] != null
+          ? List<CuisineModel>.from(
+              json['cuisines']?.map((x) => CuisineModel.fromJson(x)))
+          : null,
+      dishTypes: json['dishTypes'] != null
+          ? List<DishTypeModel>.from(
+              json['dishTypes']?.map((x) => DishTypeModel.fromJson(x)))
+          : null,
+      ingredientTypes: List<IngredientTypeModel>.from(
+          json['ingredientTypes']?.map((x) => IngredientTypeModel.fromJson(x))),
+      productTypes: List<ProductTypeModel>.from(
+          json['productTypes']?.map((x) => ProductTypeModel.fromJson(x))),
+      units: List<UnitModel>.from(
+          json['units']?.map((x) => UnitModel.fromJson(x))),
+      cookMethods: List<CookMethodModel>.from(
+          json['cookMethods']?.map((x) => CookMethodModel.fromJson(x))),
+    );
+  }
+
+  @override
+  String toString() {
+    return 'LookupModel(goals: $goals, menuTypes: $menuTypes, cuisines: $cuisines, dishTypes: $dishTypes, ingredientTypes: $ingredientTypes, productTypes: $productTypes, units: $units, cookMethods: $cookMethods)';
+  }
+
+  @override
+  List<Object?> get props => [
+        goals,
+        menuTypes,
+        cuisines,
+        dishTypes,
+        ingredientTypes,
+        productTypes,
+        units,
+        cookMethods,
+      ];
 }

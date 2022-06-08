@@ -1,30 +1,34 @@
+import 'package:equatable/equatable.dart';
+
 import '../../core/base/base_response.dart';
-
 import '../enum.dart';
-
 import 'models.dart';
 
-class IngredientInRecipeModel {
+class IngredientModel extends Equatable {
   final String? id;
-  final IngredientModel? ingredient;
+  final String? name;
+  final IngredientTypeModel? type;
   final UnitModel? unit;
   final double? quantity;
-  IngredientInRecipeModel({
+  IngredientModel({
     this.id,
-    this.ingredient,
+    this.name,
+    this.type,
     this.unit,
     this.quantity,
   });
 
-  IngredientInRecipeModel copyWith({
+  IngredientModel copyWith({
     String? id,
-    IngredientModel? ingredient,
+    String? name,
+    IngredientTypeModel? type,
     UnitModel? unit,
     double? quantity,
   }) {
-    return IngredientInRecipeModel(
+    return IngredientModel(
       id: id ?? this.id,
-      ingredient: ingredient ?? this.ingredient,
+      name: name ?? this.name,
+      type: type ?? this.type,
       unit: unit ?? this.unit,
       quantity: quantity ?? this.quantity,
     );
@@ -33,21 +37,39 @@ class IngredientInRecipeModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'ingredient': ingredient?.toJson(),
+      'name': name,
+      'type': type?.toJson(),
       'unit': unit?.toJson(),
       'quantity': quantity,
     };
   }
 
-  factory IngredientInRecipeModel.fromJson(Map<String, dynamic> json) {
-    return IngredientInRecipeModel(
-      id: json['id'] ?? '',
-      ingredient: json['ingredient'] != null
-          ? IngredientModel.fromJson(json['ingredient'])
+  factory IngredientModel.fromJson(Map<String, dynamic> json) {
+    return IngredientModel(
+      id: json['id'],
+      name: json['name'],
+      type: json['type'] != null
+          ? IngredientTypeModel.fromJson(json['type'])
           : null,
       unit: json['unit'] != null ? UnitModel.fromJson(json['unit']) : null,
       quantity: json['quantity']?.toDouble(),
     );
+  }
+
+  @override
+  String toString() {
+    return 'IngredientModel(id: $id, name: $name, type: $type, unit: $unit, quantity: $quantity)';
+  }
+
+  @override
+  List<Object?> get props {
+    return [
+      id,
+      name,
+      type,
+      unit,
+      quantity,
+    ];
   }
 }
 
@@ -75,6 +97,16 @@ class CookStepModel {
       photoUrls: List<String>.from(json['photoUrls']),
     );
   }
+
+  CookStepModel copyWith({
+    String? content,
+    List<String>? photoUrls,
+  }) {
+    return CookStepModel(
+      content: content ?? this.content,
+      photoUrls: photoUrls ?? this.photoUrls,
+    );
+  }
 }
 
 class RecipeModel extends BaseResponse {
@@ -89,11 +121,19 @@ class RecipeModel extends BaseResponse {
   final double? totalView;
   final Level? level;
   final String? videoUrl;
-  final List<IngredientInRecipeModel>? ingredients;
+  final String? videoThumbnail;
+  final List<IngredientModel>? ingredients;
   final List<SpecialGoalModel>? specialGoals;
   final List<MenuTypeModel>? menuTypes;
   final CuisineModel? cuisine;
   final DishTypeModel? dishType;
+  final CookMethodModel? cookMethod;
+  final int? totalLikes;
+  final int? totalCooks;
+  final int? totalRatings;
+  final bool? isLiked;
+  final bool? isCooked;
+  final bool? idVoted;
   RecipeModel({
     this.id,
     this.creator,
@@ -106,50 +146,20 @@ class RecipeModel extends BaseResponse {
     this.totalView,
     this.level,
     this.videoUrl,
+    this.videoThumbnail,
     this.ingredients,
     this.specialGoals,
     this.menuTypes,
     this.cuisine,
     this.dishType,
+    this.cookMethod,
+    this.totalLikes,
+    this.totalCooks,
+    this.totalRatings,
+    this.isLiked,
+    this.isCooked,
+    this.idVoted,
   });
-
-  RecipeModel copyWith({
-    String? id,
-    User? creator,
-    String? description,
-    String? name,
-    List<String>? photoUrls,
-    int? servings,
-    List<CookStepModel>? steps,
-    double? totalTime,
-    double? totalView,
-    Level? level,
-    String? videoUrl,
-    List<IngredientInRecipeModel>? ingredients,
-    List<SpecialGoalModel>? specialGoals,
-    List<MenuTypeModel>? menuTypes,
-    CuisineModel? cuisine,
-    DishTypeModel? dishType,
-  }) {
-    return RecipeModel(
-      id: id ?? this.id,
-      creator: creator ?? this.creator,
-      description: description ?? this.description,
-      name: name ?? this.name,
-      photoUrls: photoUrls ?? this.photoUrls,
-      servings: servings ?? this.servings,
-      steps: steps ?? this.steps,
-      totalTime: totalTime ?? this.totalTime,
-      totalView: totalView ?? this.totalView,
-      level: level ?? this.level,
-      videoUrl: videoUrl ?? this.videoUrl,
-      ingredients: ingredients ?? this.ingredients,
-      specialGoals: specialGoals ?? this.specialGoals,
-      menuTypes: menuTypes ?? this.menuTypes,
-      cuisine: cuisine ?? this.cuisine,
-      dishType: dishType ?? this.dishType,
-    );
-  }
 
   @override
   T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
@@ -169,17 +179,25 @@ class RecipeModel extends BaseResponse {
       'totalView': totalView,
       'level': level?.shortString,
       'videoUrl': videoUrl,
+      'videoThumbnail': videoThumbnail,
       'ingredients': ingredients?.map((x) => x.toJson()).toList(),
       'specialGoals': specialGoals?.map((x) => x.toJson()).toList(),
       'menuTypes': menuTypes?.map((x) => x.toJson()).toList(),
       'cuisine': cuisine?.toJson(),
       'dishType': dishType?.toJson(),
+      'cookMethod': cookMethod?.toJson(),
+      'totalLikes': totalLikes,
+      'totalCooks': totalCooks,
+      'totalRatings': totalRatings,
+      'isLiked': isLiked,
+      'isCooked': isCooked,
+      'idVoted': idVoted,
     };
   }
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) {
     return RecipeModel(
-      id: json['id'] ?? '',
+      id: json['id'],
       creator: json['creator'] != null ? User.fromJson(json['creator']) : null,
       description: json['description'],
       name: json['name'],
@@ -195,9 +213,10 @@ class RecipeModel extends BaseResponse {
           ? enumFromString(Level.values, json['level'])
           : null,
       videoUrl: json['videoUrl'],
+      videoThumbnail: json['videoThumbnail'],
       ingredients: json['ingredients'] != null
-          ? List<IngredientInRecipeModel>.from(json['ingredients']
-              ?.map((x) => IngredientInRecipeModel.fromJson(x)))
+          ? List<IngredientModel>.from(
+              json['ingredients']?.map((x) => IngredientModel.fromJson(x)))
           : null,
       specialGoals: json['specialGoals'] != null
           ? List<SpecialGoalModel>.from(
@@ -213,11 +232,102 @@ class RecipeModel extends BaseResponse {
       dishType: json['dishType'] != null
           ? DishTypeModel.fromJson(json['dishType'])
           : null,
+      cookMethod: json['cookMethod'] != null
+          ? CookMethodModel.fromJson(json['cookMethod'])
+          : null,
+      totalLikes: json['totalLikes']?.toInt(),
+      totalCooks: json['totalCooks']?.toInt(),
+      totalRatings: json['totalRatings']?.toInt(),
+      isLiked: json['isLiked'],
+      isCooked: json['isCooked'],
+      idVoted: json['idVoted'],
     );
   }
 
   @override
   String toString() {
-    return 'RecipeModel(id: $id, creator: $creator, description: $description, name: $name, photoUrls: $photoUrls, servings: $servings, steps: $steps, totalTime: $totalTime, totalView: $totalView, level: $level, videoUrl: $videoUrl, ingredients: $ingredients, specialGoals: $specialGoals, menuTypes: $menuTypes, cuisine: $cuisine, dishType: $dishType)';
+    return 'RecipeModel(id: $id, creator: $creator, description: $description, name: $name, photoUrls: $photoUrls, servings: $servings, steps: $steps, totalTime: $totalTime, totalView: $totalView, level: $level, videoUrl: $videoUrl, videoThumbnail: $videoThumbnail, ingredients: $ingredients, specialGoals: $specialGoals, menuTypes: $menuTypes, cuisine: $cuisine, dishType: $dishType, cookMethod: $cookMethod, totalLikes: $totalLikes, totalCooks: $totalCooks, totalRatings: $totalRatings, isLiked: $isLiked, isCooked: $isCooked, idVoted: $idVoted)';
   }
+
+  RecipeModel copyWith({
+    String? id,
+    User? creator,
+    String? description,
+    String? name,
+    List<String>? photoUrls,
+    int? servings,
+    List<CookStepModel>? steps,
+    double? totalTime,
+    double? totalView,
+    Level? level,
+    String? videoUrl,
+    String? videoThumbnail,
+    List<IngredientModel>? ingredients,
+    List<SpecialGoalModel>? specialGoals,
+    List<MenuTypeModel>? menuTypes,
+    CuisineModel? cuisine,
+    DishTypeModel? dishType,
+    CookMethodModel? cookMethod,
+    int? totalLikes,
+    int? totalCooks,
+    int? totalRatings,
+    bool? isLiked,
+    bool? isCooked,
+    bool? idVoted,
+  }) {
+    return RecipeModel(
+      id: id ?? this.id,
+      creator: creator ?? this.creator,
+      description: description ?? this.description,
+      name: name ?? this.name,
+      photoUrls: photoUrls ?? this.photoUrls,
+      servings: servings ?? this.servings,
+      steps: steps ?? this.steps,
+      totalTime: totalTime ?? this.totalTime,
+      totalView: totalView ?? this.totalView,
+      level: level ?? this.level,
+      videoUrl: videoUrl ?? this.videoUrl,
+      videoThumbnail: videoThumbnail ?? this.videoThumbnail,
+      ingredients: ingredients ?? this.ingredients,
+      specialGoals: specialGoals ?? this.specialGoals,
+      menuTypes: menuTypes ?? this.menuTypes,
+      cuisine: cuisine ?? this.cuisine,
+      dishType: dishType ?? this.dishType,
+      cookMethod: cookMethod ?? this.cookMethod,
+      totalLikes: totalLikes ?? this.totalLikes,
+      totalCooks: totalCooks ?? this.totalCooks,
+      totalRatings: totalRatings ?? this.totalRatings,
+      isLiked: isLiked ?? this.isLiked,
+      isCooked: isCooked ?? this.isCooked,
+      idVoted: idVoted ?? this.idVoted,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        creator,
+        description,
+        name,
+        photoUrls,
+        servings,
+        steps,
+        totalTime,
+        totalView,
+        level,
+        videoUrl,
+        videoThumbnail,
+        ingredients,
+        specialGoals,
+        menuTypes,
+        cuisine,
+        dishType,
+        cookMethod,
+        totalLikes,
+        totalCooks,
+        totalRatings,
+        isLiked,
+        isCooked,
+        idVoted
+      ];
 }

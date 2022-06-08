@@ -1,19 +1,15 @@
-// import 'package:equatable/equatable.dart';
-// import 'package:lovecook/data/data.dart';
+import 'package:equatable/equatable.dart';
 
-// class RecipeState extends Equatable {
-//   final List<RecipeModel>? recipes;
-//   final bool? success;
-//   final String? error;
-//   CommentsState({
-//     bool? success,
-//     String? error,
-//     RecipeState? state,
-//     List<CommentModel>? comments,
-//   })  : success = success ?? state?.success,
-//         error = error ?? state?.error,
-//         comments = comments ?? state?.comments;
+class RecipeState extends Equatable {
+  final bool? success;
+  final String? error;
+  RecipeState({
+    bool? success,
+    String? error,
+    RecipeState? state,
+  })  : success = success ?? state?.success,
+        error = error ?? state?.error;
 
-//   @override
-//   List<Object?> get props => [comments, success, error, pagination];
-// }
+  @override
+  List<Object?> get props => [success, error];
+}

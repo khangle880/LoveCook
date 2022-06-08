@@ -85,7 +85,7 @@ class _DateTextFieldState extends State<DateTextField> {
                   : AppColors.whiteDarken,
             ),
           ),
-          suffixIcon: Assets.images.svg.icCalendar,
+          suffixIcon: Assets.images.svg.calendarOutline,
         ),
       ),
     );

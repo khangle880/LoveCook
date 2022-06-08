@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/widgets/widgets.dart';
+
 import '../../extensions/text_style.dart';
+import '../widgets.dart';
 
 class BottomChangeName extends StatefulWidget {
   final Function(String)? changeName;

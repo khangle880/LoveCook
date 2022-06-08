@@ -1,17 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:lovecook/widgets/pick_media/video_widget.dart';
 
 import '../../data/data.dart';
 import '../../utils/utils.dart';
-import 'post_package.dart';
+import '../widgets.dart';
 
 class PostContainer extends StatelessWidget {
-  final PostModel? post;
+  final PostModel post;
   final VoidCallback? onCommentPress;
 
-  const PostContainer({Key? key, this.post, this.onCommentPress})
+  const PostContainer({Key? key, required this.post, this.onCommentPress})
       : super(key: key);
 
   @override
@@ -24,7 +23,7 @@ class PostContainer extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         color: Colors.white,
         child: Column(
-          children: <Widget>[
+          children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
@@ -32,17 +31,17 @@ class PostContainer extends StatelessWidget {
                 children: [
                   PostHeader(post: post),
                   const SizedBox(height: 4.0),
-                  Text(post?.content ?? ''),
-                  post?.photoUrls != null && post!.photoUrls!.isNotEmpty
+                  Text(post.content ?? ''),
+                  post.photoUrls != null && post.photoUrls!.isNotEmpty
                       ? const SizedBox(height: 10.0)
                       : const SizedBox.shrink(),
                 ],
               ),
             ),
-            post?.photoUrls != null && post!.photoUrls!.isNotEmpty
+            post.photoUrls != null && post.photoUrls!.isNotEmpty
                 ? _buildImageSlider()
                 : const SizedBox.shrink(),
-            post?.videoUrl != null && post!.videoUrl!.isNotEmpty
+            post.videoUrl != null && post.videoUrl!.isNotEmpty
                 ? _buildVideoSlider()
                 : const SizedBox.shrink(),
             Padding(
@@ -62,7 +61,7 @@ class PostContainer extends StatelessWidget {
     return CarouselSlider(
       options: CarouselOptions(height: 300.0, enableInfiniteScroll: false),
       items: [
-        VideoWidget(path: AppConfig.instance.formatLink(post!.videoUrl!))
+        VideoWidget(path: AppConfig.instance.formatLink(post.videoUrl!))
       ],
     );
   }
@@ -70,7 +69,7 @@ class PostContainer extends StatelessWidget {
   CarouselSlider _buildImageSlider() {
     return CarouselSlider(
       options: CarouselOptions(height: 300.0),
-      items: post?.photoUrls!.map((imageUrl) {
+      items: post.photoUrls!.map((imageUrl) {
         return Builder(
           builder: (BuildContext context) {
             return Container(

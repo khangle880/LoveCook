@@ -44,8 +44,8 @@ import '../../resources/resources.dart';
 ///   },
 /// )
 
-class OutlineViiButton extends StatefulWidget {
-  const OutlineViiButton({
+class OutlineButton extends StatefulWidget {
+  const OutlineButton({
     Key? key,
     this.text,
     this.contentBuilder,
@@ -86,10 +86,10 @@ class OutlineViiButton extends StatefulWidget {
   final VoidCallback? onPressed;
 
   @override
-  _OutlineViiButtonState createState() => _OutlineViiButtonState();
+  _OutlineButtonState createState() => _OutlineButtonState();
 }
 
-class _OutlineViiButtonState extends State<OutlineViiButton> {
+class _OutlineButtonState extends State<OutlineButton> {
   late Color currentBorderColor =
       !widget.disable ? widget.boderColor : widget.disableColor;
   late Color currentColor =

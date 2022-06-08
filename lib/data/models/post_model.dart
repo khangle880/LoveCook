@@ -97,4 +97,18 @@ class PostModel extends BaseResponse {
             ? null
             : DateTime.parse(json["updatedAt"]));
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        creator,
+        photoUrls,
+        videoUrl,
+        viewRange,
+        backgroundColor,
+        content,
+        tags,
+        createdAt,
+        updatedAt,
+      ];
 }

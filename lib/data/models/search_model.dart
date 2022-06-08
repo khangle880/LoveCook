@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import '../../core/base/base_response.dart';
 
+import '../../core/base/base_response.dart';
 import 'models.dart';
 
 class SearchModel extends BaseResponse {
@@ -75,4 +75,12 @@ class SearchModel extends BaseResponse {
   String toString() {
     return 'SearchModel(recipes: $recipes, posts: $posts, users: $users, products: $products)';
   }
+
+  @override
+  List<Object?> get props => [
+        recipes,
+        posts,
+        users,
+        products,
+      ];
 }

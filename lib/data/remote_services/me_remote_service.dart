@@ -47,10 +47,19 @@ class MeRemoteService implements IMeRemoteService {
   }
 
   @override
-  Future<PagingListResponse<RecipeModel>> getLikedRecipe(
+  Future<PagingListResponse<RecipeModel>> getLikedRecipes(
       {required Map<String, dynamic> query}) async {
     final response = await _networkUtility
         .request('v1/me/liked-recipes', Method.GET, queryParameters: query);
+
+    return PagingListResponse<RecipeModel>.fromJson(response);
+  }
+
+  @override
+  Future<PagingListResponse<RecipeModel>> getRecipes(
+      {required Map<String, dynamic> query}) async {
+    final response = await _networkUtility
+        .request('v1/me/recipes', Method.GET, queryParameters: query);
 
     return PagingListResponse<RecipeModel>.fromJson(response);
   }

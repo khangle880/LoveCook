@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import '../../../core/base/base_response.dart';
-import '../../../data/enum.dart';
 import '../../../blocs/login/login_state.dart';
+import '../../../core/base/base_response.dart';
 import '../../../core/core.dart';
 import '../../../data/data.dart';
+import '../../../data/enum.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
 
 class TestApiBloc extends BaseBloc<LoginState> {

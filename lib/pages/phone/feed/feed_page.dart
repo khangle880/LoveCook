@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/pages/pages.dart';
-import 'package:lovecook/router/route_arguments.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../blocs/feed/feed.dart';
@@ -8,10 +6,12 @@ import '../../../core/base/base_response.dart';
 import '../../../core/base/base_state.dart';
 import '../../../data/data.dart';
 import '../../../extensions/extensions.dart';
+import '../../../router/route_arguments.dart';
 import '../../../router/router.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
 import '../../../widgets/pagination_widget/pagination_sliver_listview.dart';
 import '../../../widgets/post_package/post_package.dart';
+import '../../pages.dart';
 import 'widgets/feed_sliver_app_bar.dart';
 
 class FeedPage extends StatefulWidget {
@@ -37,15 +37,16 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
   }
 
   getPost() {
-    bloc.postPagination = PaginationHelper(
-      asyncTask: (config) {
-        return asyncTask(config).then((value) {
-          config.canLoadMore = value.pagination.canLoadMore;
-          config.page = value.pagination.page;
-          return (value.items as List<PostModel>);
-        }).catchError((e) => throw e);
-      },
-    );
+    bloc.postPagination = PaginationHelper(asyncTask: (config) {
+      return asyncTask(config).then((value) {
+        config.canLoadMore = value.pagination.canLoadMore;
+        config.page = value.pagination.page;
+        return (value.items as List<PostModel>);
+      }).catchError((e) => throw e);
+    }, onRefresh: () {
+      setState(() {});
+      bloc.postPagination?.run();
+    });
 
     bloc.postPagination?.addListener(() {
       setState(() {});
@@ -60,36 +61,44 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        FeedSliverAppBar(
-          userInfor: user,
-          onPostCall: (content, listImagePath, listVideoPath) {
-            bloc.createPost(content, listImagePath, listVideoPath);
-          },
-        ),
-        PaginationSliverListView(
-          paginationController: bloc.postPagination!,
-          itemBuilder: (BuildContext context, int index) {
-            return PostContainer(
-              post: bloc.postPagination?.items[index],
-              onCommentPress: () {
-                if (bloc.postPagination?.items[index] != null)
-                  Navigator.pushNamed(context, Routes.feedComment,
-                      arguments: RouteArguments(
-                          data: bloc.postPagination!.items[index]));
-              },
-            );
-          },
-          separatorBuilder: (context, index) {
-            return Divider(
-              color: Color(0xFFF2EBE9),
-              height: 8,
-              thickness: 8,
-            );
-          },
-        ),
-      ],
+    return RefreshIndicator(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      color: Theme.of(context).primaryColor,
+      onRefresh: () async {
+        bloc.postPagination?.refresh();
+      },
+      edgeOffset: 80,
+      child: CustomScrollView(
+        slivers: <Widget>[
+          FeedSliverAppBar(
+            userInfor: user,
+            onPostCall: (content, listImagePath, listVideoPath) {
+              bloc.createPost(content, listImagePath, listVideoPath);
+            },
+          ),
+          PaginationSliverListView(
+            paginationController: bloc.postPagination!,
+            itemBuilder: (BuildContext context, int index) {
+              return PostContainer(
+                post: bloc.postPagination!.items[index],
+                onCommentPress: () {
+                  if (bloc.postPagination?.items[index] != null)
+                    Navigator.pushNamed(context, Routes.feedComment,
+                        arguments: RouteArguments(
+                            data: bloc.postPagination!.items[index]));
+                },
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: Color(0xFFF2EBE9),
+                height: 8,
+                thickness: 8,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 

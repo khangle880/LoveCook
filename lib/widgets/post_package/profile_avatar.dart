@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../resources/colors.dart';
+import '../../utils/app_config.dart';
 
 class ProfileAvatar extends StatelessWidget {
   final String? imageUrl;
@@ -25,8 +26,9 @@ class ProfileAvatar extends StatelessWidget {
           child: CircleAvatar(
             radius: hasBorder ? 17.0 : 20.0,
             backgroundColor: Colors.grey[200],
-            backgroundImage: CachedNetworkImageProvider(
-                imageUrl ?? 'https://i.pravatar.cc/400'),
+            backgroundImage: CachedNetworkImageProvider(imageUrl != null
+                ? AppConfig.instance.formatLink(imageUrl!)
+                : 'https://i.pravatar.cc/400'),
           ),
         ),
         isActive

@@ -1,8 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:lovecook/data/data.dart';
 
+import '../../data/data.dart';
 import 'bottom_add_post.dart';
 import 'bottom_change_language.dart';
 import 'bottom_change_name.dart';

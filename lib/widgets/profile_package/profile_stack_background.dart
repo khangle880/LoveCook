@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'profile_package.dart';
@@ -27,17 +28,21 @@ class _ProfileStackBackgroundState extends State<ProfileStackBackground> {
       child: Stack(
         children: <Widget>[
           Container(),
-          ClipPath(
-            // clipper: ProfileClipper(),
-            child: Container(
-              height: 300.0,
+          CachedNetworkImage(
+            imageUrl: _imageUrl != null && _imageUrl!.isNotEmpty
+                ? _imageUrl!
+                : "https://i.pravatar.cc/400",
+            imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(_imageUrl != null && _imageUrl!.isNotEmpty
-                      ? _imageUrl!
-                      : "https://i.pravatar.cc/400"),
+                  image: imageProvider,
                   fit: BoxFit.cover,
                 ),
+              ),
+            ),
+            progressIndicatorBuilder: (context, url, progress) => Center(
+              child: CircularProgressIndicator(
+                value: progress.progress,
               ),
             ),
           ),

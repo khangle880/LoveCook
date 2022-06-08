@@ -21,6 +21,9 @@ class AppConfig {
   String formatLink(String text) {
     if (text[0] == "v") {
       return hostUrl + text;
+    }
+    if (Uri.parse(text).isAbsolute) {
+      return text;
     } else
       return hostUrl + text.substring(1);
   }

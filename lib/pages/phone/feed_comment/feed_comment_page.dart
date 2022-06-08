@@ -1,19 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:lovecook/core/base/base_response.dart';
-import 'package:lovecook/widgets/pagination_widget/pagination_helper.dart';
-import 'package:lovecook/widgets/pagination_widget/pagination_listview.dart';
 
 import '../../../blocs/blocs.dart';
+import '../../../core/base/base_response.dart';
 import '../../../core/core.dart';
 import '../../../data/data.dart';
 import '../../../extensions/extensions.dart';
 import '../../../router/route_arguments.dart';
 import '../../../utils/utils.dart';
-import '../../../widgets/chat_package/chat_package.dart';
-import '../../../widgets/pick_media/video_widget.dart';
-import '../../../widgets/post_package/post_package.dart';
 import '../../../widgets/widgets.dart';
 
 class FeedCommentPage extends StatefulWidget {

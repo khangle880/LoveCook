@@ -1,3 +1,4 @@
+export 'chat_remote_service.dart';
 export 'comment_remote_service.dart';
 export 'interfaces/interfaces.dart';
 export 'login_remote_service.dart';

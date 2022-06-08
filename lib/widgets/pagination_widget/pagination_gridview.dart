@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../extensions/extensions.dart';
 import 'pagination_helper.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -90,7 +91,11 @@ class _PaginationGridViewState extends State<PaginationGridView> {
   Widget? buildItem(int index) {
     //loading items
     if (isFirstLoad) {
-      return widget.loadingIndicatorBuilder?.call(context) ?? const SizedBox();
+      return widget.loadingIndicatorBuilder?.call(context) ??
+          Container(
+            child: SizedBox().appCenterProgressLoading,
+            margin: EdgeInsets.all(32.0),
+          );
     }
     if (index < length) {
       return widget.itemBuilder.call(context, index);
@@ -109,9 +114,9 @@ class _PaginationGridViewState extends State<PaginationGridView> {
                   }
                 },
                 child: widget.loadingIndicatorBuilder?.call(context) ??
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      child: CircularProgressIndicator(),
+                      child: SizedBox().appCenterProgressLoading,
                     ));
           });
     } else {
@@ -129,7 +134,7 @@ class _PaginationGridViewState extends State<PaginationGridView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       color: Theme.of(context).primaryColor,
       child: GridView.builder(
-          physics: widget.physics,
+          physics: widget.physics ?? AlwaysScrollableScrollPhysics(),
           padding: widget.padding,
           shrinkWrap: widget.shrinkWap,
           scrollDirection: widget.scrollDirection,

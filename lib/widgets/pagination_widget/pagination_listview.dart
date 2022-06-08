@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../extensions/widget_extension.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'pagination_helper.dart';
@@ -73,7 +74,10 @@ class _PaginationListViewState extends State<PaginationListView> {
     //loading items
     if (isFirstLoad) {
       return widget.loadingEffectItemBuilder?.call(context, index) ??
-          const SizedBox();
+          Container(
+            child: SizedBox().appCenterProgressLoading,
+            margin: EdgeInsets.all(32.0),
+          );
     }
     if ((index) < length) {
       return widget.itemBuilder.call(context, index);
@@ -92,9 +96,9 @@ class _PaginationListViewState extends State<PaginationListView> {
                   }
                 },
                 child: widget.loadingIndicatorBuilder?.call(context) ??
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      child: CircularProgressIndicator(),
+                      child: SizedBox().appCenterProgressLoading,
                     ));
           });
     } else {

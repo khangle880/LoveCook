@@ -1,7 +1,5 @@
 import '../../core/base/base_response.dart';
 
-import 'models.dart';
-
 class UploadModel extends BaseResponse {
   final List<String>? urls;
 
@@ -29,4 +27,7 @@ class UploadModel extends BaseResponse {
   String toString() {
     return 'UploadModel(urls: $urls)';
   }
+
+  @override
+  List<Object?> get props => [urls];
 }

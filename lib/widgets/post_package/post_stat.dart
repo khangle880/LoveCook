@@ -4,7 +4,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../data/data.dart';
 import '../widgets.dart';
-import 'post_package.dart';
 
 class PostStats extends StatelessWidget {
   final PostModel? post;

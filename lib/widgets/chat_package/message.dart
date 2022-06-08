@@ -4,8 +4,6 @@ import '../../blocs/chat/chat_bloc.dart';
 import '../../data/responses/responses.dart';
 import '../../enums.dart';
 import '../widgets.dart';
-import 'image_message.dart';
-import 'text_message.dart';
 
 class Message extends StatelessWidget {
   const Message({Key? key, required this.message, required this.chatBloc})

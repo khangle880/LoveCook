@@ -3,7 +3,7 @@ import '../../core/base/base_response.dart';
 class SingleType extends BaseResponse {
   final dynamic value;
   SingleType({
-    required this.value,
+    this.value,
   });
 
   SingleType copyWith({
@@ -12,6 +12,11 @@ class SingleType extends BaseResponse {
     return SingleType(
       value: value ?? this.value,
     );
+  }
+
+  @override
+  T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
+    return SingleType.fromJson(json) as T;
   }
 
   Map<String, dynamic> toJson() {
@@ -28,4 +33,7 @@ class SingleType extends BaseResponse {
 
   @override
   String toString() => 'SingleType(value: $value)';
+
+  @override
+  List<Object?> get props => [value];
 }

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../pages/pages.dart';
-import '../pages/phone/home/home_page.dart';
-import '../pages/phone/test_api/test_api_page.dart';
 import '../router/router.dart';
 
 class PageDependencies {
@@ -13,11 +11,27 @@ class PageDependencies {
     injector.registerFactory<Widget>(() => LoginPage(injector()),
         instanceName: Routes.login);
     injector.registerFactory<Widget>(
-        () => HomePage(injector(), injector(), injector(), injector()),
+        () => HomePage(
+              injector(),
+              injector(),
+              injector(),
+              injector(),
+              injector(),
+              injector(),
+            ),
         instanceName: Routes.home);
     injector.registerFactory<Widget>(() => TestApiPage(injector()),
         instanceName: Routes.testApi);
-    injector.registerFactory<Widget>(() => ChatPage(injector()));
+    injector.registerFactory<Widget>(() => ChatPage(injector()),
+        instanceName: "ChatPage");
+    injector.registerFactory<Widget>(() => RecipePage(injector()),
+        instanceName: "RecipePage");
+    injector.registerFactory<Widget>(() => RecipeDetailPage(injector()),
+        instanceName: Routes.recipeDetail);
+    injector.registerFactory<Widget>(() => AddRecipePage(injector()),
+        instanceName: Routes.addRecipe);
+    injector.registerFactory<Widget>(() => AddProductPage(injector()),
+        instanceName: Routes.addProduct);
     injector.registerFactory<Widget>(() => FeedCommentPage(injector()),
         instanceName: Routes.feedComment);
     // injector.registerFactory<Widget>(() => ProfilePage(injector()));

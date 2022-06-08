@@ -7,7 +7,9 @@ class ProductModel extends BaseResponse {
   final ProductTypeModel? productType;
   final List<String>? photoUrls;
   final String? videoUrl;
+  final String? videoThumbnail;
   final String? description;
+  final String? name;
   final double? price;
   final UnitModel? unit;
   final List<String>? saleLocations;
@@ -17,11 +19,33 @@ class ProductModel extends BaseResponse {
     this.productType,
     this.photoUrls,
     this.videoUrl,
+    this.videoThumbnail,
     this.description,
+    this.name,
     this.price,
     this.unit,
     this.saleLocations,
   });
+
+  @override
+  T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
+    return ProductModel.fromJson(json) as T;
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        creator,
+        productType,
+        photoUrls,
+        videoUrl,
+        description,
+        price,
+        unit,
+        saleLocations,
+        name,
+        videoThumbnail
+      ];
 
   ProductModel copyWith({
     String? id,
@@ -29,7 +53,9 @@ class ProductModel extends BaseResponse {
     ProductTypeModel? productType,
     List<String>? photoUrls,
     String? videoUrl,
+    String? videoThumbnail,
     String? description,
+    String? name,
     double? price,
     UnitModel? unit,
     List<String>? saleLocations,
@@ -40,16 +66,13 @@ class ProductModel extends BaseResponse {
       productType: productType ?? this.productType,
       photoUrls: photoUrls ?? this.photoUrls,
       videoUrl: videoUrl ?? this.videoUrl,
+      videoThumbnail: videoThumbnail ?? this.videoThumbnail,
       description: description ?? this.description,
+      name: name ?? this.name,
       price: price ?? this.price,
       unit: unit ?? this.unit,
       saleLocations: saleLocations ?? this.saleLocations,
     );
-  }
-
-  @override
-  T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
-    return ProductModel.fromJson(json) as T;
   }
 
   Map<String, dynamic> toJson() {
@@ -59,7 +82,9 @@ class ProductModel extends BaseResponse {
       'productType': productType?.toJson(),
       'photoUrls': photoUrls,
       'videoUrl': videoUrl,
+      'videoThumbnail': videoThumbnail,
       'description': description,
+      'name': name,
       'price': price,
       'unit': unit?.toJson(),
       'saleLocations': saleLocations,
@@ -68,14 +93,16 @@ class ProductModel extends BaseResponse {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'] ?? '',
+      id: json['id'],
       creator: json['creator'] != null ? User.fromJson(json['creator']) : null,
       productType: json['productType'] != null
           ? ProductTypeModel.fromJson(json['productType'])
           : null,
       photoUrls: List<String>.from(json['photoUrls']),
       videoUrl: json['videoUrl'],
+      videoThumbnail: json['videoThumbnail'],
       description: json['description'],
+      name: json['name'],
       price: json['price']?.toDouble(),
       unit: json['unit'] != null ? UnitModel.fromJson(json['unit']) : null,
       saleLocations: List<String>.from(json['saleLocations']),
@@ -84,6 +111,6 @@ class ProductModel extends BaseResponse {
 
   @override
   String toString() {
-    return 'CommentModel(id: $id, creator: $creator, productType: $productType, photoUrls: $photoUrls, videoUrl: $videoUrl, description: $description, price: $price, unit: $unit, saleLocations: $saleLocations)';
+    return 'ProductModel(id: $id, creator: $creator, productType: $productType, photoUrls: $photoUrls, videoUrl: $videoUrl, videoThumbnail: $videoThumbnail, description: $description, name: $name, price: $price, unit: $unit, saleLocations: $saleLocations)';
   }
 }

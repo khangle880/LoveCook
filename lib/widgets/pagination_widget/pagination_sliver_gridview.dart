@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pagination_helper.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../extensions/extensions.dart';
+import 'pagination_helper.dart';
 
 ///only used for vertical ListView
 class PaginationSliverGridView extends StatefulWidget {
@@ -66,7 +68,11 @@ class _PaginationSliverGridViewState extends State<PaginationSliverGridView> {
   Widget? buildItem(int index) {
     //loading items
     if (isFirstLoad) {
-      return widget.loadingIndicatorBuilder?.call(context) ?? const SizedBox();
+      return widget.loadingIndicatorBuilder?.call(context) ??
+          Container(
+            child: SizedBox().appCenterProgressLoading,
+            margin: EdgeInsets.all(32.0),
+          );
     }
     if (index < length) {
       return widget.itemBuilder.call(context, index);
@@ -85,9 +91,9 @@ class _PaginationSliverGridViewState extends State<PaginationSliverGridView> {
                   }
                 },
                 child: widget.loadingIndicatorBuilder?.call(context) ??
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      child: CircularProgressIndicator(),
+                      child: SizedBox().appCenterProgressLoading,
                     ));
           });
     } else {

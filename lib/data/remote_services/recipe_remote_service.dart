@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get_it/get_it.dart';
 import '../../core/base/base_response.dart';
 import '../../core/core.dart';
@@ -103,7 +101,6 @@ class RecipeRemoteService implements IRecipeRemoteService {
       {required Map<String, dynamic> query}) async {
     final response = await _networkUtility.request('v1/recipes/', Method.GET,
         queryParameters: query);
-    log(response.toString());
 
     return PagingListResponse<RecipeModel>.fromJson(response);
   }

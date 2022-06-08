@@ -50,7 +50,7 @@ class LookupRepository extends ILookupRepository {
   }
 
   @override
-  Future<Either<Failure, PagingListResponse<IngredientModel>>>
+  Future<Either<Failure, PagingListResponse<IngredientTypeModel>>>
       getIngredients() async {
     try {
       final result = await remoteService.getIngredients();
@@ -105,6 +105,18 @@ class LookupRepository extends ILookupRepository {
   Future<Either<Failure, PagingListResponse<UnitModel>>> getUnits() async {
     try {
       final result = await remoteService.getUnits();
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(exception: e));
+    } on Exception catch (e) {
+      return Left(UnknownFailure(exception: e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SingleResponse<LookupModel>>> getLookup() async {
+    try {
+      final result = await remoteService.getLookup();
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(exception: e));

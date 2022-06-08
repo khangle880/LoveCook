@@ -6,8 +6,9 @@ abstract class ILookupRemoteService {
   Future<PagingListResponse<MenuTypeModel>> getMenuTypes();
   Future<PagingListResponse<CuisineModel>> getCuisines();
   Future<PagingListResponse<DishTypeModel>> getDishTypes();
-  Future<PagingListResponse<IngredientModel>> getIngredients();
+  Future<PagingListResponse<IngredientTypeModel>> getIngredients();
   Future<PagingListResponse<ProductTypeModel>> getProductTypes();
   Future<PagingListResponse<UnitModel>> getUnits();
   Future<PagingListResponse<CookMethodModel>> getCookMethods();
+  Future<SingleResponse<LookupModel>> getLookup();
 }

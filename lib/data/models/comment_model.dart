@@ -1,5 +1,4 @@
 import '../../core/base/base_response.dart';
-
 import 'models.dart';
 
 class CommentModel extends BaseResponse {
@@ -87,4 +86,15 @@ class CommentModel extends BaseResponse {
   String toString() {
     return 'CommentModel(id: $id, creator: $creator, parentId: $parentId, postId: $postId, photoUrls: $photoUrls, videoUrl: $videoUrl, content: $content)';
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        creator,
+        parentId,
+        postId,
+        photoUrls,
+        videoUrl,
+        content,
+      ];
 }
