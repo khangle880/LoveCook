@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       Icons.home,
       MdiIcons.foodForkDrink,
       MdiIcons.forumOutline,
-      MdiIcons.bellOutline,
+      MdiIcons.store,
       Icons.menu,
     ];
   }

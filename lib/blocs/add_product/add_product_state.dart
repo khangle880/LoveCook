@@ -11,7 +11,7 @@ class AddProductState extends Equatable {
   final String? description;
   final String? name;
   final double? price;
-  final UnitModel? unit;
+  final String? currencyUnit;
   final List<String>? saleLocations;
   final String? id;
   AddProductState({
@@ -23,7 +23,7 @@ class AddProductState extends Equatable {
     this.description,
     this.name,
     this.price,
-    this.unit,
+    this.currencyUnit,
     this.saleLocations,
     this.id,
   });
@@ -40,7 +40,7 @@ class AddProductState extends Equatable {
       description,
       name,
       price,
-      unit,
+      currencyUnit,
       saleLocations,
     ];
   }
@@ -54,7 +54,7 @@ class AddProductState extends Equatable {
     String? description,
     String? name,
     double? price,
-    UnitModel? unit,
+    String? currencyUnit,
     List<String>? saleLocations,
     String? id,
   }) {
@@ -67,7 +67,7 @@ class AddProductState extends Equatable {
       description: description ?? this.description,
       name: name ?? this.name,
       price: price ?? this.price,
-      unit: unit ?? this.unit,
+      currencyUnit: currencyUnit ?? this.currencyUnit,
       saleLocations: saleLocations ?? this.saleLocations,
       id: id ?? this.id,
     );

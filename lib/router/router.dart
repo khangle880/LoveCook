@@ -13,6 +13,7 @@ class Routes {
   static String get addRecipe => '/addRecipe';
   static String get addProduct => '/addProduct';
   static String get feedComment => '/feedComment';
+  static String get productDetail => '/productDetail';
 
   static getRoute(RouteSettings settings) {
     Widget widget;

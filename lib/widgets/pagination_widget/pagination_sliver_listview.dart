@@ -17,6 +17,8 @@ class PaginationSliverListView extends StatefulWidget {
 
   ///pass into if you don't wanna use the default loading indicator [VueCircularProgressIndicator]
   final WidgetBuilder? loadingIndicatorBuilder;
+  // no item builder
+  final WidgetBuilder? emptyBuilder;
 
   final WidgetBuilder? unloadingIndicatorBuilder;
 
@@ -31,6 +33,7 @@ class PaginationSliverListView extends StatefulWidget {
     this.scrollController,
     this.itemPercentBeforeLoadMore = 30,
     this.separatorBuilder,
+    this.emptyBuilder,
   });
 
   @override
@@ -46,8 +49,22 @@ class _PaginationSliverListViewState extends State<PaginationSliverListView> {
     super.initState();
     scrollController = widget.scrollController ?? ScrollController();
     widget.paginationController.addListener(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant PaginationSliverListView oldWidget) {
+    if (oldWidget.paginationController != widget.paginationController) {
+      widget.paginationController.addListener(() {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   Widget buildItem(int index) {
@@ -88,18 +105,23 @@ class _PaginationSliverListViewState extends State<PaginationSliverListView> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((_, index) {
-      return index != listLength
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                buildItem(index),
-                widget.separatorBuilder?.call(_, index) ?? const SizedBox(),
-              ],
-            )
-          : buildItem(index);
-    }, childCount: listLength));
+    return listLength == 0
+        ? SliverToBoxAdapter(
+            child: widget.emptyBuilder?.call(context) ?? SizedBox.shrink(),
+          )
+        : SliverList(
+            delegate: SliverChildBuilderDelegate((_, index) {
+            return index != listLength
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      buildItem(index),
+                      widget.separatorBuilder?.call(_, index) ??
+                          const SizedBox(),
+                    ],
+                  )
+                : buildItem(index);
+          }, childCount: listLength));
   }
 
   int get listLength =>

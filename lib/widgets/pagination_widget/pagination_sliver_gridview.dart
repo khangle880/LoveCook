@@ -18,6 +18,9 @@ class PaginationSliverGridView extends StatefulWidget {
   ///pass into if you don't wanna use the default loading indicator [VueCircularProgressIndicator]
   final WidgetBuilder? loadingIndicatorBuilder;
 
+  // no item builder
+  final WidgetBuilder? emptyBuilder;
+
   ///have to pass into if [showInitialLoadingEffectItem] is true
 
   final double listPaddingStartAndEnd;
@@ -43,7 +46,8 @@ class PaginationSliverGridView extends StatefulWidget {
       this.mainAxisSpacing = 0,
       this.crossAxisSpacing = 0,
       this.childAspectRatio = 1,
-      this.itemPercentBeforeLoadMore = 30})
+      this.itemPercentBeforeLoadMore = 30,
+      this.emptyBuilder})
       : assert(paginationController.limit % crossAxisCount == 0),
         super(key: key);
 
@@ -61,8 +65,22 @@ class _PaginationSliverGridViewState extends State<PaginationSliverGridView> {
   void initState() {
     super.initState();
     widget.paginationController.addListener(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant PaginationSliverGridView oldWidget) {
+    if (oldWidget.paginationController != widget.paginationController) {
+      widget.paginationController.addListener(() {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   Widget? buildItem(int index) {
@@ -103,25 +121,31 @@ class _PaginationSliverGridViewState extends State<PaginationSliverGridView> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: widget.crossAxisCount,
-          childAspectRatio: widget.childAspectRatio,
-          crossAxisSpacing: widget.crossAxisSpacing,
-          mainAxisSpacing: widget.mainAxisSpacing),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return Padding(
-              padding: EdgeInsets.only(
-                  top: index <= (widget.crossAxisCount - 1)
-                      ? widget.listPaddingStartAndEnd
-                      : 0,
-                  bottom: index >= length ? widget.listPaddingStartAndEnd : 0),
-              child: buildItem(index));
-        },
-        childCount: listLength,
-      ),
-    );
+    return listLength == 0
+        ? SliverToBoxAdapter(
+            child: widget.emptyBuilder?.call(context) ?? SizedBox.shrink(),
+          )
+        : SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: widget.crossAxisCount,
+                childAspectRatio: widget.childAspectRatio,
+                crossAxisSpacing: widget.crossAxisSpacing,
+                mainAxisSpacing: widget.mainAxisSpacing),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Padding(
+                    padding: EdgeInsets.only(
+                        top: index <= (widget.crossAxisCount - 1)
+                            ? widget.listPaddingStartAndEnd
+                            : 0,
+                        bottom: index >= length
+                            ? widget.listPaddingStartAndEnd
+                            : 0),
+                    child: buildItem(index));
+              },
+              childCount: listLength,
+            ),
+          );
   }
 
   int get listLength {

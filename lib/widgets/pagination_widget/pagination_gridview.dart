@@ -17,6 +17,9 @@ class PaginationGridView extends StatefulWidget {
   ///pass into if you don't wanna use the default loading indicator [VueCircularProgressIndicator]
   final WidgetBuilder? loadingIndicatorBuilder;
 
+  // no item builder
+  final WidgetBuilder? emptyBuilder;
+
   ///have to pass into if [showInitialLoadingEffectItem] is true
   final IndexedWidgetBuilder? loadingEffectItemBuilder;
 
@@ -59,7 +62,8 @@ class PaginationGridView extends StatefulWidget {
       this.itemPercentBeforeLoadMore = 30,
       this.shrinkWap = false,
       this.padding,
-      this.physics})
+      this.physics,
+      this.emptyBuilder})
       : super(key: key);
 
   // this assert make sure the load more and loading effect work well
@@ -76,8 +80,22 @@ class _PaginationGridViewState extends State<PaginationGridView> {
     super.initState();
     _scrollController = widget.scrollController ?? ScrollController();
     widget.paginationController.addListener(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant PaginationGridView oldWidget) {
+    if (oldWidget.paginationController != widget.paginationController) {
+      widget.paginationController.addListener(() {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -133,39 +151,45 @@ class _PaginationGridViewState extends State<PaginationGridView> {
       },
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       color: Theme.of(context).primaryColor,
-      child: GridView.builder(
-          physics: widget.physics ?? AlwaysScrollableScrollPhysics(),
-          padding: widget.padding,
-          shrinkWrap: widget.shrinkWap,
-          scrollDirection: widget.scrollDirection,
-          controller: _scrollController,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: widget.crossAxisCount,
-              childAspectRatio: widget.childAspectRatio,
-              crossAxisSpacing: widget.crossAxisSpacing,
-              mainAxisSpacing: widget.mainAxisSpacing),
-          itemCount: listLength,
-          itemBuilder: (BuildContext ctx, index) {
-            return Padding(
-                padding: EdgeInsets.only(
-                    top: isVertical
-                        ? (index <= (widget.crossAxisCount - 1)
-                            ? widget.listPaddingStartAndEnd
-                            : 0)
-                        : 0,
-                    bottom: isVertical
-                        ? (index >= length ? widget.listPaddingStartAndEnd : 0)
-                        : 0,
-                    left: !isVertical
-                        ? (index <= (widget.crossAxisCount - 1)
-                            ? widget.listPaddingStartAndEnd
-                            : 0)
-                        : 0,
-                    right: !isVertical
-                        ? (index >= length ? widget.listPaddingStartAndEnd : 0)
-                        : 0),
-                child: buildItem(index));
-          }),
+      child: listLength == 0
+          ? (widget.emptyBuilder?.call(context) ?? SizedBox.shrink())
+          : GridView.builder(
+              physics: widget.physics ?? AlwaysScrollableScrollPhysics(),
+              padding: widget.padding,
+              shrinkWrap: widget.shrinkWap,
+              scrollDirection: widget.scrollDirection,
+              controller: _scrollController,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: widget.crossAxisCount,
+                  childAspectRatio: widget.childAspectRatio,
+                  crossAxisSpacing: widget.crossAxisSpacing,
+                  mainAxisSpacing: widget.mainAxisSpacing),
+              itemCount: listLength,
+              itemBuilder: (BuildContext ctx, index) {
+                return Padding(
+                    padding: EdgeInsets.only(
+                        top: isVertical
+                            ? (index <= (widget.crossAxisCount - 1)
+                                ? widget.listPaddingStartAndEnd
+                                : 0)
+                            : 0,
+                        bottom: isVertical
+                            ? (index >= length
+                                ? widget.listPaddingStartAndEnd
+                                : 0)
+                            : 0,
+                        left: !isVertical
+                            ? (index <= (widget.crossAxisCount - 1)
+                                ? widget.listPaddingStartAndEnd
+                                : 0)
+                            : 0,
+                        right: !isVertical
+                            ? (index >= length
+                                ? widget.listPaddingStartAndEnd
+                                : 0)
+                            : 0),
+                    child: buildItem(index));
+              }),
     );
   }
 
