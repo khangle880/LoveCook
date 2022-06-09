@@ -34,6 +34,8 @@ class PageDependencies {
         instanceName: Routes.addProduct);
     injector.registerFactory<Widget>(() => FeedCommentPage(injector()),
         instanceName: Routes.feedComment);
+    injector.registerFactory<Widget>(() => ProductDetailPage(),
+        instanceName: Routes.productDetail);
     // injector.registerFactory<Widget>(() => ProfilePage(injector()));
   }
 }

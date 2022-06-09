@@ -1,5 +1,4 @@
 import '../../extensions/extensions.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../../core/base/base_response.dart';
 import '../../../data/enum.dart';
@@ -12,30 +11,28 @@ class RecipeBloc extends BaseBloc<RecipeState> {
   final IRecipeRepository _recipeRepository;
   final ISearchRepository _searchRepository;
   PaginationHelper<RecipeModel>? paginationHelper;
-  BehaviorSubject<List<RecipeModel>?> bsRecipes = BehaviorSubject.seeded(null);
   RecipeBloc(
     this._recipeRepository,
     this._searchRepository,
   );
 
-  Future<PagingListResponse> getRecipes({required int page}) async {
+  Future<PagingListResponse<RecipeModel>> getRecipes(
+      {String? query, required int page}) async {
+    if (query != null && query.isNotEmpty) {
+      final responseEither = await _searchRepository.search(
+          query: query, searchType: SearchType.recipe, page: page);
+      return responseEither.fold((failure) {
+        return Future.error(failure);
+      }, (data) {
+        return data.item!.recipes!;
+      });
+    }
     final responseEither =
         await _recipeRepository.getRecipes(query: {'page': page});
     return responseEither.fold((failure) {
       return Future.error(failure);
     }, (data) {
       return data;
-    });
-  }
-
-  Future<PagingListResponse<RecipeModel>> getSearch(
-      {required String text, required int page}) async {
-    final responseEither = await _searchRepository.search(
-        query: text, searchType: SearchType.recipe, page: page);
-    return responseEither.fold((failure) {
-      return Future.error(failure);
-    }, (data) {
-      return data.item!.recipes!;
     });
   }
 
@@ -48,9 +45,8 @@ class RecipeBloc extends BaseBloc<RecipeState> {
       likeCount = liked ? likeCount + 1 : likeCount - 1;
       final newRecipe = recipe.copyWith(isLiked: liked, totalLikes: likeCount);
 
-      final newList = List<RecipeModel>.from(bsRecipes.value ?? [])
+      final newList = List<RecipeModel>.from(paginationHelper?.items ?? [])
           .replaceItem(newRecipe, (element) => element.id == newRecipe.id);
-      bsRecipes.add(newList);
       paginationHelper!.updateList(newList);
       return liked;
     }).catchError((e) {
@@ -60,18 +56,17 @@ class RecipeBloc extends BaseBloc<RecipeState> {
 
   void updateItem(RecipeModel? recipe) async {
     if (recipe == null) return;
-    final index = (bsRecipes.value ?? [])
+    final index = (paginationHelper?.items ?? [])
         .indexWhere((element) => element.id == recipe.id);
     var newList;
     if (index == -1) {
-      newList = List<RecipeModel>.from(bsRecipes.value ?? [])
+      newList = List<RecipeModel>.from(paginationHelper?.items ?? [])
         ..insert(0, recipe);
     } else {
-      newList = List<RecipeModel>.from(bsRecipes.value ?? [])
+      newList = List<RecipeModel>.from(paginationHelper?.items ?? [])
           .replaceItem(recipe, (element) => element.id == recipe.id);
     }
 
-    bsRecipes.add(newList);
     paginationHelper!.updateList(newList);
   }
 
@@ -79,7 +74,5 @@ class RecipeBloc extends BaseBloc<RecipeState> {
   void dispose() {
     super.dispose();
     paginationHelper = null;
-    bsRecipes.drain();
-    bsRecipes.close();
   }
 }

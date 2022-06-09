@@ -11,7 +11,7 @@ class ProductModel extends BaseResponse {
   final String? description;
   final String? name;
   final double? price;
-  final UnitModel? unit;
+  final String? currencyUnit;
   final List<String>? saleLocations;
   ProductModel({
     this.id,
@@ -23,7 +23,7 @@ class ProductModel extends BaseResponse {
     this.description,
     this.name,
     this.price,
-    this.unit,
+    this.currencyUnit,
     this.saleLocations,
   });
 
@@ -41,7 +41,7 @@ class ProductModel extends BaseResponse {
         videoUrl,
         description,
         price,
-        unit,
+        currencyUnit,
         saleLocations,
         name,
         videoThumbnail
@@ -57,7 +57,7 @@ class ProductModel extends BaseResponse {
     String? description,
     String? name,
     double? price,
-    UnitModel? unit,
+    String? unit,
     List<String>? saleLocations,
   }) {
     return ProductModel(
@@ -70,7 +70,7 @@ class ProductModel extends BaseResponse {
       description: description ?? this.description,
       name: name ?? this.name,
       price: price ?? this.price,
-      unit: unit ?? this.unit,
+      currencyUnit: unit ?? this.currencyUnit,
       saleLocations: saleLocations ?? this.saleLocations,
     );
   }
@@ -86,7 +86,7 @@ class ProductModel extends BaseResponse {
       'description': description,
       'name': name,
       'price': price,
-      'unit': unit?.toJson(),
+      'currencyUnit': currencyUnit,
       'saleLocations': saleLocations,
     };
   }
@@ -104,13 +104,13 @@ class ProductModel extends BaseResponse {
       description: json['description'],
       name: json['name'],
       price: json['price']?.toDouble(),
-      unit: json['unit'] != null ? UnitModel.fromJson(json['unit']) : null,
+      currencyUnit: json['currencyUnit'],
       saleLocations: List<String>.from(json['saleLocations']),
     );
   }
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, creator: $creator, productType: $productType, photoUrls: $photoUrls, videoUrl: $videoUrl, videoThumbnail: $videoThumbnail, description: $description, name: $name, price: $price, unit: $unit, saleLocations: $saleLocations)';
+    return 'ProductModel(id: $id, creator: $creator, productType: $productType, photoUrls: $photoUrls, videoUrl: $videoUrl, videoThumbnail: $videoThumbnail, description: $description, name: $name, price: $price, currencyUnit: $currencyUnit, saleLocations: $saleLocations)';
   }
 }

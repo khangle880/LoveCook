@@ -20,6 +20,9 @@ class PaginationListView extends StatefulWidget {
   ///pass into if you don't wanna use the default loading indicator [VueCircularProgressIndicator]
   final WidgetBuilder? loadingIndicatorBuilder;
 
+  // no item builder
+  final WidgetBuilder? emptyBuilder;
+
   ///have to pass into if [showInitialLoadingEffectItem] is true
   final IndexedWidgetBuilder? loadingEffectItemBuilder;
 
@@ -43,6 +46,7 @@ class PaginationListView extends StatefulWidget {
     this.listPaddingStartAndEnd = 0,
     this.scrollDirection = Axis.vertical,
     this.itemPercentBeforeLoadMore = 30,
+    this.emptyBuilder,
   });
 
   @override
@@ -58,8 +62,22 @@ class _PaginationListViewState extends State<PaginationListView> {
     super.initState();
     _scrollController = widget.scrollController ?? ScrollController();
     widget.paginationController.addListener(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant PaginationListView oldWidget) {
+    if (oldWidget.paginationController != widget.paginationController) {
+      widget.paginationController.addListener(() {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -115,37 +133,40 @@ class _PaginationListViewState extends State<PaginationListView> {
       },
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       color: Theme.of(context).primaryColor,
-      child: ListView.separated(
-        scrollDirection: widget.scrollDirection,
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(
-              top: isVertical
-                  ? (index == 0 ? widget.listPaddingStartAndEnd : 0)
-                  : 0,
-              bottom: isVertical
-                  ? (index == listLength - 1
-                      ? widget.listPaddingStartAndEnd
-                      : 0)
-                  : 0,
-              left: isVertical
-                  ? 0
-                  : (index == 0 ? widget.listPaddingStartAndEnd : 0),
-              right: isVertical
-                  ? 0
-                  : (index == listLength - 1
-                      ? widget.listPaddingStartAndEnd
-                      : 0),
+      child: listLength == 0
+          ? (widget.emptyBuilder?.call(context) ?? SizedBox.shrink())
+          : ListView.separated(
+              scrollDirection: widget.scrollDirection,
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    top: isVertical
+                        ? (index == 0 ? widget.listPaddingStartAndEnd : 0)
+                        : 0,
+                    bottom: isVertical
+                        ? (index == listLength - 1
+                            ? widget.listPaddingStartAndEnd
+                            : 0)
+                        : 0,
+                    left: isVertical
+                        ? 0
+                        : (index == 0 ? widget.listPaddingStartAndEnd : 0),
+                    right: isVertical
+                        ? 0
+                        : (index == listLength - 1
+                            ? widget.listPaddingStartAndEnd
+                            : 0),
+                  ),
+                  child: buildItem(index),
+                );
+              },
+              separatorBuilder: (context, index) =>
+                  widget.separatorBuilder?.call(context, index) ??
+                  const SizedBox(),
+              itemCount: listLength,
             ),
-            child: buildItem(index),
-          );
-        },
-        separatorBuilder: (context, index) =>
-            widget.separatorBuilder?.call(context, index) ?? const SizedBox(),
-        itemCount: listLength,
-      ),
     );
   }
 

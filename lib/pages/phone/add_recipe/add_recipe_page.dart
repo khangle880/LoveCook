@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,7 @@ class AddRecipePage extends StatefulWidget {
 
 class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
   final _formKey = GlobalKey<FormState>();
+  bool _isUpdate = false;
 
   @override
   AddRecipeBloc get bloc => widget.bloc;
@@ -35,8 +37,10 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
     if (payload is RecipeModel?) {
       if (payload == null) {
         bloc.init();
-      } else
+      } else {
+        _isUpdate = true;
         bloc.loadRecipe(payload);
+      }
     }
   }
 
@@ -52,7 +56,7 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: "Create recipe".s20w600(),
+          title: "${_isUpdate ? "Update" : "Create"} recipe".s20w600(),
         ),
         backgroundColor: Colors.white,
         body: StreamBuilder<AddRecipeState>(
@@ -83,7 +87,7 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         SizedBox(height: 10),
                         InputTextWidget(
                           initValue: state.name,
-                          hintText: 'Cánh gà chiện giòn',
+                          hintText: 'Cánh gà chiên giòn',
                           onChanged: (value) {
                             bloc.updateField(name: value);
                           },
@@ -94,7 +98,8 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         SizedBox(height: 10),
                         InputTextWidget(
                           initValue: state.description,
-                          hintText: 'Cánh được chiên trong vòng 10 phút',
+                          hintText:
+                              'Cánh gà chiên giòn là món ăn ngon không chỉ người lớn mà trẻ em cũng rất thích...',
                           maxLine: 4,
                           onChanged: (value) {
                             bloc.updateField(description: value);
@@ -123,7 +128,7 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                           width: MediaQuery.of(context).size.width,
                           child: PickLookup<CookMethodModel>(
                             value: state.cookMethod,
-                            hintText: 'Chiện - xào',
+                            hintText: 'Chiên - xào',
                             items: lookup.cookMethods!,
                             getText: (item) => item.names!.join(' - '),
                             onChanged: (value) {
@@ -186,7 +191,7 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                                       initValue: state.totalTime == null
                                           ? null
                                           : state.totalTime?.round().toString(),
-                                      hintText: 'Minutes',
+                                      hintText: 'Phút',
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
                                         bloc.updateField(
@@ -354,9 +359,9 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         ),
                         SizedBox(height: 10),
                         const SizedBox(height: 10),
-                        buildVideo(state.videoUrl),
-                        const SizedBox(height: 10),
                         buildListImage(state.photoUrls ?? []),
+                        const SizedBox(height: 10),
+                        buildVideo(state.videoUrl),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -378,26 +383,27 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                             SizedBox(width: 10),
                             OutlineButton(
                               onPressed: () async {
-                                final String? videoUrl =
-                                    await singleVideoPick(context);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AppConfirmationDialog(
-                                    content: "Please choose thumnail for video",
-                                    onConfirmClicked: () async {
-                                      final thumnail =
-                                          await singleImagePick(context);
-                                      bloc.updateField(
-                                        videoUrl: videoUrl,
-                                        videoThumbnail: thumnail,
-                                      );
-                                      Navigator.pop(context);
-                                    },
-                                    onCancelClicked: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                );
+                                final videoUrl = await singleVideoPick(context);
+                                var thumnail;
+                                if (videoUrl != null) {
+                                  Future.delayed(
+                                    Duration(milliseconds: 1000),
+                                    () => showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AppInformationDialog(
+                                        content: "Choose a thumnail for video",
+                                      ),
+                                    ),
+                                  );
+                                  thumnail = await singleImagePick(context);
+                                }
+                                if (videoUrl != null && thumnail != null) {
+                                  bloc.updateField(
+                                    videoUrl: videoUrl,
+                                    videoThumbnail: thumnail,
+                                  );
+                                }
                               },
                               color: Color(0xFFDAEAF1),
                               height: 100,
@@ -407,50 +413,8 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                             ),
                           ],
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     CustomIconButton(
-                        //       icon: Assets.images.svg.icPickPhoto
-                        //           .svg(color: Color(0xFF73777B)),
-                        //       onTap: () async {
-                        //         final photoUrls = await multiImagePick(context);
-                        //         if (photoUrls.isNotEmpty) {
-                        //           bloc.updateField(photoUrls: photoUrls);
-                        //         }
-                        //       },
-                        //     ),
-                        //     SizedBox(width: 5),
-                        //     CustomIconButton(
-                        //       icon: Assets.images.svg.video
-                        //           .svg(color: Color(0xFF73777B)),
-                        //       onTap: () async {
-                        //         final String? videoUrl =
-                        //             await singleVideoPick(context);
-                        //         showDialog(
-                        //           context: context,
-                        //           builder: (context) => AppConfirmationDialog(
-                        //             content: "Please choose thumnail for video",
-                        //             onConfirmClicked: () async {
-                        //               final thumnail =
-                        //                   await singleImagePick(context);
-                        //               bloc.updateField(
-                        //                 videoUrl: videoUrl,
-                        //                 videoThumbnail: thumnail,
-                        //               );
-                        //               Navigator.pop(context);
-                        //             },
-                        //             onCancelClicked: () {
-                        //               Navigator.pop(context);
-                        //             },
-                        //           ),
-                        //         );
-                        //       },
-                        //     )
-                        //   ],
-                        // ),
                         //? Submit
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
                         MaterialInkwellButton(
                             title: 'Submit',
                             hasBorder: false,
@@ -470,26 +434,7 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                                 );
                               }
                             }),
-                        const SizedBox(height: 30),
-                        // TextButton(
-                        //   onPressed: () async {
-                        //     if (_formKey.currentState!.validate()) {
-                        //       _formKey.currentState!.save();
-                        //       var value = await bloc.saveRecipe();
-                        //       await Future.delayed(
-                        //           Duration(milliseconds: 1000));
-                        //       Navigator.pop(context, value);
-                        //     } else {
-                        //       showDialog(
-                        //         context: context,
-                        //         builder: (_) => AppInformationDialog(
-                        //             content:
-                        //                 "You need fullfill form before save!"),
-                        //       );
-                        //     }
-                        //   },
-                        //   child: const Text('Submit'),
-                        // ),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
@@ -510,10 +455,16 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(color: Colors.transparent),
-                child: Image.file(File(imageData), fit: BoxFit.cover));
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              decoration: BoxDecoration(color: Colors.transparent),
+              child: imageData.contains('/storage')
+                  ? Image.file(File(imageData), fit: BoxFit.cover)
+                  : CachedNetworkImage(
+                      imageUrl: AppConfig.instance.formatLink(imageData),
+                      fit: BoxFit.cover,
+                    ),
+            );
           },
         );
       }).toList(),
@@ -527,7 +478,10 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
         return Container(
           height: MediaQuery.of(context).size.height / 2,
           child: VideoWidget(
-            file: videoPath,
+            file: videoPath.contains('/storage') ? videoPath : null,
+            path: !videoPath.contains('/storage')
+                ? AppConfig.instance.formatLink(videoPath)
+                : null,
           ),
         );
       },

@@ -1,8 +1,16 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:lovecook/extensions/extensions.dart';
 
 import '../../../blocs/blocs.dart';
 import '../../../core/base/base.dart';
 import '../../../data/data.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../resources/resources.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/app_dialog/app_dialog.dart';
 import '../../../widgets/widgets.dart';
 
@@ -16,6 +24,7 @@ class AddProductPage extends StatefulWidget {
 
 class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
   final _formKey = GlobalKey<FormState>();
+  bool _isUpdate = false;
 
   @override
   AddProductBloc get bloc => widget.bloc;
@@ -26,8 +35,10 @@ class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
     if (payload is ProductModel?) {
       if (payload == null) {
         bloc.init();
-      } else
+      } else {
+        _isUpdate = true;
         bloc.loadProduct(payload);
+      }
     }
   }
 
@@ -42,7 +53,9 @@ class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
         return false;
       },
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: "${_isUpdate ? "Update" : "Create"} product".s20w600(),
+        ),
         backgroundColor: Colors.white,
         body: StreamBuilder<AddProductState>(
           stream: bloc.stateStream,
@@ -64,51 +77,199 @@ class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        SizedBox(height: 5),
-                        Text(
-                          "Overview",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        SizedBox(height: 10),
+                        "Product detail".s24w700(),
+                        SizedBox(height: 20),
                         //? Name
+                        "Product name".s14w600(color: AppColors.successDarken),
+                        SizedBox(height: 10),
                         InputTextWidget(
                           initValue: state.name,
-                          hintText: 'Product name',
+                          hintText: 'Nồi chiên không dầu',
                           onChanged: (value) {
                             bloc.updateField(name: value);
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 20),
                         //? Description
+                        "Description".s14w600(color: AppColors.successDarken),
+                        SizedBox(height: 10),
                         InputTextWidget(
                           initValue: state.description,
-                          hintText: 'Description',
+                          hintText:
+                              'Nồi chiên không dầu Philips sẽ sử dụng không khí nóng để chiên món ăn giòn rụm với lượng chất béo đến 90%...',
                           maxLine: 4,
                           onChanged: (value) {
                             bloc.updateField(description: value);
                           },
                         ),
+                        SizedBox(height: 20),
+                        "Product Type".s14w600(color: AppColors.successDarken),
                         SizedBox(height: 10),
-                        //? Submit
-                        TextButton(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              var value = await bloc.saveProduct();
-                              await Future.delayed(
-                                  Duration(milliseconds: 1000));
-                              Navigator.pop(context, value);
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AppInformationDialog(
-                                    content:
-                                        "You need fullfill form before save!"),
-                              );
-                            }
-                          },
-                          child: const Text('Submit'),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: PickLookup<ProductTypeModel>(
+                            value: state.productType,
+                            hintText: 'Dụng cụ nấu ăn',
+                            items: lookup.productTypes!,
+                            getText: (item) => item.names!.join(' - '),
+                            onChanged: (value) {
+                              bloc.updateField(productType: value);
+                            },
+                          ),
                         ),
+                        SizedBox(height: 20),
+                        //? price, unit
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xFFDAEAF1),
+                              borderRadius: BorderRadius.all(Radius.circular(
+                                      10.0) //                 <--- border radius here
+                                  )),
+                          padding: EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Price"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: InputTextWidget(
+                                      initValue: state.price == null
+                                          ? null
+                                          : state.price.toString(),
+                                      hintText: '10000',
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (value) {
+                                        bloc.updateField(
+                                          price: double.tryParse(value),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(height: 30),
+                                  "--".s20w600(),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  "Currency Unit"
+                                      .s14w600(color: AppColors.successDarken),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: 150,
+                                    child: PickLookup<String>(
+                                      value: state.currencyUnit,
+                                      items: [
+                                        "₫ (VND)",
+                                        "\$ (USD)",
+                                        "€ (EUR)",
+                                        "¥ (JPY)",
+                                        "¥ (CNY)",
+                                        "\$ (SGD)",
+                                        "₩ (KRW)",
+                                      ],
+                                      getText: (item) => item,
+                                      hintText: "₫ (VND)",
+                                      onChanged: (value) {
+                                        bloc.updateField(
+                                          currencyUnit: value,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        buildListImage(state.photoUrls ?? []),
+                        const SizedBox(height: 10),
+                        buildVideo(state.videoUrl),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OutlineButton(
+                              onPressed: () async {
+                                final photoUrls = await multiImagePick(context);
+                                if (photoUrls.isNotEmpty) {
+                                  bloc.updateField(photoUrls: photoUrls);
+                                }
+                              },
+                              color: Color(0xFFDAEAF1),
+                              height: 100,
+                              width: 100,
+                              contentBuilder: (color) => Assets
+                                  .images.svg.icPickPhoto
+                                  .svg(color: Color(0xFF73777B), height: 40),
+                            ),
+                            SizedBox(width: 10),
+                            OutlineButton(
+                              onPressed: () async {
+                                final videoUrl = await singleVideoPick(context);
+                                var thumnail;
+                                if (videoUrl != null) {
+                                  Future.delayed(
+                                    Duration(milliseconds: 1000),
+                                    () => showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AppInformationDialog(
+                                        content: "Choose a thumnail for video",
+                                      ),
+                                    ),
+                                  );
+                                  thumnail = await singleImagePick(context);
+                                }
+                                if (videoUrl != null && thumnail != null) {
+                                  bloc.updateField(
+                                    videoUrl: videoUrl,
+                                    videoThumbnail: thumnail,
+                                  );
+                                }
+                              },
+                              color: Color(0xFFDAEAF1),
+                              height: 100,
+                              width: 100,
+                              contentBuilder: (color) => Assets.images.svg.video
+                                  .svg(color: Color(0xFF73777B), height: 40),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        //? Submit
+                        MaterialInkwellButton(
+                            title: 'Submit',
+                            hasBorder: false,
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                var value = await bloc.saveProduct();
+                                await Future.delayed(
+                                    Duration(milliseconds: 1000));
+                                Navigator.pop(context, value);
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => AppInformationDialog(
+                                      content:
+                                          "You need fullfill form before save!"),
+                                );
+                              }
+                            }),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
@@ -118,6 +279,47 @@ class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
           },
         ),
       ),
+    );
+  }
+
+  Widget buildListImage(List<String> filePaths) {
+    if (filePaths.isEmpty) return SizedBox.shrink();
+    return CarouselSlider(
+      options: CarouselOptions(height: 300.0),
+      items: filePaths.map((imageData) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              decoration: BoxDecoration(color: Colors.transparent),
+              child: imageData.contains('/storage')
+                  ? Image.file(File(imageData), fit: BoxFit.cover)
+                  : CachedNetworkImage(
+                      imageUrl: AppConfig.instance.formatLink(imageData),
+                      fit: BoxFit.cover,
+                    ),
+            );
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  Widget buildVideo(String? videoPath) {
+    if (videoPath == null) return SizedBox.shrink();
+    return Builder(
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height / 2,
+          child: VideoWidget(
+            file: videoPath.contains('/storage') ? videoPath : null,
+            path: !videoPath.contains('/storage')
+                ? AppConfig.instance.formatLink(videoPath)
+                : null,
+          ),
+        );
+      },
     );
   }
 }

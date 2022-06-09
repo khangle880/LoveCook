@@ -9,20 +9,20 @@ Future<List<String>> multiVideoPick(BuildContext context) async {
   return mediaPick(context: context, requestType: RequestType.video);
 }
 
-Future<String> singleImagePick(BuildContext context) async {
+Future<String?> singleImagePick(BuildContext context) async {
   return mediaPick(
     context: context,
     requestType: RequestType.image,
     maxAssetsCount: 1,
-  ).then((value) => value.first);
+  ).then((value) => value.isEmpty ? null : value.first);
 }
 
-Future<String> singleVideoPick(BuildContext context) async {
+Future<String?> singleVideoPick(BuildContext context) async {
   return mediaPick(
     context: context,
     requestType: RequestType.video,
     maxAssetsCount: 1,
-  ).then((value) => value.first);
+  ).then((value) => value.isEmpty ? null : value.first);
 }
 
 Future<List<String>> mediaPick({

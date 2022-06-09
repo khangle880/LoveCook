@@ -7,7 +7,9 @@ import 'add_product_state.dart';
 class AddProductBloc extends BaseBloc<AddProductState> {
   final IProductRepository _productRepository;
   final ILookupRepository _lookupRepository;
-  AddProductBloc(this._productRepository, this._lookupRepository);
+  final IUploadRepository _uploadRepository;
+  AddProductBloc(
+      this._productRepository, this._lookupRepository, this._uploadRepository);
 
   Stream<LookupModel?> get lookupStream =>
       stateStream.map((event) => event.lookup);
@@ -28,7 +30,7 @@ class AddProductBloc extends BaseBloc<AddProductState> {
       description: product.description,
       name: product.name,
       price: product.price,
-      unit: product.unit,
+      currencyUnit: product.currencyUnit,
       saleLocations: product.saleLocations,
       id: product.id,
     ));
@@ -43,7 +45,7 @@ class AddProductBloc extends BaseBloc<AddProductState> {
     String? description,
     String? name,
     double? price,
-    UnitModel? unit,
+    String? currencyUnit,
     List<String>? saleLocations,
   }) {
     emit((state ?? AddProductState()).copyWith(
@@ -54,9 +56,29 @@ class AddProductBloc extends BaseBloc<AddProductState> {
       description: description,
       name: name,
       price: price,
-      unit: unit,
+      currencyUnit: currencyUnit,
       saleLocations: saleLocations,
     ));
+  }
+
+  Future<String> uploadVideo(String filePath) async {
+    final imageResponseEither =
+        await _uploadRepository.uploadVideoData(filePath: filePath);
+    return imageResponseEither.fold((failure) {
+      return Future.error(failure);
+    }, (data) {
+      return data.item?.urls?[0] ?? '';
+    });
+  }
+
+  Future<String> uploadImage(String filePath) async {
+    final imageResponseEither =
+        await _uploadRepository.uploadFileData(filePath: filePath);
+    return imageResponseEither.fold((failure) {
+      return Future.error(failure);
+    }, (data) {
+      return data.item?.urls?[0] ?? '';
+    });
   }
 
   Future<ProductModel> saveProduct() async {
@@ -64,14 +86,27 @@ class AddProductBloc extends BaseBloc<AddProductState> {
     final map = {
       'description': state?.description,
       'name': state?.name,
-      'photoUrls': state?.photoUrls,
-      'videoUrl': state?.videoUrl,
-      'videoThumbnail': state?.videoThumbnail,
       'productTypeId': state?.productType?.id,
       'price': state?.price,
-      'unitId': state?.unit?.id,
+      'currencyUnit': state?.currencyUnit,
       'saleLocations': state?.saleLocations,
     };
+    if (state?.photoUrls != null) {
+      map['photoUrls'] = await Future.wait(state!.photoUrls!.map((e) async {
+        if (e.contains('/storage')) {
+          return await uploadImage(e);
+        }
+        return e;
+      }));
+    }
+    if (state?.videoUrl != null) {
+      map['videoUrl'] = state!.videoUrl!.contains('/storage')
+          ? await uploadVideo(state!.videoUrl!)
+          : state!.videoUrl;
+      map['videoThumbnail'] = state!.videoThumbnail!.contains('/storage')
+          ? await uploadImage(state!.videoThumbnail!)
+          : state!.videoThumbnail;
+    }
 
     map.removeWhere((key, value) => value == null);
     Either response;

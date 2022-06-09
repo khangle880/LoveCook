@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -8,6 +9,7 @@ import '../../data/data.dart';
 import '../../extensions/extensions.dart';
 import '../../gen/assets.gen.dart';
 import '../../resources/colors.dart';
+import '../../utils/utils.dart';
 import '../widgets.dart';
 
 class BottomAddPost extends StatefulWidget {
@@ -50,47 +52,49 @@ class _BottomAddPostState extends State<BottomAddPost> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    UserRowInfor(userInfor: userInfor),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildInputContent(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    currentListImage.isNotEmpty
-                        ? _buildListImage()
-                        : SizedBox.shrink(),
-                    currentListVideo.isNotEmpty
-                        ? _buildVideoSlide()
-                        : SizedBox.shrink(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      children: [
-                        CustomIconButton(
-                          icon: Assets.images.svg.icPickPhoto
-                              .svg(color: Color(0xFF73777B)),
-                          onTap: () async {
-                            _multiImagePick();
-                          },
-                        ),
-                        SizedBox(width: 5),
-                        CustomIconButton(
-                          icon: Assets.images.svg.video
-                              .svg(color: Color(0xFF73777B)),
-                          onTap: () async {
-                            _multiVideoPick();
-                          },
-                        )
-                      ],
-                    )
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      UserRowInfor(userInfor: userInfor),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildInputContent(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      currentListImage.isNotEmpty
+                          ? _buildListImage()
+                          : SizedBox.shrink(),
+                      currentListVideo.isNotEmpty
+                          ? _buildVideoSlide()
+                          : SizedBox.shrink(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          CustomIconButton(
+                            icon: Assets.images.svg.icPickPhoto
+                                .svg(color: Color(0xFF73777B)),
+                            onTap: () async {
+                              _multiImagePick();
+                            },
+                          ),
+                          SizedBox(width: 5),
+                          CustomIconButton(
+                            icon: Assets.images.svg.video
+                                .svg(color: Color(0xFF73777B)),
+                            onTap: () async {
+                              _multiVideoPick();
+                            },
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -105,7 +109,10 @@ class _BottomAddPostState extends State<BottomAddPost> {
         return Builder(
           builder: (BuildContext context) {
             return VideoWidget(
-              file: videoData,
+              file: videoData.contains('/storage') ? videoData : null,
+              path: !videoData.contains('/storage')
+                  ? AppConfig.instance.formatLink(videoData)
+                  : null,
             );
           },
         );
@@ -158,10 +165,16 @@ class _BottomAddPostState extends State<BottomAddPost> {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(color: Colors.transparent),
-                child: Image.file(File(imageData), fit: BoxFit.cover));
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              decoration: BoxDecoration(color: Colors.transparent),
+              child: imageData.contains('/storage')
+                  ? Image.file(File(imageData), fit: BoxFit.cover)
+                  : CachedNetworkImage(
+                      imageUrl: AppConfig.instance.formatLink(imageData),
+                      fit: BoxFit.cover,
+                    ),
+            );
           },
         );
       }).toList(),

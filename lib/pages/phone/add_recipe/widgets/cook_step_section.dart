@@ -246,10 +246,16 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(color: Colors.transparent),
-                child: Image.file(File(imageData), fit: BoxFit.cover));
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              decoration: BoxDecoration(color: Colors.transparent),
+              child: imageData.contains('/storage')
+                  ? Image.file(File(imageData), fit: BoxFit.cover)
+                  : CachedNetworkImage(
+                      imageUrl: AppConfig.instance.formatLink(imageData),
+                      fit: BoxFit.cover,
+                    ),
+            );
           },
         );
       }).toList(),
