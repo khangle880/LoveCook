@@ -87,6 +87,9 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
                         arguments: RouteArguments(
                             data: bloc.postPagination!.items[index]));
                 },
+                onReactChange: (value) {
+                  bloc.reactPost(bloc.postPagination!.items[index].id, value);
+                },
               );
             },
             separatorBuilder: (context, index) {

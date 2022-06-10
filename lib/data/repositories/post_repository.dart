@@ -90,7 +90,7 @@ class PostRepository extends IPostRepository {
   }
 
   @override
-  Future<Either<Failure, SingleResponse<SingleType>>> react(
+  Future<Either<Failure, SingleResponse<ReactionModel>>> react(
       {required String postId, required String type}) async {
     try {
       final result = await remoteService.react(postId: postId, type: type);

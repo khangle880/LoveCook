@@ -1,3 +1,4 @@
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/base/base_response.dart';
@@ -21,12 +22,12 @@ class PostRemoteService implements IPostRemoteService {
   }
 
   @override
-  Future<SingleResponse<SingleType>> react(
+  Future<SingleResponse<ReactionModel>> react(
       {required String postId, required String type}) async {
-    final response =
-        await _networkUtility.request('v1/posts/$postId/react', Method.POST);
+    final response = await _networkUtility
+        .request('v1/posts/$postId/react', Method.POST, data: {'type': type});
 
-    return SingleResponse<SingleType>.fromJson(response);
+    return SingleResponse<ReactionModel>.fromJson(response);
   }
 
   @override

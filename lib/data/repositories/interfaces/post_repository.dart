@@ -7,7 +7,7 @@ import '../../../core/core.dart';
 abstract class IPostRepository {
   Future<Either<Failure, SingleResponse<PostModel>>> createPost(
       {required Map<String, dynamic> data});
-  Future<Either<Failure, SingleResponse<SingleType>>> react(
+  Future<Either<Failure, SingleResponse<ReactionModel>>> react(
       {required String postId, required String type});
   Future<Either<Failure, SingleResponse<SingleType>>> delReact(
       {required String postId});
