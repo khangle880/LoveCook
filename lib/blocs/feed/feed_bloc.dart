@@ -49,8 +49,6 @@ class FeedBloc extends BaseBloc<FeedState> {
       }
     }
 
-    print(videoUrlPath);
-
     if (listImageData.isNotEmpty) {
       for (final imagePath in listImageData) {
         final imageResponseEither =
@@ -81,6 +79,46 @@ class FeedBloc extends BaseBloc<FeedState> {
         currentListPost.insert(0, postContent);
         postPagination?.updateList(currentListPost);
       }
+    });
+  }
+
+  Future<void> reactPost(String? postId, String? emote) async {
+    if (postId == null) {
+      return;
+    }
+
+    if (emote == null || emote == 'Empty') {
+      final deleteResponseEither =
+          await _postRepository.delReact(postId: postId);
+      deleteResponseEither.fold((failure) => null, (data) {
+        final currentListPost = postPagination?.items;
+        final postIndex = currentListPost
+                ?.indexWhere((post) => post.id?.contains(postId) ?? false) ??
+            -1;
+
+        currentListPost?[postIndex] = currentListPost[postIndex]
+            .copyWith(statusWithMe: StatusWithMe(reaction: null));
+
+        postPagination?.updateList(currentListPost ?? []);
+      });
+
+      return;
+    }
+
+    // # 1
+    final responseEither =
+        await _postRepository.react(postId: postId, type: emote);
+
+    responseEither.fold((failure) => null, (data) {
+      final currentListPost = postPagination?.items;
+      final postIndex = currentListPost
+              ?.indexWhere((post) => post.id?.contains(postId) ?? false) ??
+          -1;
+
+      currentListPost?[postIndex] = currentListPost[postIndex]
+          .copyWith(statusWithMe: StatusWithMe(reaction: data.item));
+
+      postPagination?.updateList(currentListPost ?? []);
     });
   }
 

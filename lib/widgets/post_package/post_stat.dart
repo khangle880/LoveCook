@@ -8,8 +8,11 @@ import '../widgets.dart';
 class PostStats extends StatelessWidget {
   final PostModel? post;
   final VoidCallback? onCommentPress;
+  final Function(String?)? onReactChange;
 
-  const PostStats({Key? key, this.post, this.onCommentPress}) : super(key: key);
+  const PostStats(
+      {Key? key, this.post, this.onCommentPress, this.onReactChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,11 @@ class PostStats extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ReactionButtonToggle(
-                  onReactionChanged: (value, changed) {}, reactions: reactions),
+                  initialReaction: extracEmoteValue(post?.statusWithMe),
+                  onReactionChanged: (value, changed) {
+                    onReactChange?.call(value as String);
+                  },
+                  reactions: reactions),
             ),
             PostButton(
               icon: Icon(
@@ -45,5 +52,28 @@ class PostStats extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Reaction<String>? extracEmoteValue(StatusWithMe? status) {
+    switch (status?.reaction?.type) {
+      case null:
+        return null;
+      case "Empty":
+        return null;
+      case "Happy":
+        return reactions[1];
+      case "Angry":
+        return reactions[2];
+      case "In love":
+        return reactions[3];
+      case "Sad":
+        return reactions[4];
+      case "Suprised":
+        return reactions[5];
+      case "Mad":
+        return reactions[6];
+      default:
+        return null;
+    }
   }
 }

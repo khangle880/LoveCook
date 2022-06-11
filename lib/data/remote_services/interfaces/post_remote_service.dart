@@ -4,7 +4,7 @@ import '../../data.dart';
 abstract class IPostRemoteService {
   Future<SingleResponse<PostModel>> createPost(
       {required Map<String, dynamic> data});
-  Future<SingleResponse<SingleType>> react(
+  Future<SingleResponse<ReactionModel>> react(
       {required String postId, required String type});
   Future<SingleResponse<SingleType>> delReact({required String postId});
   Future<SingleResponse<PostModel>> getById({required String postId});

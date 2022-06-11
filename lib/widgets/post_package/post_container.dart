@@ -9,8 +9,10 @@ import '../widgets.dart';
 class PostContainer extends StatelessWidget {
   final PostModel post;
   final VoidCallback? onCommentPress;
+  final Function(String?)? onReactChange;
 
-  const PostContainer({Key? key, required this.post, this.onCommentPress})
+  const PostContainer(
+      {Key? key, required this.post, this.onCommentPress, this.onReactChange})
       : super(key: key);
 
   @override
@@ -49,6 +51,7 @@ class PostContainer extends StatelessWidget {
               child: PostStats(
                 post: post,
                 onCommentPress: onCommentPress,
+                onReactChange: onReactChange,
               ),
             ),
           ],
@@ -60,9 +63,7 @@ class PostContainer extends StatelessWidget {
   CarouselSlider _buildVideoSlider() {
     return CarouselSlider(
       options: CarouselOptions(height: 300.0, enableInfiniteScroll: false),
-      items: [
-        VideoWidget(path: AppConfig.instance.formatLink(post.videoUrl!))
-      ],
+      items: [VideoWidget(path: AppConfig.instance.formatLink(post.videoUrl!))],
     );
   }
 

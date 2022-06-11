@@ -12,6 +12,7 @@ class PostModel extends BaseResponse {
   final String? backgroundColor;
   final String? content;
   final List<String>? tags;
+  final StatusWithMe? statusWithMe;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   PostModel({
@@ -23,6 +24,7 @@ class PostModel extends BaseResponse {
     this.backgroundColor,
     this.content,
     this.tags,
+    this.statusWithMe,
     this.createdAt,
     this.updatedAt,
   });
@@ -36,6 +38,7 @@ class PostModel extends BaseResponse {
     String? backgroundColor,
     String? content,
     List<String>? tags,
+    StatusWithMe? statusWithMe,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -48,6 +51,7 @@ class PostModel extends BaseResponse {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         content: content ?? this.content,
         tags: tags ?? this.tags,
+        statusWithMe: statusWithMe ?? this.statusWithMe,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt);
   }
@@ -90,6 +94,9 @@ class PostModel extends BaseResponse {
         backgroundColor: json['backgroundColor'],
         content: json['content'],
         tags: List<String>.from(json['tags']),
+        statusWithMe: json["statusWithMe"] == null
+            ? null
+            : StatusWithMe.fromJson(json["statusWithMe"]),
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -108,7 +115,33 @@ class PostModel extends BaseResponse {
         backgroundColor,
         content,
         tags,
+        statusWithMe,
         createdAt,
         updatedAt,
       ];
+}
+
+class StatusWithMe {
+  StatusWithMe({
+    this.reaction,
+  });
+
+  final ReactionModel? reaction;
+
+  StatusWithMe copyWith({
+    ReactionModel? reaction,
+  }) =>
+      StatusWithMe(
+        reaction: reaction ?? this.reaction,
+      );
+
+  factory StatusWithMe.fromJson(Map<String, dynamic> json) => StatusWithMe(
+        reaction: json["reaction"] == null
+            ? null
+            : ReactionModel.fromJson(json["reaction"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "reaction": reaction == null ? null : reaction?.toJson(),
+      };
 }
