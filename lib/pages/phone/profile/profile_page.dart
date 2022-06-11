@@ -49,38 +49,38 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
                 ProfileStackBackground(
                   imageUrl: user_data.avatarUrl,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OutlineButton(
-                        color: Colors.amberAccent,
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.recipes,
-                              arguments: user_data);
-                        },
-                        text: user_data.totalRecipes.toString() + " Recipes",
-                      ),
-                      OutlineButton(
-                        color: Colors.cyan,
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.posts,
-                              arguments: user_data);
-                        },
-                        text: user_data.totalPosts.toString() + " Posts",
-                      ),
-                      OutlineButton(
-                        color: Colors.lightGreen,
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.products,
-                              arguments: user_data);
-                        },
-                        text: user_data.totalProducts.toString() + " Products",
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       OutlineButton(
+                //         color: Colors.amberAccent,
+                //         onPressed: () {
+                //           Navigator.pushNamed(context, Routes.recipes,
+                //               arguments: user_data);
+                //         },
+                //         text: user_data.totalRecipes.toString() + " Recipes",
+                //       ),
+                //       OutlineButton(
+                //         color: Colors.cyan,
+                //         onPressed: () {
+                //           Navigator.pushNamed(context, Routes.posts,
+                //               arguments: user_data);
+                //         },
+                //         text: user_data.totalPosts.toString() + " Posts",
+                //       ),
+                //       OutlineButton(
+                //         color: Colors.lightGreen,
+                //         onPressed: () {
+                //           Navigator.pushNamed(context, Routes.products,
+                //               arguments: user_data);
+                //         },
+                //         text: user_data.totalProducts.toString() + " Products",
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Expanded(
                     child: ProfileBottom(
                   user: user_data,

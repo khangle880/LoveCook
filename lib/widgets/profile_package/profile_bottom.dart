@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../extensions/text_style.dart';
+import '../../router/router.dart';
 import '../widgets.dart';
 import '../../data/data.dart';
 
@@ -43,28 +44,44 @@ class _ProfileBottomState extends State<ProfileBottom> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.recipes,
+                      arguments: _user);
+                },
                 title: Center(
                     child: _user != null
-                        ? _user!.followerUsers!.length
+                        ? _user?.totalRecipes
                             .toString()
                             .s20w700(color: Color(0xFF646FD4))
                         : '0'.s20w700(color: Color(0xFF646FD4))),
-                subtitle: Center(child: Text('Followers')),
+                subtitle: Center(child: Text('Recipes')),
               ),
               SizedBox(height: 40.0),
               ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.posts, arguments: _user);
+                },
                 title: Center(
                     child: _user != null
-                        ? _user!.followingUsers!.length
+                        ? _user!.totalPosts!
                             .toString()
                             .s20w700(color: Color(0xFF646FD4))
                         : '0'.s20w700(color: Color(0xFF646FD4))),
-                subtitle: Center(child: Text('Following')),
-              ),
-              SizedBox(height: 40.0),
-              ListTile(
-                title: Center(child: '40'.s20w700(color: Color(0xFF646FD4))),
                 subtitle: Center(child: Text('Posts')),
+              ),
+              SizedBox(height: 40.0),
+              ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.products,
+                      arguments: _user);
+                },
+                title: Center(
+                    child: _user != null
+                        ? _user!.totalProducts!
+                            .toString()
+                            .s20w700(color: Color(0xFF646FD4))
+                        : '0'.s20w700(color: Color(0xFF646FD4))),
+                subtitle: Center(child: Text('Products')),
               )
             ],
           ),

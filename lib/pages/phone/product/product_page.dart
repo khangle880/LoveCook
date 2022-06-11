@@ -267,7 +267,7 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
                       crossAxisCount: 3,
                       crossAxisSpacing: 3,
                       mainAxisSpacing: 10,
-                      childAspectRatio: 80 / 130,
+                      childAspectRatio: 80 / 140,
                       padding: EdgeInsets.all(10),
                     ),
                   ),

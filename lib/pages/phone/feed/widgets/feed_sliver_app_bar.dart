@@ -6,9 +6,10 @@ import '../../../../widgets/widgets.dart';
 
 class FeedSliverAppBar extends StatelessWidget {
   final User? userInfor;
+  final bool isHomeFeed;
   final Function(String, List<String>, List<String>)? onPostCall;
 
-  FeedSliverAppBar({this.userInfor, this.onPostCall});
+  FeedSliverAppBar({this.userInfor, this.onPostCall, this.isHomeFeed = true});
 
   @override
   Widget build(BuildContext context) {
@@ -27,22 +28,32 @@ class FeedSliverAppBar extends StatelessWidget {
       centerTitle: false,
       floating: true,
       actions: [
-        CircleButton(
-          icon: Icons.add,
-          iconSize: 30.0,
-          onPressed: () {
-            ShowCustomBottomSheet.addPost(
-              context,
-              userInfor,
-              onPostCall,
-            );
-          },
-        ),
-        CircleButton(
-          icon: Icons.search,
-          iconSize: 30.0,
-          onPressed: () => print('Search'),
-        ),
+        if (isHomeFeed) ...[
+          CircleButton(
+            icon: Icons.add,
+            iconSize: 30.0,
+            onPressed: () {
+              ShowCustomBottomSheet.addPost(
+                context,
+                userInfor,
+                onPostCall,
+              );
+            },
+          ),
+          CircleButton(
+            icon: Icons.search,
+            iconSize: 30.0,
+            onPressed: () => print('Search'),
+          )
+        ] else
+          CircleButton(
+            icon: Icons.close,
+            iconSize: 30.0,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        SizedBox(width: 12.0)
       ],
     );
   }

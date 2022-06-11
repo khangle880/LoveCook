@@ -69,47 +69,50 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      color: Theme.of(context).primaryColor,
-      onRefresh: () async {
-        bloc.postPagination?.refresh();
-      },
-      edgeOffset: 80,
-      child: CustomScrollView(
-        slivers: <Widget>[
-          // TODO: if (state.user != null) ...
-          FeedSliverAppBar(
-            userInfor: user,
-            onPostCall: (content, listImagePath, listVideoPath) {
-              bloc.createPost(content, listImagePath, listVideoPath);
-            },
-          ),
-          PaginationSliverListView(
-            paginationController: bloc.postPagination!,
-            itemBuilder: (BuildContext context, int index) {
-              return PostContainer(
-                post: bloc.postPagination!.items[index],
-                onCommentPress: () {
-                  if (bloc.postPagination?.items[index] != null)
-                    Navigator.pushNamed(context, Routes.feedComment,
-                        arguments: RouteArguments(
-                            data: bloc.postPagination!.items[index]));
-                },
-                onReactChange: (value) {
-                  bloc.reactPost(bloc.postPagination!.items[index].id, value);
-                },
-              );
-            },
-            separatorBuilder: (context, index) {
-              return Divider(
-                color: Color(0xFFF2EBE9),
-                height: 8,
-                thickness: 8,
-              );
-            },
-          ),
-        ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: RefreshIndicator(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        color: Theme.of(context).primaryColor,
+        onRefresh: () async {
+          bloc.postPagination?.refresh();
+        },
+        edgeOffset: 80,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            FeedSliverAppBar(
+              userInfor: user,
+              isHomeFeed: bloc.state?.user == null ? true : false,
+              onPostCall: (content, listImagePath, listVideoPath) {
+                bloc.createPost(content, listImagePath, listVideoPath);
+              },
+            ),
+            PaginationSliverListView(
+              paginationController: bloc.postPagination!,
+              itemBuilder: (BuildContext context, int index) {
+                return PostContainer(
+                  post: bloc.postPagination!.items[index],
+                  onCommentPress: () {
+                    if (bloc.postPagination?.items[index] != null)
+                      Navigator.pushNamed(context, Routes.feedComment,
+                          arguments: RouteArguments(
+                              data: bloc.postPagination!.items[index]));
+                  },
+                  onReactChange: (value) {
+                    bloc.reactPost(bloc.postPagination!.items[index].id, value);
+                  },
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider(
+                  color: Color(0xFFF2EBE9),
+                  height: 8,
+                  thickness: 8,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
