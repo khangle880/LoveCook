@@ -123,7 +123,10 @@ class _PaginationSliverGridViewState extends State<PaginationSliverGridView> {
   Widget build(BuildContext context) {
     return listLength == 0
         ? SliverToBoxAdapter(
-            child: widget.emptyBuilder?.call(context) ?? SizedBox.shrink(),
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: (widget.emptyBuilder?.call(context) ?? SizedBox.shrink()),
+            ),
           )
         : SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -12,10 +12,12 @@ class PickLookup<T> extends StatelessWidget {
     required this.getText,
     required this.hintText,
     required this.items,
+    this.validator,
   }) : super(key: key);
   final String Function(T item) getText;
   final Function(T?)? onChanged;
   final Function(T?)? onSaved;
+  final Function(T?)? validator;
   final String hintText;
   final T? value;
   final List<T> items;
@@ -72,10 +74,7 @@ class PickLookup<T> extends StatelessWidget {
           )
           .toList(),
       validator: (value) {
-        if (value == null) {
-          return 'Please select an option.';
-        }
-        return null;
+        return validator?.call(value);
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (value) {

@@ -1,16 +1,21 @@
 import 'package:equatable/equatable.dart';
 
-class FeedState extends Equatable {
-  final bool? success;
-  final bool? error;
+import '../../data/models/login_model.dart';
 
+class FeedState extends Equatable {
+  final User? user;
   FeedState({
-    FeedState? state,
-    bool? success,
-    bool? error,
-  })  : success = success ?? state?.success,
-        error = error ?? state?.error;
+    this.user,
+  });
+
+  FeedState copyWith({
+    User? user,
+  }) {
+    return FeedState(
+      user: user ?? this.user,
+    );
+  }
 
   @override
-  List<Object?> get props => [success, error];
+  List<Object?> get props => [user];
 }

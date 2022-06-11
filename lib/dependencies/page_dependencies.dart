@@ -25,7 +25,11 @@ class PageDependencies {
     injector.registerFactory<Widget>(() => ChatPage(injector()),
         instanceName: "ChatPage");
     injector.registerFactory<Widget>(() => RecipePage(injector()),
-        instanceName: "RecipePage");
+        instanceName: Routes.recipes);
+    injector.registerFactory<Widget>(() => ProductPage(injector()),
+        instanceName: Routes.products);
+    injector.registerFactory<Widget>(() => FeedPage(injector(), injector()),
+        instanceName: Routes.posts);
     injector.registerFactory<Widget>(() => RecipeDetailPage(injector()),
         instanceName: Routes.recipeDetail);
     injector.registerFactory<Widget>(() => AddRecipePage(injector()),

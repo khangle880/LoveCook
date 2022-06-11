@@ -13,18 +13,9 @@ class SearchRemoteService implements ISearchRemoteService {
 
   @override
   Future<SingleResponse<SearchModel>> search(
-      {required String query,
-      required SearchType searchType,
-      int? page,
-      int? limit}) async {
-    Map<String, dynamic> queryParams = {
-      'q': query,
-      'type': searchType.shortString,
-    };
-    if (page != null) queryParams.putIfAbsent('page', () => page);
-    if (limit != null) queryParams.putIfAbsent('limit', () => limit);
+      {required Map<String, dynamic> query}) async {
     final response = await _networkUtility.request('v1/search/', Method.GET,
-        queryParameters: queryParams);
+        queryParameters: query);
 
     return SingleResponse<SearchModel>.fromJson(response);
   }

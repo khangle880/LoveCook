@@ -152,7 +152,10 @@ class _PaginationGridViewState extends State<PaginationGridView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       color: Theme.of(context).primaryColor,
       child: listLength == 0
-          ? (widget.emptyBuilder?.call(context) ?? SizedBox.shrink())
+          ? SingleChildScrollView(
+              physics: widget.physics ?? AlwaysScrollableScrollPhysics(),
+              child: (widget.emptyBuilder?.call(context) ?? SizedBox.shrink()),
+            )
           : GridView.builder(
               physics: widget.physics ?? AlwaysScrollableScrollPhysics(),
               padding: widget.padding,

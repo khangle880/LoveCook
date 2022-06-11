@@ -23,16 +23,18 @@ class BlocDependencies {
     injector.registerFactory<ChatBloc>(() => ChatBloc(injector()));
     injector.registerFactory<ProfileBloc>(
         () => ProfileBloc(injector(), injector()));
-    injector
-        .registerFactory<RecipeBloc>(() => RecipeBloc(injector(), injector()));
+    injector.registerFactory<RecipeBloc>(
+        () => RecipeBloc(injector(), injector(), injector()));
     injector.registerFactory<RecipeDetailBloc>(
         () => RecipeDetailBloc(injector(), injector()));
     injector.registerFactory<AddRecipeBloc>(
         () => AddRecipeBloc(injector(), injector(), injector()));
-    injector.registerFactory<ProductBloc>(() => ProductBloc(injector(), injector()));
+    injector.registerFactory<ProductBloc>(
+        () => ProductBloc(injector(), injector()));
     injector.registerFactory<AddProductBloc>(
         () => AddProductBloc(injector(), injector(), injector()));
-    injector.registerFactory<FeedBloc>(() => FeedBloc(injector(), injector()));
+    injector.registerFactory<FeedBloc>(
+        () => FeedBloc(injector(), injector(), injector()));
     injector
         .registerFactory<FeedCommentBloc>(() => FeedCommentBloc(injector()));
   }

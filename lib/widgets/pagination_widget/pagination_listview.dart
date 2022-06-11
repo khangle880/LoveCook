@@ -134,7 +134,10 @@ class _PaginationListViewState extends State<PaginationListView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       color: Theme.of(context).primaryColor,
       child: listLength == 0
-          ? (widget.emptyBuilder?.call(context) ?? SizedBox.shrink())
+          ? SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: (widget.emptyBuilder?.call(context) ?? SizedBox.shrink()),
+            )
           : ListView.separated(
               scrollDirection: widget.scrollDirection,
               controller: _scrollController,

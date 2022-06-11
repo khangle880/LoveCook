@@ -33,8 +33,17 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
   @override
   void initState() {
     _searchController = TextEditingController();
-    getProducts(null);
     super.initState();
+  }
+
+  @override
+  void onReceivePayload(Object? payload) {
+    super.onReceivePayload(payload);
+    if (payload is User) {
+      bloc.setUser(payload);
+    }
+    bloc.init();
+    getProducts();
   }
 
   @override
@@ -43,9 +52,9 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
     super.dispose();
   }
 
-  getProducts(String? query) {
+  getProducts() {
     bloc.paginationHelper = PaginationHelper(asyncTask: (config) {
-      return asyncTask(config, query).then((value) {
+      return asyncTask(config).then((value) {
         config.canLoadMore = value.pagination.canLoadMore;
         config.page = value.pagination.page;
         return (value.items as List<ProductModel>);
@@ -58,8 +67,8 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
     return bloc.paginationHelper?.run();
   }
 
-  Future<PagingListResponse> asyncTask(PaginationConfig config, String? query) {
-    return bloc.getProducts(page: config.page, query: query);
+  Future<PagingListResponse> asyncTask(PaginationConfig config) {
+    return bloc.getProducts(page: config.page);
   }
 
   @override
@@ -73,8 +82,8 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
         title: SearchTextField(
           controller: _searchController,
           onSubmitted: (value) {
-            getProducts(value);
-            setState(() {});
+            bloc.updateFilter(query: Nullable(value));
+            getProducts();
           },
         ),
       ),
@@ -111,89 +120,161 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
           });
           return true;
         },
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: PaginationGridView(
-            emptyBuilder: (_) => Center(
+        child: StreamBuilder<ProductState>(
+          stream: bloc.stateStream,
+          builder: ((context, snapshot) {
+            if (!snapshot.hasData || snapshot.data?.lookup == null)
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            final lookup = snapshot.data!.lookup!;
+            final state = snapshot.data;
+            return Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor: Colors.white,
+              ),
               child: Column(
                 children: [
-                  SizedBox(height: 50),
-                  Assets.images.png.search.image(height: 150, width: 150),
-                  "Nothing".s16w400(),
-                ],
-              ),
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              final item = bloc.paginationHelper!.items[index];
-              return Material(
-                color: Colors.white,
-                child: FocusedMenuHolder(
-                  menuWidth: (MediaQuery.of(context).size.width - 10 - 12) / 3,
-                  blurSize: 0.0,
-                  menuItemExtent: 45,
-                  menuBoxDecoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                  duration: Duration(milliseconds: 100),
-                  animateMenuItems: true,
-                  blurBackgroundColor: AppColors.blackLight,
-                  menuOffset: 10.0,
-                  bottomOffsetHeight: 80.0,
-                  menuItems: <FocusedMenuItem>[
-                    FocusedMenuItem(
-                        title: Text("Update"),
-                        trailingIcon: Icon(Icons.edit),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.addProduct,
-                            arguments: item,
-                          ).then(
-                            (value) {
-                              bloc.updateItem(value as ProductModel);
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 200,
+                          child: PickLookup<ProductTypeModel?>(
+                            value: state?.productType,
+                            hintText: 'Product type',
+                            items: List<ProductTypeModel?>.from(
+                                [null, ...lookup.productTypes!]),
+                            getText: (item) => item == null
+                                ? "Product type"
+                                : item.names!.join(' - '),
+                            validator: (_) {},
+                            onChanged: (value) {
+                              bloc.updateFilter(productType: Nullable(value));
+                              getProducts();
                             },
-                          );
-                        }),
-                    FocusedMenuItem(
-                        title: Text(
-                          "Delete",
-                          style: TextStyle(color: Colors.redAccent),
+                          ),
                         ),
-                        trailingIcon: Icon(
-                          Icons.delete,
-                          color: Colors.redAccent,
-                        ),
-                        onPressed: () {}),
-                  ],
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.productDetail,
-                      arguments: item,
-                    ).then((value) {
-                      bloc.updateItem(value as ProductModel?);
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: EdgeInsets.all(5),
-                    child: ProductItem(
-                      product: item,
+                        Container(
+                          width: 140,
+                          child: PickLookup<String?>(
+                            value: state?.currencyUnit,
+                            hintText: 'Unit',
+                            items: List<String?>.from([
+                              null,
+                              "₫ (VND)",
+                              "\$ (USD)",
+                              "€ (EUR)",
+                              "¥ (JPY)",
+                              "¥ (CNY)",
+                              "\$ (SGD)",
+                              "₩ (KRW)",
+                            ]),
+                            getText: (item) => item == null ? "Unit" : item,
+                            validator: (_) {},
+                            onChanged: (value) {
+                              bloc.updateFilter(currencyUnit: Nullable(value));
+                              getProducts();
+                            },
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ),
-              );
-            },
-            paginationController: bloc.paginationHelper!,
-            crossAxisCount: 3,
-            crossAxisSpacing: 3,
-            mainAxisSpacing: 10,
-            childAspectRatio: 80 / 140,
-            padding: EdgeInsets.all(10),
-          ),
+                  Expanded(
+                    child: PaginationGridView(
+                      emptyBuilder: (_) => Center(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 50),
+                            Assets.images.png.search
+                                .image(height: 150, width: 150),
+                            "Nothing".s16w400(),
+                          ],
+                        ),
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        final item = bloc.paginationHelper!.items[index];
+                        return Material(
+                          color: Colors.white,
+                          child: FocusedMenuHolder(
+                            menuWidth:
+                                (MediaQuery.of(context).size.width - 10 - 12) /
+                                    3,
+                            blurSize: 0.0,
+                            menuItemExtent: 45,
+                            menuBoxDecoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0))),
+                            duration: Duration(milliseconds: 100),
+                            animateMenuItems: true,
+                            blurBackgroundColor: AppColors.blackLight,
+                            menuOffset: 10.0,
+                            bottomOffsetHeight: 80.0,
+                            menuItems: <FocusedMenuItem>[
+                              FocusedMenuItem(
+                                  title: Text("Update"),
+                                  trailingIcon: Icon(Icons.edit),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.addProduct,
+                                      arguments: item,
+                                    ).then(
+                                      (value) {
+                                        bloc.updateItem(value as ProductModel);
+                                      },
+                                    );
+                                  }),
+                              FocusedMenuItem(
+                                  title: Text(
+                                    "Delete",
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                  trailingIcon: Icon(
+                                    Icons.delete,
+                                    color: Colors.redAccent,
+                                  ),
+                                  onPressed: () {}),
+                            ],
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.productDetail,
+                                arguments: item,
+                              ).then((value) {
+                                bloc.updateItem(value as ProductModel?);
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.all(5),
+                              child: ProductItem(
+                                product: item,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      paginationController: bloc.paginationHelper!,
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 3,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 80 / 130,
+                      padding: EdgeInsets.all(10),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );
@@ -293,7 +374,7 @@ class _PreviewProductState extends State<PreviewProduct> {
             ),
           ),
           // play button
-          if (widget.item.videoThumbnail != null)
+          if (widget.item.videoUrl != null)
             Container(
               child: CircleAvatar(
                 radius: 25,

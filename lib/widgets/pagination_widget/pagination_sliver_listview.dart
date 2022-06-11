@@ -107,7 +107,10 @@ class _PaginationSliverListViewState extends State<PaginationSliverListView> {
   Widget build(BuildContext context) {
     return listLength == 0
         ? SliverToBoxAdapter(
-            child: widget.emptyBuilder?.call(context) ?? SizedBox.shrink(),
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: (widget.emptyBuilder?.call(context) ?? SizedBox.shrink()),
+            ),
           )
         : SliverList(
             delegate: SliverChildBuilderDelegate((_, index) {

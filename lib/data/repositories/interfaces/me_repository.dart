@@ -10,6 +10,10 @@ abstract class IMeRepository {
       {required Map<String, dynamic> query});
   Future<Either<Failure, PagingListResponse<RecipeModel>>> getRecipes(
       {required Map<String, dynamic> query});
+  Future<Either<Failure, PagingListResponse<PostModel>>> getPosts(
+      {required Map<String, dynamic> query});
+  Future<Either<Failure, PagingListResponse<ProductModel>>> getProducts(
+      {required Map<String, dynamic> query});
   Future<Either<Failure, SingleResponse<User>>> update(
       {required Map<String, dynamic> data});
   Future<Either<Failure, SingleResponse<SingleType>>> changePassword(

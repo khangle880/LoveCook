@@ -78,10 +78,10 @@ class _TestApiPageState extends BaseState<TestApiPage, TestApiBloc> {
                 child: Text('Get Comments'),
                 onPressed: () => bloc.loadComments(),
               ),
-              RaisedButton(
-                child: Text('Get Search'),
-                onPressed: () => bloc.loadSearch(),
-              ),
+              // RaisedButton(
+              //   child: Text('Get Search'),
+              //   onPressed: () => bloc.loadSearch(),
+              // ),
               RaisedButton(
                 child: Text('Get Post Reactions'),
                 onPressed: () => bloc.loadPostReactions(),
