@@ -15,19 +15,14 @@ class ProfileBloc extends BaseBloc<ProfileState> {
   Stream<User?> get user => stateStream.map((event) => event.user);
 
   Future<void> checkProfile() async {
-    if (_sharedPreferences.user != null) {
-      emit(ProfileState(
-          state: state, success: true, user: _sharedPreferences.user));
-    } else {
-      final responseEither = await _profileRepository.getInfo();
+    final responseEither = await _profileRepository.getInfo();
 
-      responseEither.fold((failure) {}, (data) {
-        if (data.item != null) {
-          _sharedPreferences.saveUser(data.item!);
-          emit(ProfileState(state: state, success: true, user: data.item));
-        }
-      });
-    }
+    responseEither.fold((failure) {}, (data) {
+      if (data.item != null) {
+        _sharedPreferences.saveUser(data.item!);
+        emit(ProfileState(state: state, success: true, user: data.item));
+      }
+    });
   }
 
   Future<void> changeProfile({required Map<String, dynamic> profile}) async {

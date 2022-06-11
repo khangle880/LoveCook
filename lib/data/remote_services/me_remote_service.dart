@@ -58,9 +58,27 @@ class MeRemoteService implements IMeRemoteService {
   @override
   Future<PagingListResponse<RecipeModel>> getRecipes(
       {required Map<String, dynamic> query}) async {
-    final response = await _networkUtility
-        .request('v1/me/recipes', Method.GET, queryParameters: query);
+    final response = await _networkUtility.request('v1/me/recipes', Method.GET,
+        queryParameters: query);
 
     return PagingListResponse<RecipeModel>.fromJson(response);
+  }
+
+  @override
+  Future<PagingListResponse<PostModel>> getPosts(
+      {required Map<String, dynamic> query}) async {
+    final response = await _networkUtility.request('v1/me/posts', Method.GET,
+        queryParameters: query);
+
+    return PagingListResponse<PostModel>.fromJson(response);
+  }
+
+  @override
+  Future<PagingListResponse<ProductModel>> getProducts(
+      {required Map<String, dynamic> query}) async {
+    final response = await _networkUtility.request('v1/me/products', Method.GET,
+        queryParameters: query);
+
+    return PagingListResponse<ProductModel>.fromJson(response);
   }
 }

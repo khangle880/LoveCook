@@ -1,24 +1,36 @@
 import '../../core/base/base_response.dart';
 import '../../core/core.dart';
 import '../../data/data.dart';
+import '../../data/enum.dart';
 import '../../widgets/pagination_widget/pagination_helper.dart';
 import 'feed.dart';
 
 class FeedBloc extends BaseBloc<FeedState> {
   final IPostRepository _postRepository;
+  final ISearchRepository _searchRepository;
   final IUploadRepository _uploadRepository;
 
   PaginationHelper<PostModel>? postPagination;
 
-  FeedBloc(this._postRepository, this._uploadRepository);
+  FeedBloc(
+      this._postRepository, this._uploadRepository, this._searchRepository);
+
+  setUser(User user) {
+    emit((state ?? FeedState()).copyWith(user: user));
+  }
 
   Future<PagingListResponse<PostModel>> getPosts({required int page}) async {
-    final responseEither =
-        await _postRepository.getPosts(query: {'page': page});
+    Map<String, dynamic> queryParams = {
+      'page': page,
+      'type': SearchType.post.shortString,
+    };
+    if (state?.user != null)
+      queryParams.putIfAbsent('creatorId', () => state!.user!.id);
+    final responseEither = await _searchRepository.search(query: queryParams);
     return responseEither.fold((failure) {
       return Future.error(failure);
     }, (data) {
-      return data;
+      return data.item!.posts!;
     });
   }
 

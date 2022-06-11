@@ -19,6 +19,7 @@ class AppConfig {
   String get hostUrl => globalConfiguration.get('domain_url');
 
   String formatLink(String text) {
+    if (text.isEmpty) return "https://i.pravatar.cc/400";
     if (text[0] == "v") {
       return hostUrl + text;
     }

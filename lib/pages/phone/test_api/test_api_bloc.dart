@@ -140,28 +140,28 @@ class TestApiBloc extends BaseBloc<LoginState> {
     });
   }
 
-  Future<void> loadSearch() async {
-    emitLoading(true);
-    getSearch().then((value) {
-      if (value.success) {
-        log(value.item.toString());
-      } else {
-        log(value.error?.errorMessage ?? '');
-      }
-    }, onError: (e) {
-      log(e.toString());
-    }).whenComplete(() => emitLoading(false));
-  }
+  // Future<void> loadSearch() async {
+  //   emitLoading(true);
+  //   getSearch().then((value) {
+  //     if (value.success) {
+  //       log(value.item.toString());
+  //     } else {
+  //       log(value.error?.errorMessage ?? '');
+  //     }
+  //   }, onError: (e) {
+  //     log(e.toString());
+  //   }).whenComplete(() => emitLoading(false));
+  // }
 
-  Future<SingleResponse> getSearch() async {
-    final responseEither =
-        await _searchRepository.search(query: 'la', searchType: SearchType.all);
-    return responseEither.fold((failure) {
-      return Future.error(failure);
-    }, (data) {
-      return data;
-    });
-  }
+  // Future<SingleResponse> getSearch() async {
+  //   final responseEither =
+  //       await _searchRepository.search(query: 'la', searchType: SearchType.all);
+  //   return responseEither.fold((failure) {
+  //     return Future.error(failure);
+  //   }, (data) {
+  //     return data;
+  //   });
+  // }
 
   @override
   void dispose() {

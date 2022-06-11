@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovecook/widgets/app_dialog/app_dialog.dart';
 
 import '../../../../blocs/blocs.dart';
 import '../../../../core/core.dart';
@@ -108,12 +109,19 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
                   height: 20.0,
                 ),
                 MaterialInkwellButton(
-                  title: 'Login',
-                  hasBorder: false,
-                  onTap: () {
-                    bloc.login(email, password);
-                  },
-                ),
+                    title: 'Login',
+                    hasBorder: false,
+                    onTap: () {
+                      bloc.login(email, password).catchError(
+                        (e) {
+                          return showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AppInformationDialog(content: e),
+                          );
+                        },
+                      );
+                    }),
                 SizedBox(
                   height: 10.0,
                 ),

@@ -111,14 +111,19 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           child: PickLookup<Level>(
-                            value: state.level,
-                            hintText: 'Easy',
-                            items: Level.values,
-                            getText: (item) => item.shortString,
-                            onChanged: (value) {
-                              bloc.updateField(level: value);
-                            },
-                          ),
+                              value: state.level,
+                              hintText: 'Easy',
+                              items: Level.values,
+                              getText: (item) => item.shortString,
+                              onChanged: (value) {
+                                bloc.updateField(level: value);
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select a level.';
+                                }
+                                return null;
+                              }),
                         ),
                         SizedBox(height: 20),
                         "Cooking Method"

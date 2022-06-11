@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lovecook/extensions/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../blocs/blocs.dart';
 import '../../../core/core.dart';
 import '../../../data/data.dart';
+import '../../../router/router.dart';
 import '../../../widgets/widgets.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -40,12 +42,44 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
               );
             }
 
-            final user_data = snapshot.data;
+            final user_data = snapshot.data!;
 
             return Column(
               children: <Widget>[
                 ProfileStackBackground(
-                  imageUrl: user_data?.avatarUrl,
+                  imageUrl: user_data.avatarUrl,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      OutlineButton(
+                        color: Colors.amberAccent,
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.recipes,
+                              arguments: user_data);
+                        },
+                        text: user_data.totalRecipes.toString() + " Recipes",
+                      ),
+                      OutlineButton(
+                        color: Colors.cyan,
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.posts,
+                              arguments: user_data);
+                        },
+                        text: user_data.totalPosts.toString() + " Posts",
+                      ),
+                      OutlineButton(
+                        color: Colors.lightGreen,
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.products,
+                              arguments: user_data);
+                        },
+                        text: user_data.totalProducts.toString() + " Products",
+                      ),
+                    ],
+                  ),
                 ),
                 Expanded(
                     child: ProfileBottom(

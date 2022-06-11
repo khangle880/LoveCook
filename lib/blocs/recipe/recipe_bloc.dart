@@ -5,34 +5,51 @@ import '../../../data/enum.dart';
 import '../../../core/core.dart';
 import '../../../data/data.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
+import '../../utils/utils.dart';
 import 'recipe_state.dart';
 
 class RecipeBloc extends BaseBloc<RecipeState> {
   final IRecipeRepository _recipeRepository;
   final ISearchRepository _searchRepository;
+  final ILookupRepository _lookupRepository;
   PaginationHelper<RecipeModel>? paginationHelper;
   RecipeBloc(
     this._recipeRepository,
     this._searchRepository,
+    this._lookupRepository,
   );
 
+  setUser(User user) {
+    emit((state ?? RecipeState()).copyWith(user: user));
+  }
+
+  init() async {
+    final responseEither = await _lookupRepository.getLookup();
+    responseEither.fold((failure) {}, (data) {
+      emit((state ?? RecipeState()).copyWith(lookup: data.item));
+    });
+  }
+
   Future<PagingListResponse<RecipeModel>> getRecipes(
-      {String? query, required int page}) async {
-    if (query != null && query.isNotEmpty) {
-      final responseEither = await _searchRepository.search(
-          query: query, searchType: SearchType.recipe, page: page);
-      return responseEither.fold((failure) {
-        return Future.error(failure);
-      }, (data) {
-        return data.item!.recipes!;
-      });
-    }
-    final responseEither =
-        await _recipeRepository.getRecipes(query: {'page': page});
+      {required int page}) async {
+    Map<String, dynamic> queryParams = {
+      'page': page,
+      'type': SearchType.recipe.shortString,
+    };
+    if (state?.user != null) queryParams.putIfAbsent('creatorId', () => state!.user!.id);
+    if (state?.query != null && state!.query!.isNotEmpty)
+      queryParams.putIfAbsent('q', () => state!.query);
+    if (state?.level != null)
+      queryParams.putIfAbsent('level', () => state!.level!.shortString);
+    if (state?.cuisine != null)
+      queryParams.putIfAbsent('cuisineId', () => state!.cuisine!.id);
+    if (state?.dishType != null)
+      queryParams.putIfAbsent('dishTypeId', () => state!.dishType!.id);
+    final responseEither = await _searchRepository.search(query: queryParams);
     return responseEither.fold((failure) {
       return Future.error(failure);
     }, (data) {
-      return data;
+      return data.item!.recipes!;
     });
   }
 
@@ -68,6 +85,16 @@ class RecipeBloc extends BaseBloc<RecipeState> {
     }
 
     paginationHelper!.updateList(newList);
+  }
+
+  void updateFilter({
+    Nullable<Level?>? level,
+    Nullable<CuisineModel?>? cuisine,
+    Nullable<DishTypeModel?>? dishType,
+    Nullable<String?>? query,
+  }) {
+    emit((state ?? RecipeState()).copyWith(
+        level: level, cuisine: cuisine, dishType: dishType, query: query));
   }
 
   @override

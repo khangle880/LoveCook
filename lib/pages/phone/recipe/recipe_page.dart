@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import '../../../utils/utils.dart';
+import '../../../data/enum.dart';
 import '../../../extensions/extensions.dart';
-import '../../../utils/app_config.dart';
 import '../../../blocs/blocs.dart';
 import '../../../core/base/base_response.dart';
 import '../../../data/data.dart';
@@ -33,8 +34,17 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
   @override
   void initState() {
     _searchController = TextEditingController();
-    getRecipes(null);
     super.initState();
+  }
+
+  @override
+  void onReceivePayload(Object? payload) {
+    super.onReceivePayload(payload);
+    if (payload is User) {
+      bloc.setUser(payload);
+    }
+    bloc.init();
+    getRecipes();
   }
 
   @override
@@ -43,13 +53,18 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
     super.dispose();
   }
 
-  Future<PagingListResponse> asyncTask(String? text, PaginationConfig config) {
-    return bloc.getRecipes(query: text, page: config.page);
+  Future<PagingListResponse> asyncTask(
+      {String? text,
+      Level? level,
+      CuisineModel? cuisine,
+      DishTypeModel? dishType,
+      required PaginationConfig config}) {
+    return bloc.getRecipes(page: config.page);
   }
 
-  getRecipes(String? text) {
+  getRecipes() {
     bloc.paginationHelper = PaginationHelper(asyncTask: (config) {
-      return asyncTask(text, config).then((value) {
+      return asyncTask(config: config).then((value) {
         config.canLoadMore = value.pagination.canLoadMore;
         config.page = value.pagination.page;
         return (value.items as List<RecipeModel>);
@@ -93,8 +108,8 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
         title: SearchTextField(
           controller: _searchController,
           onSubmitted: (value) {
-            getRecipes(value);
-            setState(() {});
+            bloc.updateFilter(query: Nullable(value));
+            getRecipes();
           },
         ),
       ),
@@ -111,120 +126,203 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
           });
           return true;
         },
-        child: Padding(
-          padding: EdgeInsets.only(top: 5),
-          child: PaginationGridView(
-            emptyBuilder: (_) => Center(
+        child: StreamBuilder<RecipeState>(
+          stream: bloc.stateStream,
+          builder: ((context, snapshot) {
+            if (!snapshot.hasData || snapshot.data?.lookup == null)
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            final lookup = snapshot.data!.lookup!;
+            final state = snapshot.data;
+            return Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor: Colors.white,
+              ),
               child: Column(
                 children: [
-                  SizedBox(height: 50),
-                  Assets.images.png.search.image(height: 150, width: 150),
-                  "Nothing".s16w400(),
-                ],
-              ),
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              final item = bloc.paginationHelper!.items[index];
-              return Material(
-                color: Colors.white,
-                child: FocusedMenuHolder(
-                  menuWidth: (MediaQuery.of(context).size.width - 10 - 12) / 3,
-                  blurSize: 0.0,
-                  menuItemExtent: 45,
-                  menuBoxDecoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                  duration: Duration(milliseconds: 100),
-                  animateMenuItems: true,
-                  blurBackgroundColor: AppColors.blackLight,
-                  menuOffset: 10.0,
-                  bottomOffsetHeight: 80.0,
-                  menuItems: <FocusedMenuItem>[
-                    FocusedMenuItem(
-                        title: Text("Update"),
-                        trailingIcon: Icon(Icons.edit),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.addRecipe,
-                            arguments: item,
-                          ).then(
-                            (value) {
-                              bloc.updateItem(value as RecipeModel);
-                            },
-                          );
-                        }),
-                    FocusedMenuItem(
-                        title: Text(
-                          "Delete",
-                          style: TextStyle(color: Colors.redAccent),
-                        ),
-                        trailingIcon: Icon(
-                          Icons.delete,
-                          color: Colors.redAccent,
-                        ),
-                        onPressed: () {}),
-                  ],
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.recipeDetail,
-                      arguments: item,
-                    ).then((value) {
-                      bloc.updateItem(value as RecipeModel?);
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: EdgeInsets.all(5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: PreviewRecipe(item: item),
+                        Container(
+                          width: 120,
+                          child: PickLookup<Level?>(
+                            value: state?.level,
+                            hintText: 'Level',
+                            items: List<Level?>.from([null, ...Level.values]),
+                            getText: (item) => item?.shortString ?? "Level",
+                            validator: (_) {},
+                            onChanged: (value) {
+                              bloc.updateFilter(level: Nullable(value));
+                              getRecipes();
+                            },
+                          ),
                         ),
-                        SizedBox(height: 5),
-                        (item.name ?? 'Recipe').s14w500(
-                          config: TextStyleExtConfig(
-                              overflow: TextOverflow.ellipsis),
+                        Container(
+                          width: 130,
+                          child: PickLookup<DishTypeModel?>(
+                            value: state?.dishType,
+                            hintText: 'Dish type',
+                            items: List<DishTypeModel?>.from(
+                                [null, ...lookup.dishTypes!]),
+                            getText: (item) => item == null
+                                ? "Dish type"
+                                : item.names!.join(' - '),
+                            validator: (_) {},
+                            onChanged: (value) {
+                              bloc.updateFilter(dishType: Nullable(value));
+                              getRecipes();
+                            },
+                          ),
                         ),
-                        SizedBox(height: 3),
-                        (item.creator!.name ?? 'User').s12w600(
-                          color: AppColors.grayNormal.withOpacity(0.6),
-                        ),
-                        SizedBox(height: 2),
-                        Row(
-                          children: [
-                            Expanded(
-                              child:
-                                  (item.totalTime!.round().toString() + " Phút")
-                                      .s12w600(),
-                            ),
-                            FavoriteButton(
-                              initFavorite: item.isLiked ?? false,
-                              onClicked: (value) =>
-                                  bloc.handleLikeRecipe(item, value),
-                              size: 18,
-                            )
-                          ],
+                        Container(
+                          width: 120,
+                          child: PickLookup<CuisineModel?>(
+                            value: state?.cuisine,
+                            hintText: 'Cuisine',
+                            items: List<CuisineModel?>.from(
+                                [null, ...lookup.cuisines!]),
+                            getText: (item) => item == null
+                                ? "Cuisine"
+                                : item.names!.join(' - '),
+                            validator: (_) {},
+                            onChanged: (value) {
+                              bloc.updateFilter(cuisine: Nullable(value));
+                              getRecipes();
+                            },
+                          ),
                         )
                       ],
                     ),
                   ),
-                ),
-              );
-            },
-            paginationController: bloc.paginationHelper!,
-            crossAxisCount: 3,
-            crossAxisSpacing: 3,
-            mainAxisSpacing: 10,
-            childAspectRatio: 80 / 140,
-            padding: EdgeInsets.all(10),
-          ),
+                  Expanded(
+                    child: PaginationGridView(
+                      emptyBuilder: (_) => Center(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 50),
+                            Assets.images.png.search
+                                .image(height: 150, width: 150),
+                            "Nothing".s16w400(),
+                          ],
+                        ),
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        final item = bloc.paginationHelper!.items[index];
+                        return Material(
+                          color: Colors.white,
+                          child: FocusedMenuHolder(
+                            menuWidth:
+                                (MediaQuery.of(context).size.width - 10 - 12) /
+                                    3,
+                            blurSize: 0.0,
+                            menuItemExtent: 45,
+                            menuBoxDecoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0))),
+                            duration: Duration(milliseconds: 100),
+                            animateMenuItems: true,
+                            blurBackgroundColor: AppColors.blackLight,
+                            menuOffset: 10.0,
+                            bottomOffsetHeight: 80.0,
+                            menuItems: <FocusedMenuItem>[
+                              FocusedMenuItem(
+                                  title: Text("Update"),
+                                  trailingIcon: Icon(Icons.edit),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.addRecipe,
+                                      arguments: item,
+                                    ).then(
+                                      (value) {
+                                        bloc.updateItem(value as RecipeModel);
+                                      },
+                                    );
+                                  }),
+                              FocusedMenuItem(
+                                  title: Text(
+                                    "Delete",
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                  trailingIcon: Icon(
+                                    Icons.delete,
+                                    color: Colors.redAccent,
+                                  ),
+                                  onPressed: () {}),
+                            ],
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.recipeDetail,
+                                arguments: item,
+                              ).then((value) {
+                                bloc.updateItem(value as RecipeModel?);
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.all(5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: PreviewRecipe(item: item),
+                                  ),
+                                  SizedBox(height: 5),
+                                  (item.name ?? 'Recipe').s14w500(
+                                    config: TextStyleExtConfig(
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                  SizedBox(height: 3),
+                                  (item.creator!.name ?? 'User').s12w600(
+                                    color:
+                                        AppColors.grayNormal.withOpacity(0.6),
+                                  ),
+                                  SizedBox(height: 2),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: (item.totalTime!
+                                                    .round()
+                                                    .toString() +
+                                                " Phút")
+                                            .s12w600(),
+                                      ),
+                                      FavoriteButton(
+                                        initFavorite: item.isLiked ?? false,
+                                        onClicked: (value) =>
+                                            bloc.handleLikeRecipe(item, value),
+                                        size: 18,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      paginationController: bloc.paginationHelper!,
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 3,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 80 / 140,
+                      padding: EdgeInsets.all(10),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );
@@ -290,7 +388,7 @@ class _PreviewRecipeState extends State<PreviewRecipe> {
             ),
           ),
           // play button
-          if (widget.item.videoThumbnail != null)
+          if (widget.item.videoUrl != null)
             Container(
               child: CircleAvatar(
                 radius: 25,

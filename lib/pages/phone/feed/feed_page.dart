@@ -33,6 +33,14 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void onReceivePayload(Object? payload) {
+    super.onReceivePayload(payload);
+    if (payload is User) {
+      bloc.setUser(payload);
+    }
     getPost();
   }
 
@@ -70,6 +78,7 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
       edgeOffset: 80,
       child: CustomScrollView(
         slivers: <Widget>[
+          // TODO: if (state.user != null) ...
           FeedSliverAppBar(
             userInfor: user,
             onPostCall: (content, listImagePath, listVideoPath) {

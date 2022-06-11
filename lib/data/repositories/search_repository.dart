@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import '../../core/base/base_response.dart';
 import '../../core/core.dart';
 import '../data.dart';
-import '../enum.dart';
 
 class SearchRepository extends ISearchRepository {
   final INetworkInfo networkInfo;
@@ -12,15 +11,10 @@ class SearchRepository extends ISearchRepository {
   SearchRepository({required this.networkInfo, required this.remoteService});
 
   @override
-  Future<Either<Failure, SingleResponse<SearchModel>>> search({
-    required String query,
-    required SearchType searchType,
-    int? page,
-    int? limit,
-  }) async {
+  Future<Either<Failure, SingleResponse<SearchModel>>> search(
+      {required Map<String, dynamic> query}) async {
     try {
-      final result = await remoteService.search(
-          query: query, searchType: searchType, limit: limit, page: page);
+      final result = await remoteService.search(query: query);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(exception: e));

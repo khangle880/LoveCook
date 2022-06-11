@@ -18,7 +18,7 @@ class LoginBloc extends BaseBloc<LoginState> {
     emit(LoginState(state: state, success: true));
   }
 
-  Future<void> login(String email, String password) async {
+  Future login(String email, String password) async {
     if (email.length == 0 || password.length == 0) {
       return;
     }
@@ -28,7 +28,9 @@ class LoginBloc extends BaseBloc<LoginState> {
         .login(params: {"email": email, "password": password});
 
     emitWaiting(false);
-    responseEither.fold((failure) {}, (data) {
+    responseEither.fold((failure) {
+      return Future.error(failure);
+    }, (data) {
       if (data.item?.tokens?.access?.token != null &&
           data.item!.tokens!.access!.token!.isNotEmpty) {
         _sharedPreferences.saveToken(data.item!.tokens!.access!.token!);

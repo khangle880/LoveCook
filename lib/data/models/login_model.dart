@@ -111,7 +111,13 @@ class User extends BaseResponse {
   final UserRole? role;
   final String? status;
   final String? id;
+  final int? totalRecipes;
+  final int? totalProducts;
+  final int? totalPosts;
   User({
+    this.totalRecipes,
+    this.totalProducts,
+    this.totalPosts,
     this.followingUsers,
     this.followerUsers,
     this.name,
@@ -141,15 +147,18 @@ class User extends BaseResponse {
             : List<User>.from(
                 json["followerUsers"]?.map((x) => User.fromJson(x))),
         name: json["name"],
-        email: json["email"],
-        bio: json["bio"],
-        avatarUrl: json["avatarUrl"],
-        phone: json["phone"],
+        email: json["email"] ?? '',
+        bio: json["bio"] ?? '',
+        avatarUrl: json["avatarUrl"] ?? '',
+        phone: json["phone"] ?? '',
         status: json["status"],
         languageSetting: json["languageSetting"],
         gender: enumFromString<Gender>(Gender.values, json["gender"]),
         role: enumFromString<UserRole>(UserRole.values, json["role"]),
         id: json["id"],
+        totalPosts: json["totalPosts"]?.toInt(),
+        totalRecipes: json["totalRecipes"]?.toInt(),
+        totalProducts: json["totalProducts"]?.toInt(),
       );
 
   Map<String, dynamic> toJson() => {
