@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -9,12 +5,11 @@ import '../../data/data.dart';
 import '../../extensions/extensions.dart';
 import '../../gen/assets.gen.dart';
 import '../../resources/colors.dart';
-import '../../utils/utils.dart';
 import '../widgets.dart';
 
 class BottomAddPost extends StatefulWidget {
   final User? userInfor;
-  final Function(String, List<String>, List<String>)? onPostCall;
+  final Function(String, List<String>, String?)? onPostCall;
 
   const BottomAddPost({Key? key, required this.userInfor, this.onPostCall})
       : super(key: key);
@@ -25,7 +20,7 @@ class BottomAddPost extends StatefulWidget {
 
 class _BottomAddPostState extends State<BottomAddPost> {
   List<String> currentListImage = [];
-  List<String> currentListVideo = [];
+  String? currentVideo;
   String content = '';
 
   User? get userInfor => widget.userInfor;
@@ -65,12 +60,11 @@ class _BottomAddPostState extends State<BottomAddPost> {
                       SizedBox(
                         height: 15,
                       ),
-                      currentListImage.isNotEmpty
-                          ? _buildListImage()
-                          : SizedBox.shrink(),
-                      currentListVideo.isNotEmpty
-                          ? _buildVideoSlide()
-                          : SizedBox.shrink(),
+                      MediaSliderWidget(
+                        videoPath: currentVideo,
+                        photoPaths: currentListImage,
+                        showHeader: true,
+                      ),
                       SizedBox(
                         height: 15,
                       ),
@@ -102,24 +96,6 @@ class _BottomAddPostState extends State<BottomAddPost> {
         ));
   }
 
-  CarouselSlider _buildVideoSlide() {
-    return CarouselSlider(
-      options: CarouselOptions(height: 300.0, enableInfiniteScroll: false),
-      items: currentListVideo.map((videoData) {
-        return Builder(
-          builder: (BuildContext context) {
-            return VideoWidget(
-              file: videoData.contains('/storage') ? videoData : null,
-              path: !videoData.contains('/storage')
-                  ? AppConfig.instance.formatLink(videoData)
-                  : null,
-            );
-          },
-        );
-      }).toList(),
-    );
-  }
-
   Row _buildAppBar(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,8 +121,7 @@ class _BottomAddPostState extends State<BottomAddPost> {
             hasBorder: false,
             constraints: BoxConstraints(minWidth: 100, maxHeight: 40),
             onTap: () {
-              widget.onPostCall
-                  ?.call(content, currentListImage, currentListVideo);
+              widget.onPostCall?.call(content, currentListImage, currentVideo);
               Navigator.pop(context);
             },
           ),
@@ -155,29 +130,6 @@ class _BottomAddPostState extends State<BottomAddPost> {
           width: 5,
         )
       ],
-    );
-  }
-
-  CarouselSlider _buildListImage() {
-    return CarouselSlider(
-      options: CarouselOptions(height: 300.0),
-      items: currentListImage.map((imageData) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(color: Colors.transparent),
-              child: imageData.contains('/storage')
-                  ? Image.file(File(imageData), fit: BoxFit.cover)
-                  : CachedNetworkImage(
-                      imageUrl: AppConfig.instance.formatLink(imageData),
-                      fit: BoxFit.cover,
-                    ),
-            );
-          },
-        );
-      }).toList(),
     );
   }
 
@@ -220,20 +172,15 @@ class _BottomAddPostState extends State<BottomAddPost> {
   }
 
   void _multiVideoPick() async {
-    final List<AssetEntity> result = await AssetPicker.pickAssets(
+    final List<AssetEntity?> result = await AssetPicker.pickAssets(
           context,
-          pickerConfig: const AssetPickerConfig(requestType: RequestType.video),
+          pickerConfig: const AssetPickerConfig(
+              requestType: RequestType.video, maxAssets: 1),
         ) ??
         [];
 
-    for (final video in result) {
-      final file = await video.originFile;
-
-      if (file != null) {
-        currentListVideo.add(file.path);
-      }
-    }
-
+    currentVideo =
+        result.isEmpty ? null : (await result.first?.originFile)?.path;
     setState(() {});
   }
 }

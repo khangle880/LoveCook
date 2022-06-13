@@ -34,19 +34,17 @@ class FeedBloc extends BaseBloc<FeedState> {
     });
   }
 
-  Future<void> createPost(String content, List<String> listImageData,
-      List<String> listVideoPath) async {
+  Future<void> createPost(
+      String content, List<String> listImageData, String? videoPath) async {
     List<String> listImagePath = [];
     String videoUrlPath = '';
 
-    if (listVideoPath.isNotEmpty) {
-      for (final videoPath in listVideoPath) {
-        final imageResponseEither =
-            await _uploadRepository.uploadVideoData(filePath: videoPath);
-        imageResponseEither.fold((failure) {}, (data) {
-          videoUrlPath = data.item?.urls?[0] ?? '';
-        });
-      }
+    if (videoPath != null) {
+      final imageResponseEither =
+          await _uploadRepository.uploadVideoData(filePath: videoPath);
+      imageResponseEither.fold((failure) {}, (data) {
+        videoUrlPath = data.item?.urls?[0] ?? '';
+      });
     }
 
     if (listImageData.isNotEmpty) {

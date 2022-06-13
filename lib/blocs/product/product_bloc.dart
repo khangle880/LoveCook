@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:lovecook/extensions/extensions.dart';
 
 import '../../data/enum.dart';
@@ -12,9 +14,11 @@ import '../../widgets/widgets.dart';
 class ProductBloc extends BaseBloc<ProductState> {
   final ISearchRepository _searchRepository;
   final ILookupRepository _lookupRepository;
+  final IProductRepository _productRepository;
   PaginationHelper<ProductModel>? paginationHelper;
 
-  ProductBloc(this._searchRepository, this._lookupRepository);
+  ProductBloc(
+      this._searchRepository, this._lookupRepository, this._productRepository);
   init() async {
     final responseEither = await _lookupRepository.getLookup();
     responseEither.fold((failure) {}, (data) {
@@ -46,7 +50,7 @@ class ProductBloc extends BaseBloc<ProductState> {
     });
   }
 
-  void updateItem(ProductModel? product) async {
+  void updateList(ProductModel? product) async {
     if (product == null) return;
     final items = paginationHelper?.items ?? [];
     final index = items.indexWhere((element) => element.id == product.id);
@@ -59,6 +63,18 @@ class ProductBloc extends BaseBloc<ProductState> {
     }
 
     paginationHelper!.updateList(newList);
+  }
+
+  void deleteItem(ProductModel product) {
+    final items = paginationHelper?.items ?? [];
+    final index = items.indexWhere((element) => element.id == product.id);
+    log(product.toString());
+    log(index.toString());
+    if (index != -1) {
+      items.removeAt(index);
+      paginationHelper!.updateList(items);
+      _productRepository.delete(productId: product.id!);
+    }
   }
 
   void updateFilter({

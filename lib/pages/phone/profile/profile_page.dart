@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovecook/extensions/extensions.dart';
+import 'package:lovecook/utils/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../blocs/blocs.dart';
@@ -47,7 +48,9 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
             return Column(
               children: <Widget>[
                 ProfileStackBackground(
-                  imageUrl: user_data.avatarUrl,
+                  imageUrl: user_data.avatarUrl != null
+                      ? AppConfig.instance.formatLink(user_data.avatarUrl!)
+                      : null,
                 ),
                 // Padding(
                 //   padding: const EdgeInsets.all(8.0),

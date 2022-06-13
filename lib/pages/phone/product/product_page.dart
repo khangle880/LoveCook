@@ -101,7 +101,7 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
                 context,
                 Routes.addProduct,
               ).then((value) {
-                bloc.updateItem(value as ProductModel?);
+                bloc.updateList(value as ProductModel?);
               });
             },
             child: Icon(Icons.add),
@@ -198,69 +198,89 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         final item = bloc.paginationHelper!.items[index];
+                        var child = Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          padding: EdgeInsets.all(5),
+                          child: ProductItem(
+                            product: item,
+                          ),
+                        );
                         return Material(
                           color: Colors.white,
-                          child: FocusedMenuHolder(
-                            menuWidth:
-                                (MediaQuery.of(context).size.width - 10 - 12) /
-                                    3,
-                            blurSize: 0.0,
-                            menuItemExtent: 45,
-                            menuBoxDecoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0))),
-                            duration: Duration(milliseconds: 100),
-                            animateMenuItems: true,
-                            blurBackgroundColor: AppColors.blackLight,
-                            menuOffset: 10.0,
-                            bottomOffsetHeight: 80.0,
-                            menuItems: <FocusedMenuItem>[
-                              FocusedMenuItem(
-                                  title: Text("Update"),
-                                  trailingIcon: Icon(Icons.edit),
+                          //! later: should check it's me
+                          child: state?.user == null
+                              ? InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.recipeDetail,
+                                      arguments: item,
+                                    ).then((value) {
+                                      bloc.updateList(value as ProductModel?);
+                                    });
+                                  },
+                                  child: child)
+                              : FocusedMenuHolder(
+                                  menuWidth:
+                                      (MediaQuery.of(context).size.width -
+                                              10 -
+                                              12) /
+                                          3,
+                                  blurSize: 0.0,
+                                  menuItemExtent: 45,
+                                  menuBoxDecoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15.0))),
+                                  duration: Duration(milliseconds: 100),
+                                  animateMenuItems: true,
+                                  blurBackgroundColor: AppColors.blackLight,
+                                  menuOffset: 10.0,
+                                  bottomOffsetHeight: 80.0,
+                                  menuItems: <FocusedMenuItem>[
+                                    FocusedMenuItem(
+                                        title: Text("Update"),
+                                        trailingIcon: Icon(Icons.edit),
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.addProduct,
+                                            arguments: item,
+                                          ).then(
+                                            (value) {
+                                              bloc.updateList(
+                                                  value as ProductModel);
+                                            },
+                                          );
+                                        }),
+                                    FocusedMenuItem(
+                                        title: Text(
+                                          "Delete",
+                                          style: TextStyle(
+                                              color: Colors.redAccent),
+                                        ),
+                                        trailingIcon: Icon(
+                                          Icons.delete,
+                                          color: Colors.redAccent,
+                                        ),
+                                        onPressed: () {
+                                          bloc.deleteItem(item);
+                                        }),
+                                  ],
                                   onPressed: () {
                                     Navigator.pushNamed(
                                       context,
-                                      Routes.addProduct,
+                                      Routes.productDetail,
                                       arguments: item,
-                                    ).then(
-                                      (value) {
-                                        bloc.updateItem(value as ProductModel);
-                                      },
-                                    );
-                                  }),
-                              FocusedMenuItem(
-                                  title: Text(
-                                    "Delete",
-                                    style: TextStyle(color: Colors.redAccent),
-                                  ),
-                                  trailingIcon: Icon(
-                                    Icons.delete,
-                                    color: Colors.redAccent,
-                                  ),
-                                  onPressed: () {}),
-                            ],
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.productDetail,
-                                arguments: item,
-                              ).then((value) {
-                                bloc.updateItem(value as ProductModel?);
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              padding: EdgeInsets.all(5),
-                              child: ProductItem(
-                                product: item,
-                              ),
-                            ),
-                          ),
+                                    ).then((value) {
+                                      bloc.updateList(value as ProductModel?);
+                                    });
+                                  },
+                                  child: child,
+                                ),
                         );
                       },
                       paginationController: bloc.paginationHelper!,

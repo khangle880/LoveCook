@@ -114,7 +114,7 @@ class _PaginationSliverListViewState extends State<PaginationSliverListView> {
           )
         : SliverList(
             delegate: SliverChildBuilderDelegate((_, index) {
-            return index != listLength
+            return index != (listLength - 1)
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [

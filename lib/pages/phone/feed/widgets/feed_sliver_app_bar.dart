@@ -7,7 +7,7 @@ import '../../../../widgets/widgets.dart';
 class FeedSliverAppBar extends StatelessWidget {
   final User? userInfor;
   final bool isHomeFeed;
-  final Function(String, List<String>, List<String>)? onPostCall;
+  final Function(String, List<String>, String?)? onPostCall;
 
   FeedSliverAppBar({this.userInfor, this.onPostCall, this.isHomeFeed = true});
 

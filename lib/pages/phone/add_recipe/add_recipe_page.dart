@@ -1,7 +1,5 @@
-import 'dart:io';
+import 'dart:developer';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../blocs/blocs.dart';
@@ -364,9 +362,11 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                         ),
                         SizedBox(height: 10),
                         const SizedBox(height: 10),
-                        buildListImage(state.photoUrls ?? []),
-                        const SizedBox(height: 10),
-                        buildVideo(state.videoUrl),
+                        MediaSliderWidget(
+                          videoPath: state.videoUrl,
+                          photoPaths: state.photoUrls ?? [],
+                          showHeader: true,
+                        ),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -449,47 +449,6 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
           },
         ),
       ),
-    );
-  }
-
-  Widget buildListImage(List<String> filePaths) {
-    if (filePaths.isEmpty) return SizedBox.shrink();
-    return CarouselSlider(
-      options: CarouselOptions(height: 300.0),
-      items: filePaths.map((imageData) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(color: Colors.transparent),
-              child: imageData.contains('/storage')
-                  ? Image.file(File(imageData), fit: BoxFit.cover)
-                  : CachedNetworkImage(
-                      imageUrl: AppConfig.instance.formatLink(imageData),
-                      fit: BoxFit.cover,
-                    ),
-            );
-          },
-        );
-      }).toList(),
-    );
-  }
-
-  Widget buildVideo(String? videoPath) {
-    if (videoPath == null) return SizedBox.shrink();
-    return Builder(
-      builder: (BuildContext context) {
-        return Container(
-          height: MediaQuery.of(context).size.height / 2,
-          child: VideoWidget(
-            file: videoPath.contains('/storage') ? videoPath : null,
-            path: !videoPath.contains('/storage')
-                ? AppConfig.instance.formatLink(videoPath)
-                : null,
-          ),
-        );
-      },
     );
   }
 }
