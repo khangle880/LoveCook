@@ -23,13 +23,13 @@ class TopaTabBar extends StatelessWidget {
         border: isBottomIndicator
             ? Border(
                 bottom: BorderSide(
-                  color: AppColors.facebookBlue,
+                  color: AppColors.successNormal,
                   width: 3.0,
                 ),
               )
             : Border(
                 top: BorderSide(
-                  color: AppColors.facebookBlue,
+                  color: AppColors.successNormal,
                   width: 3.0,
                 ),
               ),
@@ -42,7 +42,7 @@ class TopaTabBar extends StatelessWidget {
                   icon: Icon(
                     e,
                     color: i == selectedIndex
-                        ? AppColors.facebookBlue
+                        ? AppColors.successNormal
                         : Colors.black45,
                     size: 30.0,
                   ),

@@ -36,7 +36,7 @@ class AppInformationDialog extends AppDialog {
           borderRadius: 100,
           contentBuilder: (c) {
             return (buttonTitle ?? 'Confirm')
-                .s16w600(color: AppColors.primaryLight);
+                .s16w600(color: AppColors.blackDarken);
           },
         )
       ],
