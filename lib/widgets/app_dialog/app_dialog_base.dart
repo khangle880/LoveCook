@@ -7,7 +7,7 @@ abstract class AppDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      backgroundColor: AppColors.blackNormal,
+      backgroundColor: AppColors.successDarken,
       child: Container(
         padding: EdgeInsets.all(16),
         width: MediaQuery.of(context).size.width,

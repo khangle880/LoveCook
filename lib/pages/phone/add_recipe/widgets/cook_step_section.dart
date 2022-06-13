@@ -182,12 +182,11 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
         padding: MediaQuery.of(context).viewInsets,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: 10,
+            vertical: 15,
             horizontal: 20,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+          child: ListView(
+            shrinkWrap: true,
             children: <Widget>[
               Text(
                 '${widget.step != null ? "Update" : "Add"} Cook Step',

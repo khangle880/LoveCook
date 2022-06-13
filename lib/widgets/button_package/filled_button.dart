@@ -51,10 +51,10 @@ class FilledButton extends StatefulWidget {
     this.contentBuilder,
     this.defaultColor = AppColors.blackDarken,
     this.hightLightColor = AppColors.secondaryNormal,
-    this.splashColor = AppColors.primaryDarken,
+    this.splashColor = const Color(0xFFF6E3C5),
     this.disableColor = AppColors.blackNormal,
     this.disableChildColor = AppColors.grayDarken,
-    this.backgroundColor = AppColors.primaryNormal,
+    this.backgroundColor = const Color(0xFFF6E3C5),
     this.width,
     this.height,
     this.borderRadius = 12.0,
@@ -102,7 +102,7 @@ class _FilledButtonState extends State<FilledButton> {
           );
   }
 
- @override
+  @override
   void didUpdateWidget(covariant FilledButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     currentChildColor =

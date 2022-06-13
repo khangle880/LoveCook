@@ -439,7 +439,7 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                                 );
                               }
                             }),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),

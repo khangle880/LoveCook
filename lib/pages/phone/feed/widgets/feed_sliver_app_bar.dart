@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../data/data.dart';
 import '../../../../extensions/extensions.dart';
+import '../../../../resources/colors.dart';
 import '../../../../widgets/widgets.dart';
 
 class FeedSliverAppBar extends StatelessWidget {
@@ -23,7 +24,7 @@ class FeedSliverAppBar extends StatelessWidget {
                 : userInfor!.avatarUrl!),
       ),
       title: userInfor?.name != null
-          ? userInfor!.name!.s20w700(color: Color(0xFF646FD4))
+          ? userInfor!.name!.s20w700(color: AppColors.successDarken)
           : Text(''),
       centerTitle: false,
       floating: true,

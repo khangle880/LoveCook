@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../extensions/text_style.dart';
+import '../../resources/colors.dart';
 import '../../router/router.dart';
 import '../widgets.dart';
 import '../../data/data.dart';
@@ -38,7 +39,7 @@ class _ProfileBottomState extends State<ProfileBottom> {
       color: Colors.white,
       child: Row(children: [
         Container(
-          color: Color(0xFFDBDFFD),
+          color: AppColors.successLight,
           width: 110,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

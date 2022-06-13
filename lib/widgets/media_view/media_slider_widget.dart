@@ -53,9 +53,8 @@ class MediaSliderWidget extends StatelessWidget {
             if (videoPath != null) wrapWidget(child: buildVideo(videoPath)),
             ...(photoPaths ?? []).map((imageData) {
               return wrapWidget(
-                  child: imageData.contains('/storage')
-                      ? Image.file(File(imageData), fit: BoxFit.cover)
-                      : CachedNetworkImage(
+                  child: imageData.contains('/v1/photos')
+                      ? CachedNetworkImage(
                           imageUrl: AppConfig.instance.formatLink(imageData),
                           placeholder: (context, url) => Center(
                             child: SizedBox(
@@ -65,7 +64,8 @@ class MediaSliderWidget extends StatelessWidget {
                             ),
                           ),
                           fit: BoxFit.cover,
-                        ));
+                        )
+                      : Image.file(File(imageData), fit: BoxFit.cover));
             }).toList()
           ],
         ),
@@ -81,8 +81,8 @@ class MediaSliderWidget extends StatelessWidget {
           height: MediaQuery.of(context).size.height / 2,
           child: VideoWidget(
             backgroundColor: AppColors.blurDark,
-            file: videoPath.contains('/storage') ? videoPath : null,
-            path: !videoPath.contains('/storage')
+            file: !videoPath.contains('/v1/videos') ? videoPath : null,
+            path: videoPath.contains('/v1/videos')
                 ? AppConfig.instance.formatLink(videoPath)
                 : null,
           ),
