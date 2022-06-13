@@ -35,7 +35,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
         children: <Widget>[
           Container(
             height: size.height - 200,
-            color: AppColors.mediumBlue,
+            color: AppColors.successDarken,
           ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 500),
@@ -111,6 +111,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
                 MaterialInkwellButton(
                     title: 'Login',
                     hasBorder: false,
+                    backgroundColor: AppColors.successNormal,
                     onTap: () {
                       bloc.login(email, password).catchError(
                         (e) {
