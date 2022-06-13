@@ -30,7 +30,7 @@ class BlocDependencies {
     injector.registerFactory<AddRecipeBloc>(
         () => AddRecipeBloc(injector(), injector(), injector()));
     injector.registerFactory<ProductBloc>(
-        () => ProductBloc(injector(), injector()));
+        () => ProductBloc(injector(), injector(), injector()));
     injector.registerFactory<AddProductBloc>(
         () => AddProductBloc(injector(), injector(), injector()));
     injector.registerFactory<FeedBloc>(

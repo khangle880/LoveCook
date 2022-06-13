@@ -50,40 +50,40 @@ class CookStepSection extends StatelessWidget {
                           if ((e.photoUrls ?? []).isNotEmpty)
                             SizedBox(
                               width: double.infinity,
-                              height: 100,
-                              child: ListView(
+                              height: 200,
+                              child: ListView.separated(
+                                itemCount: (e.photoUrls ?? []).length,
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(width: 5),
                                 scrollDirection: Axis.horizontal,
-                                children: [
-                                  ...(e.photoUrls ?? []).map((e) {
-                                    if (e.contains('/storage')) {
-                                      return Builder(
-                                        builder: (BuildContext context) {
-                                          return Container(
-                                            padding: EdgeInsets.only(right: 5),
-                                            width: 50,
-                                            height: 50,
-                                            child: Image.file(File(e),
-                                                fit: BoxFit.cover),
-                                          );
-                                        },
-                                      );
-                                    }
-                                    return CachedNetworkImage(
-                                      imageUrl:
-                                          AppConfig.instance.formatLink(e),
-                                      placeholder: (context, url) => Center(
-                                        child: SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          errorWidget,
-                                      fit: BoxFit.cover,
+                                itemBuilder: (_, index) {
+                                  var item = (e.photoUrls ?? [])[index];
+                                  if (item.contains('/storage')) {
+                                    return Builder(
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Image.file(File(item),
+                                              fit: BoxFit.cover),
+                                        );
+                                      },
                                     );
-                                  }),
-                                ],
+                                  }
+                                  return CachedNetworkImage(
+                                    imageUrl:
+                                        AppConfig.instance.formatLink(item),
+                                    placeholder: (context, url) => Center(
+                                      child: SizedBox(
+                                        height: 50,
+                                        width: 50,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        errorWidget,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                             ),
                           SizedBox(height: 10),
@@ -206,7 +206,9 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
                 },
               ),
               SizedBox(height: 10),
-              buildListImage(newStep.photoUrls ?? []),
+              MediaSliderWidget(
+                photoPaths: newStep.photoUrls ?? [],
+              ),
               SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
@@ -235,30 +237,6 @@ class _AddCookStepWidgetState extends State<AddCookStepWidget> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildListImage(List<String> filePaths) {
-    if (filePaths.isEmpty) return SizedBox.shrink();
-    return CarouselSlider(
-      options: CarouselOptions(height: 300.0),
-      items: filePaths.map((imageData) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(color: Colors.transparent),
-              child: imageData.contains('/storage')
-                  ? Image.file(File(imageData), fit: BoxFit.cover)
-                  : CachedNetworkImage(
-                      imageUrl: AppConfig.instance.formatLink(imageData),
-                      fit: BoxFit.cover,
-                    ),
-            );
-          },
-        );
-      }).toList(),
     );
   }
 }

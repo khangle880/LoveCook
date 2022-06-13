@@ -83,8 +83,8 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
             FeedSliverAppBar(
               userInfor: user,
               isHomeFeed: bloc.state?.user == null ? true : false,
-              onPostCall: (content, listImagePath, listVideoPath) {
-                bloc.createPost(content, listImagePath, listVideoPath);
+              onPostCall: (content, listImagePath, videoPath) {
+                bloc.createPost(content, listImagePath, videoPath);
               },
             ),
             PaginationSliverListView(

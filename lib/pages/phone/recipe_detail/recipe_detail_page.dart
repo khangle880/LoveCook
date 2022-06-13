@@ -281,25 +281,26 @@ class CookSteps extends StatelessWidget {
                     SizedBox(height: 5),
                     SizedBox(
                       width: double.infinity,
-                      height: 100,
-                      child: ListView(
+                      height: 200,
+                      child: ListView.separated(
+                        itemBuilder: (context, index) => CachedNetworkImage(
+                          imageUrl: AppConfig.instance
+                              .formatLink((e.photoUrls ?? [])[index]),
+                          placeholder: (context, url) => Center(
+                            child: Container(
+                              padding: EdgeInsets.only(right: 5),
+                              height: 50,
+                              width: 50,
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => errorWidget,
+                          fit: BoxFit.cover,
+                        ),
+                        itemCount: (e.photoUrls ?? []).length,
+                        separatorBuilder: (context, index) =>
+                            SizedBox(width: 5),
                         scrollDirection: Axis.horizontal,
-                        children: [
-                          ...(e.photoUrls ?? []).map((e) => CachedNetworkImage(
-                                imageUrl: AppConfig.instance.formatLink(e),
-                                placeholder: (context, url) => Center(
-                                  child: Container(
-                                    padding: EdgeInsets.only(right: 5),
-                                    height: 50,
-                                    width: 50,
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    errorWidget,
-                                fit: BoxFit.cover,
-                              )),
-                        ],
                       ),
                     ),
                     SizedBox(height: 10),

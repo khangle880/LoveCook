@@ -36,7 +36,8 @@ class RecipeBloc extends BaseBloc<RecipeState> {
       'page': page,
       'type': SearchType.recipe.shortString,
     };
-    if (state?.user != null) queryParams.putIfAbsent('creatorId', () => state!.user!.id);
+    if (state?.user != null)
+      queryParams.putIfAbsent('creatorId', () => state!.user!.id);
     if (state?.query != null && state!.query!.isNotEmpty)
       queryParams.putIfAbsent('q', () => state!.query);
     if (state?.level != null)
@@ -71,7 +72,7 @@ class RecipeBloc extends BaseBloc<RecipeState> {
     });
   }
 
-  void updateItem(RecipeModel? recipe) async {
+  void updateList(RecipeModel? recipe) async {
     if (recipe == null) return;
     final index = (paginationHelper?.items ?? [])
         .indexWhere((element) => element.id == recipe.id);
@@ -85,6 +86,16 @@ class RecipeBloc extends BaseBloc<RecipeState> {
     }
 
     paginationHelper!.updateList(newList);
+  }
+
+  void deleteItem(RecipeModel recipe) {
+    final items = paginationHelper?.items ?? [];
+    final index = items.indexWhere((element) => element.id == recipe.id);
+    if (index != -1) {
+      items.removeAt(index);
+      paginationHelper!.updateList(items);
+      _recipeRepository.delete(recipeId: recipe.id!);
+    }
   }
 
   void updateFilter({

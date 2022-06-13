@@ -103,12 +103,10 @@ class _FeedCommentPageState
                   post.photoUrls != null && post.photoUrls!.isNotEmpty
                       ? const SizedBox(height: 10.0)
                       : const SizedBox.shrink(),
-                  post.photoUrls != null && post.photoUrls!.isNotEmpty
-                      ? _buildImageSlider()
-                      : const SizedBox.shrink(),
-                  post.videoUrl != null && post.videoUrl!.isNotEmpty
-                      ? _buildVideoSlider()
-                      : const SizedBox.shrink(),
+                  MediaSliderWidget(
+                    videoPath: post.videoUrl,
+                    photoPaths: post.photoUrls,
+                  ),
                   Divider(
                     height: 4.0,
                     thickness: 2,
@@ -144,33 +142,6 @@ class _FeedCommentPageState
           )
         ],
       ),
-    );
-  }
-
-  CarouselSlider _buildImageSlider() {
-    return CarouselSlider(
-      options: CarouselOptions(height: 280.0),
-      items: post.photoUrls!.map((imageUrl) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(color: Colors.transparent),
-                child: Image(
-                    image: CachedNetworkImageProvider(
-                  AppConfig.instance.formatLink(imageUrl),
-                )));
-          },
-        );
-      }).toList(),
-    );
-  }
-
-  CarouselSlider _buildVideoSlider() {
-    return CarouselSlider(
-      options: CarouselOptions(height: 300.0, enableInfiniteScroll: false),
-      items: [VideoWidget(path: AppConfig.instance.formatLink(post.videoUrl!))],
     );
   }
 }
