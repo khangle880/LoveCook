@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovecook/widgets/chat_package/video_message.dart';
 
 import '../../blocs/chat/chat_bloc.dart';
 import '../../data/responses/responses.dart';
@@ -15,6 +16,7 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget messageContaint(ChatMessageResponse message) {
+      print(message);
       return Column(
         children: [
           message.text != null
@@ -43,6 +45,9 @@ class Message extends StatelessWidget {
                     ),
                   ),
                 )
+              : SizedBox.shrink(),
+          message.custom?.youtubeId != null
+              ? VideoMessage(message: message)
               : SizedBox.shrink()
         ],
       );

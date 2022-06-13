@@ -99,8 +99,8 @@ class Access {
 }
 
 class User extends BaseResponse {
-  final List<User>? followingUsers;
-  final List<User>? followerUsers;
+  final List<String>? followingUsers;
+  final List<String>? followerUsers;
   final String? name;
   final String? email;
   final String? bio;
@@ -140,12 +140,10 @@ class User extends BaseResponse {
   factory User.fromJson(Map<String, dynamic> json) => User(
         followingUsers: json["followingUsers"] == null
             ? null
-            : List<User>.from(
-                json["followingUsers"]?.map((x) => User.fromJson(x))),
+            : List<String>.from(json["followingUsers"]?.map((x) => x)),
         followerUsers: json["followerUsers"] == null
             ? null
-            : List<User>.from(
-                json["followerUsers"]?.map((x) => User.fromJson(x))),
+            : List<String>.from(json["followerUsers"]?.map((x) => x)),
         name: json["name"],
         email: json["email"] ?? '',
         bio: json["bio"] ?? '',
@@ -162,8 +160,8 @@ class User extends BaseResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "followingUsers": followingUsers?.map((x) => x.toJson()).toList(),
-        "followerUsers": followerUsers?.map((x) => x.toJson()).toList(),
+        "followingUsers": followingUsers?.map((x) => x).toList(),
+        "followerUsers": followerUsers?.map((x) => x).toList(),
         "name": name,
         "email": email,
         "avatarUrl": avatarUrl,
@@ -177,8 +175,8 @@ class User extends BaseResponse {
       };
 
   User copyWith({
-    List<User>? followingUsers,
-    List<User>? followerUsers,
+    List<String>? followingUsers,
+    List<String>? followerUsers,
     String? name,
     String? email,
     String? bio,

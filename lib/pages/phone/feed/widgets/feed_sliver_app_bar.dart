@@ -9,8 +9,13 @@ class FeedSliverAppBar extends StatelessWidget {
   final User? userInfor;
   final bool isHomeFeed;
   final Function(String, List<String>, String?)? onPostCall;
+  final Function(String)? onSearchCall;
 
-  FeedSliverAppBar({this.userInfor, this.onPostCall, this.isHomeFeed = true});
+  FeedSliverAppBar(
+      {this.userInfor,
+      this.onPostCall,
+      this.onSearchCall,
+      this.isHomeFeed = true});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,9 @@ class FeedSliverAppBar extends StatelessWidget {
           CircleButton(
             icon: Icons.search,
             iconSize: 30.0,
-            onPressed: () => print('Search'),
+            onPressed: () {
+              ShowCustomBottomSheet.searchPost(context, onSearchCall);
+            },
           )
         ] else
           CircleButton(

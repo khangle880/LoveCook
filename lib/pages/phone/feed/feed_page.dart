@@ -77,15 +77,6 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SearchTextField(
-          controller: _searchController,
-          onSubmitted: (value) {
-            bloc.updateQuery(value);
-            getPost();
-          },
-        ),
-      ),
       backgroundColor: Colors.white,
       body: RefreshIndicator(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -102,6 +93,10 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
               isHomeFeed: bloc.state?.user == null ? true : false,
               onPostCall: (content, listImagePath, videoPath) {
                 bloc.createPost(content, listImagePath, videoPath);
+              },
+              onSearchCall: (query) {
+                bloc.updateQuery(query);
+                getPost();
               },
             ),
             PaginationSliverListView(

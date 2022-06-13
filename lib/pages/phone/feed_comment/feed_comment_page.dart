@@ -50,6 +50,7 @@ class _FeedCommentPageState
       return asyncTask(config).then((value) {
         config.canLoadMore = value.pagination.canLoadMore;
         config.page = value.pagination.page;
+        print(value.items.length);
         return (value.items as List<CommentModel>);
       }).catchError((e) => throw e);
     });

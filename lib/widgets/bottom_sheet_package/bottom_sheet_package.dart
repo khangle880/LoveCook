@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovecook/widgets/bottom_sheet_package/bottom_search_post.dart';
 
 import '../../data/data.dart';
 import 'bottom_add_post.dart';
@@ -7,6 +8,17 @@ import 'bottom_change_name.dart';
 import 'bottom_change_phone.dart';
 
 class ShowCustomBottomSheet {
+  static void searchPost(BuildContext context, Function(String)? onSearchCall) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (builder) {
+          return BottomSearchPost(
+            onSearchCall: onSearchCall,
+          );
+        });
+  }
+
   static void addPost(BuildContext context, User? userInfor,
       final Function(String, List<String>, String?)? onPostCall) {
     showModalBottomSheet(

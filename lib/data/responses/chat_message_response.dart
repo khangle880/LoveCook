@@ -12,19 +12,20 @@ String chatMessageResponseToJson(List<ChatMessageResponse> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ChatMessageResponse {
-  ChatMessageResponse({
-    this.recipientId,
-    this.image,
-    this.sender,
-    this.text,
-    this.buttons,
-  });
+  ChatMessageResponse(
+      {this.recipientId,
+      this.image,
+      this.sender,
+      this.text,
+      this.buttons,
+      this.custom});
 
   String? recipientId;
   String? image;
   String? sender;
   String? text;
   List<Button>? buttons;
+  Custom? custom;
 
   ChatMessageResponse copyWith({
     String? recipientId,
@@ -32,14 +33,15 @@ class ChatMessageResponse {
     String? sender,
     String? text,
     List<Button>? buttons,
+    Custom? custom,
   }) =>
       ChatMessageResponse(
-        recipientId: recipientId ?? this.recipientId,
-        image: image ?? this.image,
-        sender: sender ?? this.sender,
-        text: text ?? this.text,
-        buttons: buttons ?? this.buttons,
-      );
+          recipientId: recipientId ?? this.recipientId,
+          image: image ?? this.image,
+          sender: sender ?? this.sender,
+          text: text ?? this.text,
+          buttons: buttons ?? this.buttons,
+          custom: custom ?? this.custom);
 
   factory ChatMessageResponse.fromJson(Map<String, dynamic> json) =>
       ChatMessageResponse(
@@ -50,6 +52,7 @@ class ChatMessageResponse {
         buttons: json["buttons"] == null
             ? null
             : List<Button>.from(json["buttons"].map((x) => Button.fromJson(x))),
+        custom: json["custom"] == null ? null : Custom.fromJson(json["custom"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,6 +62,7 @@ class ChatMessageResponse {
         "text": text == null ? null : text,
         "buttons":
             buttons == null ? null : buttons?.map((x) => x.toJson()).toList(),
+        "custom": custom == null ? null : custom?.toJson(),
       };
 }
 
@@ -88,5 +92,28 @@ class Button {
   Map<String, dynamic> toJson() => {
         "title": title,
         "payload": payload,
+      };
+}
+
+class Custom {
+  Custom({
+    this.youtubeId,
+  });
+
+  final String? youtubeId;
+
+  Custom copyWith({
+    String? youtubeId,
+  }) =>
+      Custom(
+        youtubeId: youtubeId ?? this.youtubeId,
+      );
+
+  factory Custom.fromJson(Map<String, dynamic> json) => Custom(
+        youtubeId: json["youtubeId"] == null ? null : json["youtubeId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "youtubeId": youtubeId == null ? null : youtubeId,
       };
 }
