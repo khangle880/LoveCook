@@ -53,18 +53,13 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
     super.dispose();
   }
 
-  Future<PagingListResponse> asyncTask(
-      {String? text,
-      Level? level,
-      CuisineModel? cuisine,
-      DishTypeModel? dishType,
-      required PaginationConfig config}) {
+  Future<PagingListResponse> asyncTask(PaginationConfig config) {
     return bloc.getRecipes(page: config.page);
   }
 
   getRecipes() {
     bloc.paginationHelper = PaginationHelper(asyncTask: (config) {
-      return asyncTask(config: config).then((value) {
+      return asyncTask(config).then((value) {
         config.canLoadMore = value.pagination.canLoadMore;
         config.page = value.pagination.page;
         return (value.items as List<RecipeModel>);

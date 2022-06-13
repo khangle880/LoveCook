@@ -24,6 +24,8 @@ class FeedBloc extends BaseBloc<FeedState> {
       'page': page,
       'type': SearchType.post.shortString,
     };
+    if (state?.query != null && state!.query!.isNotEmpty)
+      queryParams.putIfAbsent('q', () => state!.query);
     if (state?.user != null)
       queryParams.putIfAbsent('creatorId', () => state!.user!.id);
     final responseEither = await _searchRepository.search(query: queryParams);
@@ -32,6 +34,10 @@ class FeedBloc extends BaseBloc<FeedState> {
     }, (data) {
       return data.item!.posts!;
     });
+  }
+
+  updateQuery(String? query) {
+    emit((state ?? FeedState()).copyWith(query: query));
   }
 
   Future<void> createPost(

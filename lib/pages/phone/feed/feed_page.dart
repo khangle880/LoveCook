@@ -6,11 +6,13 @@ import '../../../core/base/base_response.dart';
 import '../../../core/base/base_state.dart';
 import '../../../data/data.dart';
 import '../../../extensions/extensions.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../router/route_arguments.dart';
 import '../../../router/router.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
 import '../../../widgets/pagination_widget/pagination_sliver_listview.dart';
 import '../../../widgets/post_package/post_package.dart';
+import '../../../widgets/textfield_package/search_textfield.dart';
 import '../../pages.dart';
 import 'widgets/feed_sliver_app_bar.dart';
 
@@ -25,6 +27,7 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
+  late TextEditingController _searchController;
   User? get user => widget.sharedPreferences.user;
 
   @override
@@ -32,7 +35,14 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
 
   @override
   void initState() {
+    _searchController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,10 +66,7 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
       bloc.postPagination?.run();
     });
 
-    bloc.postPagination?.addListener(() {
-      setState(() {});
-    });
-
+    setState(() {});
     return bloc.postPagination?.run();
   }
 
@@ -70,11 +77,21 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: SearchTextField(
+          controller: _searchController,
+          onSubmitted: (value) {
+            bloc.updateQuery(value);
+            getPost();
+          },
+        ),
+      ),
       backgroundColor: Colors.white,
       body: RefreshIndicator(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         color: Theme.of(context).primaryColor,
         onRefresh: () async {
+          setState(() {});
           bloc.postPagination?.refresh();
         },
         edgeOffset: 80,
@@ -88,6 +105,15 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
               },
             ),
             PaginationSliverListView(
+              emptyBuilder: (_) => Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 50),
+                    Assets.images.png.search.image(height: 150, width: 150),
+                    "Nothing".s16w400(),
+                  ],
+                ),
+              ),
               paginationController: bloc.postPagination!,
               itemBuilder: (BuildContext context, int index) {
                 return PostContainer(
