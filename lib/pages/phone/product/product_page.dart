@@ -216,7 +216,7 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
                                   onTap: () {
                                     Navigator.pushNamed(
                                       context,
-                                      Routes.recipeDetail,
+                                      Routes.productDetail,
                                       arguments: item,
                                     ).then((value) {
                                       bloc.updateList(value as ProductModel?);

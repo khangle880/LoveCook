@@ -78,7 +78,7 @@ class MediaSliderWidget extends StatelessWidget {
     return Builder(
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height / 2,
+          // height: MediaQuery.of(context).size.height / 2,
           child: VideoWidget(
             backgroundColor: AppColors.blurDark,
             file: !videoPath.contains('/v1/videos') ? videoPath : null,

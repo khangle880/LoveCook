@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../../blocs/blocs.dart';
 import '../../../blocs/chat/chat_bloc.dart';
 import '../../../core/core.dart';
 import '../../../data/responses/chat_message_response.dart';
@@ -20,8 +22,12 @@ class _ChatPageState extends BaseState<ChatPage, ChatBloc> {
 
   @override
   void initState() {
-    _scrollController = ScrollController();
     super.initState();
+
+    _scrollController = ScrollController();
+    GetIt.I.get<AppBloc>().clearMessageStream.listen((event) {
+      bloc.clearMessage();
+    });
   }
 
   @override

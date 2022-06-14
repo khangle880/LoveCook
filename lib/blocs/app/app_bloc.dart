@@ -20,6 +20,8 @@ class AppBloc extends BaseBloc<AppState> {
   }
   Stream<bool?> get followStream =>
       stateStream.map((event) => event.followChange);
+  Stream<bool?> get clearMessageStream =>
+      stateStream.map((event) => event.clearMessage);
 
   Future<void> init() async {
     final languageCode = _prefs.getString(SharedPreferencesKey.languageCode);
@@ -32,6 +34,10 @@ class AppBloc extends BaseBloc<AppState> {
 
   notiFollowChange() {
     emit(AppState(state: state, followChange: true));
+  }
+
+  clearMessage() {
+    emit(AppState(state: state, clearMessage: true));
   }
 
   Future<void> changeLanguage(String languageCode) async {

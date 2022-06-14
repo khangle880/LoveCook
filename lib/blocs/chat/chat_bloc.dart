@@ -12,6 +12,11 @@ class ChatBloc extends BaseBloc<ChatState> {
   Stream<List<ChatMessageResponse>?> get listChatMessage =>
       stateStream.map((event) => event.listChatMessage);
 
+  void clearMessage() async {
+    print(state?.listChatMessage);
+    emit(ChatState(state: state, listChatMessage: []));
+  }
+
   Future<void> sendMessage(String message) async {
     if (message.length == 0) {
       return;

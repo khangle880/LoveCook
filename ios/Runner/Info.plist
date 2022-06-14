@@ -4,8 +4,12 @@
 <dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoadsForMedia</key>
+		<false/>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSAllowsArbitraryLoadsUsageDescription</key>
+		<dict/>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>I want to upload user post</string>

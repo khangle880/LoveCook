@@ -123,6 +123,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
                     changeLanguage: (language) {
                       bloc.changeProfile(
                           profile: {'languageSetting': language});
+                      GetIt.I.get<AppBloc>().clearMessage();
                     },
                   ),
                 )
