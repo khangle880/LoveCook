@@ -5,8 +5,10 @@ import 'profile_package.dart';
 
 class ProfileStackBackground extends StatefulWidget {
   final String? imageUrl;
+  final bool isOwner;
 
-  const ProfileStackBackground({Key? key, this.imageUrl}) : super(key: key);
+  const ProfileStackBackground({Key? key, this.imageUrl, required this.isOwner})
+      : super(key: key);
 
   @override
   State<ProfileStackBackground> createState() => _ProfileStackBackgroundState();
@@ -74,7 +76,9 @@ class _ProfileStackBackgroundState extends State<ProfileStackBackground> {
               ],
             ),
           ),
-          ProfileTopBar(),
+          ProfileTopBar(
+            isOwner: widget.isOwner,
+          ),
         ],
       ),
     );

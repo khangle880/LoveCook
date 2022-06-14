@@ -67,82 +67,53 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
             return Column(
               children: <Widget>[
                 ProfileStackBackground(
+                  isOwner: isMe,
                   imageUrl: user_data.avatarUrl != null
                       ? AppConfig.instance.formatLink(user_data.avatarUrl!)
                       : null,
                 ),
-                Row(
-                  children: [
-                    OutlineButton(
-                      color: Colors.amberAccent,
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.follow,
-                          arguments: user_data,
-                        );
-                      },
-                      text: user_data.followingUsers!.length.toString() +
-                          " Following",
-                    ),
-                    OutlineButton(
-                      color: Colors.cyan,
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.follow,
-                          arguments: user_data,
-                        );
-                      },
-                      text: user_data.followerUsers!.length.toString() +
-                          " Follower",
-                    ),
-                    if (!isMe)
-                      FollowButton(
-                        initIsFollowed: bloc.state!.loggedUser!.followingUsers!
-                            .contains(user_data.id),
-                        onTap: (bool follow) {
-                          bloc.handleFollow(user_data, follow);
-                        },
-                      )
-                  ],
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       OutlineButton(
-                //         color: Colors.amberAccent,
-                //         onPressed: () {
-                //           Navigator.pushNamed(context, Routes.recipes,
-                //               arguments: user_data);
+                // Row(
+                //   children: [
+                //     OutlineButton(
+                //       color: Colors.amberAccent,
+                //       onPressed: () {
+                //         Navigator.pushNamed(
+                //           context,
+                //           Routes.follow,
+                //           arguments: user_data,
+                //         );
+                //       },
+                //       text: user_data.followingUsers!.length.toString() +
+                //           " Following",
+                //     ),
+                //     OutlineButton(
+                //       color: Colors.cyan,
+                //       onPressed: () {
+                //         Navigator.pushNamed(
+                //           context,
+                //           Routes.follow,
+                //           arguments: user_data,
+                //         );
+                //       },
+                //       text: user_data.followerUsers!.length.toString() +
+                //           " Follower",
+                //     ),
+                //     if (!isMe)
+                //       FollowButton(
+                //         initIsFollowed: bloc.state!.loggedUser!.followingUsers!
+                //             .contains(user_data.id),
+                //         onTap: (bool follow) {
+                //           bloc.handleFollow(user_data, follow);
                 //         },
-                //         text: user_data.totalRecipes.toString() + " Recipes",
-                //       ),
-                //       OutlineButton(
-                //         color: Colors.cyan,
-                //         onPressed: () {
-                //           Navigator.pushNamed(context, Routes.posts,
-                //               arguments: user_data);
-                //         },
-                //         text: user_data.totalPosts.toString() + " Posts",
-                //       ),
-                //       OutlineButton(
-                //         color: Colors.lightGreen,
-                //         onPressed: () {
-                //           Navigator.pushNamed(context, Routes.products,
-                //               arguments: user_data);
-                //         },
-                //         text: user_data.totalProducts.toString() + " Products",
-                //       ),
-                //     ],
-                //   ),
+                //       )
+                //   ],
                 // ),
+
                 Expanded(
                   child: ProfileBottom(
                     isMe: isMe,
                     user: user_data,
+                    bloc: bloc,
                     changeName: (username) {
                       bloc.changeProfile(profile: {'name': username});
                     },

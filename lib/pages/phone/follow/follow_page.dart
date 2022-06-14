@@ -71,6 +71,8 @@ class _FollowPageState extends BaseState<FollowPage, FollowBloc> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          title: (bloc.state?.loggedUser?.name ?? 'User')
+              .s20w500(color: Colors.white),
           bottom: TabBar(tabs: [
             Tab(text: 'Following'),
             Tab(text: 'Follower'),
@@ -96,7 +98,7 @@ class _FollowPageState extends BaseState<FollowPage, FollowBloc> {
                   paginationController: bloc.followingPagiHelper!,
                 ),
                 PaginationListView(
-                    emptyBuilder: (_) => buildEmptyView(),
+                  emptyBuilder: (_) => buildEmptyView(),
                   itemBuilder: (BuildContext context, int index) {
                     final item = bloc.follwerPagiHelper!.items[index];
                     return buildUserItem(item, state);
@@ -130,14 +132,19 @@ class _FollowPageState extends BaseState<FollowPage, FollowBloc> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
       ),
-      margin: EdgeInsets.all(5),
+      margin: EdgeInsets.all(10),
       child: Row(
         children: [
-          item.name!.s14w500(),
+          ProfileAvatar(
+            imageUrl: item.avatarUrl,
+          ),
+          SizedBox(width: 10),
+          item.name!.s14w600(),
           Spacer(),
           if (item.id != state.loggedUser!.id)
             FollowButton(
-              initIsFollowed: state.loggedUser!.followingUsers!.contains(item.id),
+              initIsFollowed:
+                  state.loggedUser!.followingUsers!.contains(item.id),
               onTap: (bool follow) {
                 bloc.handleFollow(item, follow);
               },
@@ -183,6 +190,8 @@ class _FollowButtonState extends State<FollowButton> {
         widget.onTap(isFollowed);
       },
       child: Container(
+        alignment: Alignment.center,
+        width: 110,
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
         decoration: BoxDecoration(
           color: isFollowed ? AppColors.whiteLight : AppColors.secondaryNormal,
@@ -190,16 +199,7 @@ class _FollowButtonState extends State<FollowButton> {
           border: Border.all(color: borderColor),
         ),
         child: !isFollowed
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.add,
-                    color: AppColors.white,
-                  ),
-                  ('  ' + 'follow').s16w500(color: AppColors.white),
-                ],
-              )
+            ? 'follow'.s16w500(color: AppColors.white)
             : 'following'.s16w500(color: AppColors.secondaryNormal),
       ),
     );

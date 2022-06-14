@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ProfileTopBar extends StatelessWidget {
-  const ProfileTopBar({
-    Key? key,
-  }) : super(key: key);
+  final bool isOwner;
+
+  const ProfileTopBar({required this.isOwner});
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +11,17 @@ class ProfileTopBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu, color: Colors.white),
-          ),
+          isOwner
+              ? IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.menu, color: Colors.white),
+                )
+              : IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.close, color: Colors.white),
+                ),
         ],
       ),
     );

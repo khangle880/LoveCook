@@ -53,7 +53,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Topa',
+                  'Love Cook',
                   style: TextStyle(
                     color: AppColors.white,
                     fontSize: 40.0,

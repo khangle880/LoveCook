@@ -47,9 +47,6 @@ class _VideoMessageState extends State<VideoMessage> {
                       playedColor: Colors.amber,
                       handleColor: Colors.amberAccent,
                     ),
-                    // onReady: () {
-                    //  _controller.addListener(listener);
-                    // },
                   )
                 : SizedBox.shrink()),
       ),
