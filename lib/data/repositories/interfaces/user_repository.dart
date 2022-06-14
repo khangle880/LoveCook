@@ -17,4 +17,8 @@ abstract class IUserRepository {
       {required String userId});
   Future<Either<Failure, SingleResponse<User>>> unfollow(
       {required String userId});
+  Future<Either<Failure, PagingListResponse<User>>> getFollowers(
+      {required String userId, required Map<String, dynamic> query});
+  Future<Either<Failure, PagingListResponse<User>>> getFollowings(
+      {required String userId, required Map<String, dynamic> query});
 }

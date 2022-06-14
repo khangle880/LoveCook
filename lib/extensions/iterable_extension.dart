@@ -35,4 +35,11 @@ extension AppListExtension<T> on List<T> {
     }
     return List.from(this);
   }
+
+  void insertUnique( int index,T item, bool Function(T element) uniqueTest) {
+    final hasItem = indexWhere(uniqueTest);
+    if (hasItem == -1) {
+      insert(index, item);
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lovecook/pages/phone/follow/follow_page.dart';
 
 import '../pages/pages.dart';
 import '../router/router.dart';
@@ -40,6 +41,9 @@ class PageDependencies {
         instanceName: Routes.feedComment);
     injector.registerFactory<Widget>(() => ProductDetailPage(),
         instanceName: Routes.productDetail);
-    // injector.registerFactory<Widget>(() => ProfilePage(injector()));
+    injector.registerFactory<Widget>(() => FollowPage(injector()),
+        instanceName: Routes.follow);
+    injector.registerFactory<Widget>(() => ProfilePage(injector(), injector()),
+        instanceName: Routes.profile);
   }
 }

@@ -63,4 +63,24 @@ class UserRemoteService implements IUserRemoteService {
 
     return PagingListResponse<RecipeModel>.fromJson(response);
   }
+
+  @override
+  Future<PagingListResponse<User>> getFollowers(
+      {required String userId, required Map<String, dynamic> query}) async {
+    final response = await _networkUtility.request(
+        'v1/users/$userId/follower', Method.GET,
+        queryParameters: query);
+
+    return PagingListResponse<User>.fromJson(response);
+  }
+
+  @override
+  Future<PagingListResponse<User>> getFollowings(
+      {required String userId, required Map<String, dynamic> query}) async {
+    final response = await _networkUtility.request(
+        'v1/users/$userId/following', Method.GET,
+        queryParameters: query);
+
+    return PagingListResponse<User>.fromJson(response);
+  }
 }

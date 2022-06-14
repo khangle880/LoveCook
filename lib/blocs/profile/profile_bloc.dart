@@ -1,18 +1,32 @@
+import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../core/base/base_bloc.dart';
 import '../../data/data.dart';
 import '../blocs.dart';
-import 'profile.dart';
 
 class ProfileBloc extends BaseBloc<ProfileState> {
   final IMeRepository _profileRepository;
+  final IUserRepository _userRepository;
   final SharedPreferences _sharedPreferences;
 
-  ProfileBloc(this._profileRepository, this._sharedPreferences);
+  ProfileBloc(
+      this._profileRepository, this._sharedPreferences, this._userRepository) {
+    emit(ProfileState(state: state, loggedUser: _sharedPreferences.user));
+  }
 
   Stream<User?> get user => stateStream.map((event) => event.user);
+
+  setUser(User user) async {
+    final responseEither = await _userRepository.getUser(userId: user.id!);
+
+    responseEither.fold((failure) {}, (data) {
+      if (data.item != null) {
+        emit(ProfileState(state: state, success: true, user: data.item));
+      }
+    });
+  }
 
   Future<void> checkProfile() async {
     final responseEither = await _profileRepository.getInfo();
@@ -38,5 +52,27 @@ class ProfileBloc extends BaseBloc<ProfileState> {
         }
       });
     }
+  }
+
+  handleFollow(User user, bool follow) {
+    final handleFollowService =
+        follow ? _userRepository.follow : _userRepository.unfollow;
+
+    return handleFollowService(userId: user.id!).then((value) {
+      var currentUser = state!.user;
+      var newUser;
+      if (follow) {
+        newUser = currentUser?.copyWith(
+            followerUsers: currentUser.followerUsers!..add(user.id!));
+      } else {
+        newUser = currentUser?.copyWith(
+            followerUsers: currentUser.followerUsers!
+              ..removeWhere(
+                (element) => element == user.id!,
+              ));
+      }
+      emit(ProfileState(state: state, user: newUser));
+      GetIt.I.get<AppBloc>().notiFollowChange();
+    }).catchError((e) {});
   }
 }

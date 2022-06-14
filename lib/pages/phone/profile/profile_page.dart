@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovecook/extensions/extensions.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lovecook/utils/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +8,7 @@ import '../../../core/core.dart';
 import '../../../data/data.dart';
 import '../../../router/router.dart';
 import '../../../widgets/widgets.dart';
+import '../follow/follow_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final ProfileBloc bloc;
@@ -20,10 +21,27 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
+  bool isMe = false;
+
   @override
   void initState() {
     super.initState();
-    bloc.checkProfile();
+  }
+
+  @override
+  void onReceivePayload(Object? payload) {
+    super.onReceivePayload(payload);
+    if (payload is User) {
+      bloc.setUser(payload);
+      isMe = false;
+    } else {
+      bloc.checkProfile();
+      isMe = true;
+
+      GetIt.I.get<AppBloc>().followStream.listen((event) {
+        bloc.checkProfile();
+      });
+    }
   }
 
   @override
@@ -34,6 +52,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: StreamBuilder<User?>(
           stream: bloc.user,
           builder: (context, snapshot) {
@@ -51,6 +70,42 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
                   imageUrl: user_data.avatarUrl != null
                       ? AppConfig.instance.formatLink(user_data.avatarUrl!)
                       : null,
+                ),
+                Row(
+                  children: [
+                    OutlineButton(
+                      color: Colors.amberAccent,
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.follow,
+                          arguments: user_data,
+                        );
+                      },
+                      text: user_data.followingUsers!.length.toString() +
+                          " Following",
+                    ),
+                    OutlineButton(
+                      color: Colors.cyan,
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.follow,
+                          arguments: user_data,
+                        );
+                      },
+                      text: user_data.followerUsers!.length.toString() +
+                          " Follower",
+                    ),
+                    if (!isMe)
+                      FollowButton(
+                        initIsFollowed: bloc.state!.loggedUser!.followingUsers!
+                            .contains(user_data.id),
+                        onTap: (bool follow) {
+                          bloc.handleFollow(user_data, follow);
+                        },
+                      )
+                  ],
                 ),
                 // Padding(
                 //   padding: const EdgeInsets.all(8.0),
@@ -85,18 +140,21 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
                 //   ),
                 // ),
                 Expanded(
-                    child: ProfileBottom(
-                  user: user_data,
-                  changeName: (username) {
-                    bloc.changeProfile(profile: {'name': username});
-                  },
-                  changePhone: (phone) {
-                    bloc.changeProfile(profile: {'phone': phone});
-                  },
-                  changeLanguage: (language) {
-                    bloc.changeProfile(profile: {'languageSetting': language});
-                  },
-                ))
+                  child: ProfileBottom(
+                    isMe: isMe,
+                    user: user_data,
+                    changeName: (username) {
+                      bloc.changeProfile(profile: {'name': username});
+                    },
+                    changePhone: (phone) {
+                      bloc.changeProfile(profile: {'phone': phone});
+                    },
+                    changeLanguage: (language) {
+                      bloc.changeProfile(
+                          profile: {'languageSetting': language});
+                    },
+                  ),
+                )
                 // ProfileCard(),
                 // ProfileCard(),
                 // ProfileCard(),
