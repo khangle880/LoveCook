@@ -18,6 +18,8 @@ class AppBloc extends BaseBloc<AppState> {
       locale: LocaleBuilder.getLocale(Language.en.code),
     ));
   }
+  Stream<bool?> get followStream =>
+      stateStream.map((event) => event.followChange);
 
   Future<void> init() async {
     final languageCode = _prefs.getString(SharedPreferencesKey.languageCode);
@@ -26,6 +28,10 @@ class AppBloc extends BaseBloc<AppState> {
       state: state,
       locale: LocaleBuilder.getLocale(languageCode ?? Language.en.code),
     ));
+  }
+
+  notiFollowChange() {
+    emit(AppState(state: state, followChange: true));
   }
 
   Future<void> changeLanguage(String languageCode) async {

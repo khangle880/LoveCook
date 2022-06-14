@@ -11,4 +11,8 @@ abstract class IUserRemoteService {
       {required String userId, required Map<String, dynamic> query});
   Future<SingleResponse<User>> follow({required String userId});
   Future<SingleResponse<User>> unfollow({required String userId});
+  Future<PagingListResponse<User>> getFollowers(
+      {required String userId, required Map<String, dynamic> query});
+  Future<PagingListResponse<User>> getFollowings(
+      {required String userId, required Map<String, dynamic> query});
 }

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:lovecook/blocs/follow/follow_bloc.dart';
 import '../pages/phone/test_api/test_api_bloc.dart';
 
 import '../blocs/blocs.dart';
@@ -22,7 +23,7 @@ class BlocDependencies {
         ));
     injector.registerFactory<ChatBloc>(() => ChatBloc(injector()));
     injector.registerFactory<ProfileBloc>(
-        () => ProfileBloc(injector(), injector()));
+        () => ProfileBloc(injector(), injector(), injector()));
     injector.registerFactory<RecipeBloc>(
         () => RecipeBloc(injector(), injector(), injector()));
     injector.registerFactory<RecipeDetailBloc>(
@@ -37,5 +38,7 @@ class BlocDependencies {
         () => FeedBloc(injector(), injector(), injector()));
     injector
         .registerFactory<FeedCommentBloc>(() => FeedCommentBloc(injector()));
+    injector
+        .registerFactory<FollowBloc>(() => FollowBloc(injector(), injector()));
   }
 }

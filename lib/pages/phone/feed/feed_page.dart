@@ -12,7 +12,6 @@ import '../../../router/router.dart';
 import '../../../widgets/pagination_widget/pagination_helper.dart';
 import '../../../widgets/pagination_widget/pagination_sliver_listview.dart';
 import '../../../widgets/post_package/post_package.dart';
-import '../../../widgets/textfield_package/search_textfield.dart';
 import '../../pages.dart';
 import 'widgets/feed_sliver_app_bar.dart';
 

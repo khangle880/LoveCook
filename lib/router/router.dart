@@ -17,6 +17,8 @@ class Routes {
   static String get recipes => '/recipes';
   static String get posts => '/posts';
   static String get products => '/products';
+  static String get follow => '/follow';
+  static String get profile => '/profile';
 
   static getRoute(RouteSettings settings) {
     Widget widget;

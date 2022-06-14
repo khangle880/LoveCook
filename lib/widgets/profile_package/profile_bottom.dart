@@ -7,19 +7,21 @@ import '../widgets.dart';
 import '../../data/data.dart';
 
 class ProfileBottom extends StatefulWidget {
-  final User? user;
+  final User user;
   final Function(String)? changeName;
   final Function(String)? changePhone;
   final Function(String)? changeLanguage;
   final Function(String)? changeAvatar;
+  final bool isMe;
 
   ProfileBottom(
       {Key? key,
-      this.user,
+      required this.user,
       this.changeName,
       this.changeLanguage,
       this.changeAvatar,
-      this.changePhone})
+      this.changePhone,
+      required this.isMe})
       : super(key: key);
 
   @override
@@ -117,35 +119,43 @@ class _ProfileBottomState extends State<ProfileBottom> {
               ListTile(
                 title: Text("Name"),
                 subtitle: Text(_user != null ? _user!.name! : ''),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit_note),
-                  onPressed: () {
-                    ShowCustomBottomSheet.changeName(context, changeName);
-                  },
-                ),
+                trailing: !widget.isMe
+                    ? null
+                    : IconButton(
+                        icon: Icon(Icons.edit_note),
+                        onPressed: () {
+                          ShowCustomBottomSheet.changeName(context, changeName);
+                        },
+                      ),
                 // trailing: Icon(Icons.edit_note),
               ),
               ListTile(
                 title: Text("Phone"),
-                subtitle: Text(_user != null ? _user!.phone! : ''),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit_note),
-                  onPressed: () {
-                    ShowCustomBottomSheet.changePhone(context, changePhone);
-                  },
-                ),
+                subtitle:
+                    Text(_user != null ? _user!.phone ?? "xxx.xxx.xxx" : ''),
+                trailing: !widget.isMe
+                    ? null
+                    : IconButton(
+                        icon: Icon(Icons.edit_note),
+                        onPressed: () {
+                          ShowCustomBottomSheet.changePhone(
+                              context, changePhone);
+                        },
+                      ),
               ),
               ListTile(
                 title: Text("Language"),
                 subtitle: Text(
                     _user != null ? _user!.languageSetting!.toString() : ''),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit_note),
-                  onPressed: () {
-                    ShowCustomBottomSheet.changeLanguage(
-                        context, changeLanguage);
-                  },
-                ),
+                trailing: !widget.isMe
+                    ? null
+                    : IconButton(
+                        icon: Icon(Icons.edit_note),
+                        onPressed: () {
+                          ShowCustomBottomSheet.changeLanguage(
+                              context, changeLanguage);
+                        },
+                      ),
               ),
             ],
           ),

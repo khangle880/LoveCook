@@ -174,36 +174,6 @@ class User extends BaseResponse {
         "id": id,
       };
 
-  User copyWith({
-    List<String>? followingUsers,
-    List<String>? followerUsers,
-    String? name,
-    String? email,
-    String? bio,
-    String? avatarUrl,
-    String? phone,
-    Gender? gender,
-    UserRole? role,
-    String? language,
-    String? status,
-    String? id,
-  }) {
-    return User(
-      followingUsers: followingUsers ?? this.followingUsers,
-      followerUsers: followerUsers ?? this.followerUsers,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      bio: bio ?? this.bio,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      phone: phone ?? this.phone,
-      gender: gender ?? this.gender,
-      role: role ?? this.role,
-      languageSetting: language ?? this.languageSetting,
-      status: status ?? this.status,
-      id: id ?? this.id,
-    );
-  }
-
   @override
   List<Object?> get props => [
         followingUsers,
@@ -219,4 +189,40 @@ class User extends BaseResponse {
         status,
         id,
       ];
+
+  User copyWith({
+    List<String>? followingUsers,
+    List<String>? followerUsers,
+    String? name,
+    String? email,
+    String? bio,
+    String? avatarUrl,
+    String? phone,
+    Gender? gender,
+    String? languageSetting,
+    UserRole? role,
+    String? status,
+    String? id,
+    int? totalRecipes,
+    int? totalProducts,
+    int? totalPosts,
+  }) {
+    return User(
+      followingUsers: followingUsers ?? this.followingUsers,
+      followerUsers: followerUsers ?? this.followerUsers,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      bio: bio ?? this.bio,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      phone: phone ?? this.phone,
+      gender: gender ?? this.gender,
+      languageSetting: languageSetting ?? this.languageSetting,
+      role: role ?? this.role,
+      status: status ?? this.status,
+      id: id ?? this.id,
+      totalRecipes: totalRecipes ?? this.totalRecipes,
+      totalProducts: totalProducts ?? this.totalProducts,
+      totalPosts: totalPosts ?? this.totalPosts,
+    );
+  }
 }
