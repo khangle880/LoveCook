@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lovecook/extensions/extensions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../blocs/blocs.dart';
 import '../../../core/base/base_response.dart';
@@ -76,60 +78,64 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: SearchTextField(
-          controller: _searchController,
-          onSubmitted: (value) {
-            bloc.updateFilter(query: Nullable(value));
-            getProducts();
-          },
-        ),
-      ),
-      floatingActionButton: AnimatedSlide(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-        offset: _showFab ? Offset.zero : const Offset(0, 1),
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 500),
-          opacity: _showFab ? 1 : 0,
-          child: FloatingActionButton(
-            heroTag: "Add product",
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                Routes.addProduct,
-              ).then((value) {
-                bloc.updateList(value as ProductModel?);
-              });
-            },
-            child: Icon(Icons.add),
+    return StreamBuilder<ProductState>(
+      stream: bloc.stateStream,
+      builder: ((context, snapshot) {
+        if (!snapshot.hasData || snapshot.data?.lookup == null)
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        final lookup = snapshot.data!.lookup!;
+        final state = snapshot.data;
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: SearchTextField(
+              controller: _searchController,
+              onSubmitted: (value) {
+                bloc.updateFilter(query: Nullable(value));
+                getProducts();
+              },
+            ),
           ),
-        ),
-      ),
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          final ScrollDirection direction = notification.direction;
-          setState(() {
-            if (direction == ScrollDirection.reverse) {
-              _showFab = false;
-            } else if (direction == ScrollDirection.forward) {
-              _showFab = true;
-            }
-          });
-          return true;
-        },
-        child: StreamBuilder<ProductState>(
-          stream: bloc.stateStream,
-          builder: ((context, snapshot) {
-            if (!snapshot.hasData || snapshot.data?.lookup == null)
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            final lookup = snapshot.data!.lookup!;
-            final state = snapshot.data;
-            return Theme(
+          floatingActionButton:
+              state?.user != GetIt.I.get<SharedPreferences>().user &&
+                      state?.user != null
+                  ? null
+                  : AnimatedSlide(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                      offset: _showFab ? Offset.zero : const Offset(0, 1),
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 500),
+                        opacity: _showFab ? 1 : 0,
+                        child: FloatingActionButton(
+                          heroTag: "Add product",
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.addProduct,
+                            ).then((value) {
+                              bloc.updateList(value as ProductModel?);
+                            });
+                          },
+                          child: Icon(Icons.add),
+                        ),
+                      ),
+                    ),
+          body: NotificationListener<UserScrollNotification>(
+            onNotification: (notification) {
+              final ScrollDirection direction = notification.direction;
+              setState(() {
+                if (direction == ScrollDirection.reverse) {
+                  _showFab = false;
+                } else if (direction == ScrollDirection.forward) {
+                  _showFab = true;
+                }
+              });
+              return true;
+            },
+            child: Theme(
               data: Theme.of(context).copyWith(
                 canvasColor: Colors.white,
               ),
@@ -210,8 +216,8 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
                         );
                         return Material(
                           color: Colors.white,
-                          //! later: should check it's me
-                          child: state?.user == null
+                          child: state?.user !=
+                                  GetIt.I.get<SharedPreferences>().user
                               ? InkWell(
                                   onTap: () {
                                     Navigator.pushNamed(
@@ -293,10 +299,10 @@ class _ProductPageState extends BaseState<ProductPage, ProductBloc> {
                   ),
                 ],
               ),
-            );
-          }),
-        ),
-      ),
+            ),
+          ),
+        );
+      }),
     );
   }
 

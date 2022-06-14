@@ -93,17 +93,17 @@ class AddProductBloc extends BaseBloc<AddProductState> {
     };
     if (state?.photoUrls != null) {
       map['photoUrls'] = await Future.wait(state!.photoUrls!.map((e) async {
-        if (e.contains('/storage')) {
+        if (!e.contains('/v1/')) {
           return await uploadImage(e);
         }
         return e;
       }));
     }
     if (state?.videoUrl != null) {
-      map['videoUrl'] = state!.videoUrl!.contains('/storage')
+      map['videoUrl'] = !state!.videoUrl!.contains('/v1/')
           ? await uploadVideo(state!.videoUrl!)
           : state!.videoUrl;
-      map['videoThumbnail'] = state!.videoThumbnail!.contains('/storage')
+      map['videoThumbnail'] = !state!.videoThumbnail!.contains('/v1/')
           ? await uploadImage(state!.videoThumbnail!)
           : state!.videoThumbnail;
     }

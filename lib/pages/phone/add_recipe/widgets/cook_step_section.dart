@@ -58,7 +58,7 @@ class CookStepSection extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (_, index) {
                                   var item = (e.photoUrls ?? [])[index];
-                                  if (item.contains('/storage')) {
+                                  if (!item.contains('/v1/')) {
                                     return Builder(
                                       builder: (BuildContext context) {
                                         return Container(

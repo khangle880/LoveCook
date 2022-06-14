@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/utils.dart';
 import '../../../data/enum.dart';
 import '../../../extensions/extensions.dart';
@@ -77,60 +79,64 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: AnimatedSlide(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-        offset: _showFab ? Offset.zero : const Offset(0, 1),
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 500),
-          opacity: _showFab ? 1 : 0,
-          child: FloatingActionButton(
-            heroTag: "Add recipe",
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                Routes.addRecipe,
-              ).then((value) {
-                bloc.updateList(value as RecipeModel?);
-              });
-            },
-            child: Icon(Icons.add),
+    return StreamBuilder<RecipeState>(
+      stream: bloc.stateStream,
+      builder: ((context, snapshot) {
+        if (!snapshot.hasData || snapshot.data?.lookup == null)
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        final lookup = snapshot.data!.lookup!;
+        final state = snapshot.data;
+        return Scaffold(
+          floatingActionButton:
+              state?.user != GetIt.I.get<SharedPreferences>().user &&
+                      state?.user != null
+                  ? null
+                  : AnimatedSlide(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                      offset: _showFab ? Offset.zero : const Offset(0, 1),
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 500),
+                        opacity: _showFab ? 1 : 0,
+                        child: FloatingActionButton(
+                          heroTag: "Add recipe",
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.addRecipe,
+                            ).then((value) {
+                              bloc.updateList(value as RecipeModel?);
+                            });
+                          },
+                          child: Icon(Icons.add),
+                        ),
+                      ),
+                    ),
+          appBar: AppBar(
+            title: SearchTextField(
+              controller: _searchController,
+              onSubmitted: (value) {
+                bloc.updateFilter(query: Nullable(value));
+                getRecipes();
+              },
+            ),
           ),
-        ),
-      ),
-      appBar: AppBar(
-        title: SearchTextField(
-          controller: _searchController,
-          onSubmitted: (value) {
-            bloc.updateFilter(query: Nullable(value));
-            getRecipes();
-          },
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          final ScrollDirection direction = notification.direction;
-          setState(() {
-            if (direction == ScrollDirection.reverse) {
-              _showFab = false;
-            } else if (direction == ScrollDirection.forward) {
-              _showFab = true;
-            }
-          });
-          return true;
-        },
-        child: StreamBuilder<RecipeState>(
-          stream: bloc.stateStream,
-          builder: ((context, snapshot) {
-            if (!snapshot.hasData || snapshot.data?.lookup == null)
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            final lookup = snapshot.data!.lookup!;
-            final state = snapshot.data;
-            return Theme(
+          backgroundColor: Colors.white,
+          body: NotificationListener<UserScrollNotification>(
+            onNotification: (notification) {
+              final ScrollDirection direction = notification.direction;
+              setState(() {
+                if (direction == ScrollDirection.reverse) {
+                  _showFab = false;
+                } else if (direction == ScrollDirection.forward) {
+                  _showFab = true;
+                }
+              });
+              return true;
+            },
+            child: Theme(
               data: Theme.of(context).copyWith(
                 canvasColor: Colors.white,
               ),
@@ -250,8 +256,8 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
                         );
                         return Material(
                           color: Colors.white,
-                          //! later: should check it's me
-                          child: state?.user == null
+                          child: state?.user !=
+                                  GetIt.I.get<SharedPreferences>().user
                               ? InkWell(
                                   onTap: () {
                                     Navigator.pushNamed(
@@ -333,10 +339,10 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
                   ),
                 ],
               ),
-            );
-          }),
-        ),
-      ),
+            ),
+          ),
+        );
+      }),
     );
   }
 
