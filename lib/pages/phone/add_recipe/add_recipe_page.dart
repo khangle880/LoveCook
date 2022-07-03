@@ -426,10 +426,20 @@ class _AddRecipePageState extends BaseState<AddRecipePage, AddRecipeBloc> {
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
-                                var value = await bloc.saveRecipe();
-                                await Future.delayed(
-                                    Duration(milliseconds: 1000));
-                                Navigator.pop(context, value);
+                                var value = await bloc.saveRecipe().catchError(
+                                  (e) {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AppInformationDialog(content: e),
+                                    );
+                                  },
+                                );
+                                if (value is RecipeModel) {
+                                  await Future.delayed(
+                                      Duration(milliseconds: 1000));
+                                  Navigator.pop(context, value);
+                                }
                               } else {
                                 showDialog(
                                   context: context,

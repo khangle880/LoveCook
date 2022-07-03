@@ -8,6 +8,10 @@ import '../data/models/login_model.dart';
 import '../data/data.dart';
 
 extension SharedPreferencesExtension on SharedPreferences {
+  Future<bool> clear() {
+    return this.clear();
+  }
+
   void saveToken(String token) {
     this.setString(SharedPreferencesKey.token, token);
   }

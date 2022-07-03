@@ -126,7 +126,7 @@ class _AddIngredientWidgetState extends State<AddIngredientWidget> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height: 250,
+        // height: 250,
         padding: MediaQuery.of(context).viewInsets,
         child: Padding(
           padding: EdgeInsets.symmetric(

@@ -103,7 +103,7 @@ class AddRecipeBloc extends BaseBloc<AddRecipeState> {
     });
   }
 
-  Future<RecipeModel> saveRecipe() async {
+  Future saveRecipe() async {
     emitWaiting(true);
     var map = {
       'description': state?.description,
@@ -157,7 +157,9 @@ class AddRecipeBloc extends BaseBloc<AddRecipeState> {
         }
       });
     }
-    map['steps'] = steps;
+    if (steps.isNotEmpty) {
+      map['steps'] = steps;
+    }
 
     map.removeWhere((key, value) => value == null);
     Either response;
@@ -172,6 +174,9 @@ class AddRecipeBloc extends BaseBloc<AddRecipeState> {
     return response.fold((failure) {
       return Future.error(failure);
     }, (data) {
+      if (!data.success) {
+        return Future.error(data.error?.errorMessage ?? '');
+      }
       return data.item;
     });
   }

@@ -148,8 +148,7 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 120,
+                        Flexible(
                           child: PickLookup<Level?>(
                             value: state?.level,
                             hintText: 'Level',
@@ -162,8 +161,8 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
                             },
                           ),
                         ),
-                        Container(
-                          width: 130,
+                        SizedBox(width: 5),
+                        Flexible(
                           child: PickLookup<DishTypeModel?>(
                             value: state?.dishType,
                             hintText: 'Dish type',
@@ -179,8 +178,8 @@ class _RecipePageState extends BaseState<RecipePage, RecipeBloc> {
                             },
                           ),
                         ),
-                        Container(
-                          width: 120,
+                        SizedBox(width: 5),
+                        Flexible(
                           child: PickLookup<CuisineModel?>(
                             value: state?.cuisine,
                             hintText: 'Cuisine',

@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:lovecook/blocs/follow/follow_bloc.dart';
 import '../pages/phone/test_api/test_api_bloc.dart';
 
 import '../blocs/blocs.dart';
@@ -9,6 +8,8 @@ class BlocDependencies {
     injector.registerLazySingleton(() => AppBloc());
     injector.registerFactory<SplashBloc>(
         () => SplashBloc(injector(), injector(), injector()));
+    injector
+        .registerFactory<RegisterBloc>(() => RegisterBloc(injector(), injector()));
     injector
         .registerFactory<LoginBloc>(() => LoginBloc(injector(), injector()));
     injector.registerFactory<TestApiBloc>(() => TestApiBloc(

@@ -48,37 +48,37 @@ class _ProfileStackBackgroundState extends State<ProfileStackBackground> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment(0, 1),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                // CircularProfileAvatar(
-                //   "https://i.pravatar.cc/300",
-                //   borderWidth: 4.0,
-                //   radius: 60.0,
-                // ),
-                SizedBox(height: 4.0),
-                // Text(
-                //   "Neecoder X",
-                //   style: TextStyle(
-                //     fontSize: 21.0,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                // Text(
-                //   "Developer",
-                //   style: TextStyle(
-                //     fontSize: 12.0,
-                //     color: Colors.grey[700],
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-          ProfileTopBar(
-            isOwner: widget.isOwner,
-          ),
+          // Align(
+          //   alignment: Alignment(0, 1),
+          //   child: Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: <Widget>[
+          //       // CircularProfileAvatar(
+          //       //   "https://i.pravatar.cc/300",
+          //       //   borderWidth: 4.0,
+          //       //   radius: 60.0,
+          //       // ),
+          //       SizedBox(height: 4.0),
+          //       // Text(
+          //       //   "Neecoder X",
+          //       //   style: TextStyle(
+          //       //     fontSize: 21.0,
+          //       //     fontWeight: FontWeight.bold,
+          //       //   ),
+          //       // ),
+          //       // Text(
+          //       //   "Developer",
+          //       //   style: TextStyle(
+          //       //     fontSize: 12.0,
+          //       //     color: Colors.grey[700],
+          //       //   ),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
+          // ProfileTopBar(
+          //   isOwner: widget.isOwner,
+          // ),
         ],
       ),
     );

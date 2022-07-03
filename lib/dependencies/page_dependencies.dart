@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lovecook/pages/phone/auth/register/register_page.dart';
 import 'package:lovecook/pages/phone/follow/follow_page.dart';
 
 import '../pages/pages.dart';
@@ -11,6 +12,8 @@ class PageDependencies {
         instanceName: Routes.splash);
     injector.registerFactory<Widget>(() => LoginPage(injector()),
         instanceName: Routes.login);
+    injector.registerFactory<Widget>(() => RegisterPage(injector()),
+        instanceName: Routes.register);
     injector.registerFactory<Widget>(
         () => HomePage(
               injector(),

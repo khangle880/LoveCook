@@ -1,34 +1,27 @@
+import 'package:lovecook/blocs/register/register_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login_state.dart';
 import '../../core/core.dart';
 import '../../data/data.dart';
 import '../../../extensions/extensions.dart';
 
-class LoginBloc extends BaseBloc<LoginState> {
+class RegisterBloc extends BaseBloc<RegisterState> {
   final ILoginRepository _loginRepository;
   final SharedPreferences _sharedPreferences;
 
-  LoginBloc(this._loginRepository, this._sharedPreferences);
+  RegisterBloc(this._loginRepository, this._sharedPreferences);
 
-  Future<void> checkToken() async {
-    if (_sharedPreferences.token == null || _sharedPreferences.token!.isEmpty) {
-      emit(LoginState(state: state, success: false));
-    }
-    emit(LoginState(state: state, success: true));
-  }
-
-  Future login(String email, String password) async {
+  Future register(String email, String password) async {
     if (email.length == 0 || password.length == 0) {
       return;
     }
     emitWaiting(true);
 
     final responseEither = await _loginRepository
-        .login(params: {"email": email, "password": password});
+        .register(params: {"name": email.split("@")[0],"email": email, "password": password});
 
     emitWaiting(false);
-     return responseEither.fold((failure) {
+    return responseEither.fold((failure) {
       return Future.error(failure);
     }, (data) {
       if (!data.success) {
@@ -40,11 +33,10 @@ class LoginBloc extends BaseBloc<LoginState> {
         _sharedPreferences.saveUser(data.item!.user!);
         print(_sharedPreferences.token);
         print(data.item!.user);
-        emit(LoginState(state: state, success: true));
+        emit(RegisterState(state: state, success: true));
       }
     });
   }
-
 
   @override
   void dispose() {

@@ -8,3 +8,4 @@ export 'rich_text_controller.dart';
 export 'search_textfield.dart';
 export 'text_ext_customize.dart';
 export 'textfield_outline.dart';
+export 'textformfield_outline.dart';

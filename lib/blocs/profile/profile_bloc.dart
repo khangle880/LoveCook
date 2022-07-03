@@ -75,4 +75,8 @@ class ProfileBloc extends BaseBloc<ProfileState> {
       GetIt.I.get<AppBloc>().notiFollowChange();
     }).catchError((e) {});
   }
+
+  Future logout() async {
+   return _sharedPreferences.clear();
+  }
 }

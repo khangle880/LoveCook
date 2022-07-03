@@ -21,4 +21,15 @@ class LoginRepository extends ILoginRepository {
       return Left(ServerFailure());
     }
   }
+  
+  Future<Either<Failure, SingleResponse<LoginModel>>> register(
+      {required Map<String, dynamic> params}) async {
+    // final isConnected = await networkInfo.isConnected;
+    try {
+      final remoteData = await remoteService.register(params: params);
+      return Right(remoteData);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
 }

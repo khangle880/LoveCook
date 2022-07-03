@@ -149,7 +149,6 @@ class _PaginationGridViewState extends State<PaginationGridView> {
       onRefresh: () async {
         widget.paginationController.refresh();
       },
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       color: Theme.of(context).primaryColor,
       child: listLength == 0
           ? SingleChildScrollView(

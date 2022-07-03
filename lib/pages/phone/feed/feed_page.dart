@@ -78,7 +78,7 @@ class _FeedPageState extends BaseState<FeedPage, FeedBloc> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: RefreshIndicator(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Colors.white,
         color: Theme.of(context).primaryColor,
         onRefresh: () async {
           setState(() {});

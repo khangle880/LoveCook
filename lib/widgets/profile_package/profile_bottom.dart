@@ -47,8 +47,7 @@ class _ProfileBottomState extends State<ProfileBottom> {
         Container(
           color: AppColors.successLight,
           width: 110,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
             children: <Widget>[
               SizedBox(height: 15.0),
               if (!widget.isMe)
@@ -104,8 +103,7 @@ class _ProfileBottomState extends State<ProfileBottom> {
           ),
         ),
         Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
             children: <Widget>[
               SizedBox(height: 10.0),
               ListTile(
@@ -218,10 +216,9 @@ class _ProfileBottomState extends State<ProfileBottom> {
                   ],
                 ),
               ),
-              Expanded(
-                child: Container(
-                  color: AppColors.successLight,
-                ),
+              Container(
+                height: 150,
+                color: AppColors.successLight,
               )
             ],
           ),

@@ -19,4 +19,12 @@ class LoginRemoteService implements ILoginRemoteService {
 
     return SingleResponse<LoginModel>.fromJson(response);
   }
+  @override
+  Future<SingleResponse<LoginModel>> register(
+      {required Map<String, dynamic> params}) async {
+    final response = await _networkUtility.request('v1/auth/register', Method.POST,
+        data: params);
+
+    return SingleResponse<LoginModel>.fromJson(response);
+  }
 }

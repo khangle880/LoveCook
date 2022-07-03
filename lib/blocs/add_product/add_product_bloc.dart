@@ -81,7 +81,7 @@ class AddProductBloc extends BaseBloc<AddProductState> {
     });
   }
 
-  Future<ProductModel> saveProduct() async {
+  Future saveProduct() async {
     emitWaiting(true);
     final map = {
       'description': state?.description,
@@ -117,11 +117,13 @@ class AddProductBloc extends BaseBloc<AddProductState> {
       response = await _productRepository.createProduct(data: map);
     }
 
+    emitWaiting(false);
     return response.fold((failure) {
-      emitWaiting(false);
       return Future.error(failure);
     }, (data) {
-      emitWaiting(false);
+      if (!data.success) {
+        return Future.error(data.error?.errorMessage ?? '');
+      }
       return data.item;
     });
   }

@@ -117,6 +117,12 @@ class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
                             onChanged: (value) {
                               bloc.updateField(productType: value);
                             },
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select a product type.';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         SizedBox(height: 20),
@@ -187,6 +193,12 @@ class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
                                         bloc.updateField(
                                           currencyUnit: value,
                                         );
+                                      },
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select a currency unit.';
+                                        }
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -260,10 +272,20 @@ class _AddProductPageState extends BaseState<AddProductPage, AddProductBloc> {
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
-                                var value = await bloc.saveProduct();
-                                await Future.delayed(
-                                    Duration(milliseconds: 1000));
-                                Navigator.pop(context, value);
+                                var value = await bloc.saveProduct().catchError(
+                                  (e) {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AppInformationDialog(content: e),
+                                    );
+                                  },
+                                );
+                                if (value is ProductModel) {
+                                  await Future.delayed(
+                                      Duration(milliseconds: 1000));
+                                  Navigator.pop(context, value);
+                                }
                               } else {
                                 showDialog(
                                   context: context,

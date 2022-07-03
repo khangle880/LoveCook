@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:lovecook/blocs/register/register_bloc.dart';
 import 'package:lovecook/widgets/app_dialog/app_dialog.dart';
 
 import '../../../../blocs/blocs.dart';
@@ -7,18 +10,19 @@ import '../../../../resources/resources.dart';
 import '../../../../router/router.dart';
 import '../../../../widgets/widgets.dart';
 
-class LoginPage extends StatefulWidget {
-  final LoginBloc bloc;
+class RegisterPage extends StatefulWidget {
+  final RegisterBloc bloc;
 
-  const LoginPage(this.bloc);
+  const RegisterPage(this.bloc);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
+class _RegisterPageState extends BaseState<RegisterPage, RegisterBloc> {
   String email = '';
   String password = '';
+  String confirmPassword = '';
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -100,23 +104,31 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: AppColors.mediumBlue,
-                    ),
+                  TextFormFieldOutline(
+                    onChanged: (value) {
+                      confirmPassword = value;
+                    },
+                    hintText: 'Confirm Password',
+                    validator: (value) {
+                      if ((value ?? '').isEmpty) return 'Confirm password not empty';
+                      if ((value ?? '') != password)
+                        return 'Password not match';
+                      return null;
+                    },
+                    isObscureEnable: true,
+                    prefixIconData: Icons.lock_outline,
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
                   MaterialInkwellButton(
-                      title: 'Login',
+                      title: 'Register',
                       hasBorder: false,
                       backgroundColor: AppColors.successNormal,
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          bloc.login(email, password).catchError(
+                          bloc.register(email, password).catchError(
                             (e) {
                               return showDialog(
                                 context: context,
@@ -138,11 +150,11 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
                     height: 10.0,
                   ),
                   MaterialInkwellButton(
-                    title: 'Sign Up',
+                    title: 'Login',
                     hasBorder: true,
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(context,
-                          Routes.register, (Route<dynamic> route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, Routes.login,
+                          (Route<dynamic> route) => false);
                     },
                   ),
                 ],
@@ -166,5 +178,5 @@ class _LoginPageState extends BaseState<LoginPage, LoginBloc> {
   }
 
   @override
-  LoginBloc get bloc => widget.bloc;
+  RegisterBloc get bloc => widget.bloc;
 }

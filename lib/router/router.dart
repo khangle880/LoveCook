@@ -7,6 +7,7 @@ import 'route_arguments.dart';
 class Routes {
   static String get splash => '/splash';
   static String get login => '/login';
+  static String get register => '/register';
   static String get home => '/home';
   static String get testApi => '/testApi';
   static String get recipeDetail => '/recipeDetail';

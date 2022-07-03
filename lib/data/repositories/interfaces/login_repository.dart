@@ -7,4 +7,6 @@ import '../../../core/core.dart';
 abstract class ILoginRepository {
   Future<Either<Failure, SingleResponse<LoginModel>>> login(
       {required Map<String, dynamic> params});
+  Future<Either<Failure, SingleResponse<LoginModel>>> register(
+      {required Map<String, dynamic> params});
 }
