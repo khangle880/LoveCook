@@ -37,7 +37,8 @@ class ProductBloc extends BaseBloc<ProductState> {
     };
     if (state?.user != null)
       queryParams.putIfAbsent('creatorId', () => state!.user!.id);
-    if (state?.query != null) queryParams.putIfAbsent('q', () => state!.query);
+    if (state?.query != null && state!.query!.isNotEmpty)
+      queryParams.putIfAbsent('q', () => state!.query);
     if (state?.productType != null)
       queryParams.putIfAbsent('productTypeId', () => state!.productType!.id);
     if (state?.currencyUnit != null)

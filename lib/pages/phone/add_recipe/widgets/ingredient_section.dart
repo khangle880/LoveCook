@@ -57,14 +57,18 @@ class IngredientSection extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: Assets.images.svg.icEditProject
-                                .svg(width: 25, height: 25, color: Colors.blue),
+                                .svg(width: 20, height: 20, color: Colors.blue),
                           ),
                         )
                       ],
                     ),
-                    Divider(color: Colors.black)
+                    Divider(color: Colors.black, height: 5),
+                    if (e == ingredients.last)
+                      SizedBox(
+                        height: 10,
+                      ),
                   ],
                 ))
             .toList(),

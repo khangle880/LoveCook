@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:get_it/get_it.dart';
+import 'package:lovecook/core/base/base_response.dart';
 
 import '../../core/core.dart';
 import '../data.dart';
@@ -12,13 +15,15 @@ class ChatRemoteService implements IChatRemoteService {
             instanceName: NetworkConstant.authorizationDomain);
 
   @override
-  Future<List<ChatMessageResponse>> sendMessage(
+  Future<ListResponse<ChatMessageResponse>> sendMessage(
       {required Map<String, dynamic> params}) async {
     final response =
         await _networkUtility.request('v1/message', Method.POST, data: params);
 
-    List<ChatMessageResponse> listChatMessageResponse =
-        chatMessageResponseFromJson(response.data);
+    ListResponse<ChatMessageResponse> listChatMessageResponse =
+        ListResponse<ChatMessageResponse>.fromJson(response);
+
+    log(response.data.toString());
 
     return listChatMessageResponse;
   }

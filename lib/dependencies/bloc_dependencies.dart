@@ -8,8 +8,8 @@ class BlocDependencies {
     injector.registerLazySingleton(() => AppBloc());
     injector.registerFactory<SplashBloc>(
         () => SplashBloc(injector(), injector(), injector()));
-    injector
-        .registerFactory<RegisterBloc>(() => RegisterBloc(injector(), injector()));
+    injector.registerFactory<RegisterBloc>(
+        () => RegisterBloc(injector(), injector()));
     injector
         .registerFactory<LoginBloc>(() => LoginBloc(injector(), injector()));
     injector.registerFactory<TestApiBloc>(() => TestApiBloc(
@@ -24,7 +24,7 @@ class BlocDependencies {
         ));
     injector.registerFactory<ChatBloc>(() => ChatBloc(injector()));
     injector.registerFactory<ProfileBloc>(
-        () => ProfileBloc(injector(), injector(), injector()));
+        () => ProfileBloc(injector(), injector(), injector(), injector()));
     injector.registerFactory<RecipeBloc>(
         () => RecipeBloc(injector(), injector(), injector()));
     injector.registerFactory<RecipeDetailBloc>(

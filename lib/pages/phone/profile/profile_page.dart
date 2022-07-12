@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lovecook/utils/app_config.dart';
@@ -7,7 +9,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../../blocs/blocs.dart';
 import '../../../core/core.dart';
 import '../../../data/data.dart';
-import '../../../router/router.dart';
 import '../../../widgets/widgets.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -54,41 +55,35 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: StreamBuilder<User?>(
-          stream: bloc.user,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      body: VisibilityDetector(
+        onVisibilityChanged: (info) {
+          if (!_isVisible && info.visibleFraction > 0.1) {
+            bloc.checkProfile();
+          }
+          _isVisible = info.visibleFraction > 0.1;
+        },
+        key: UniqueKey(),
+        child: StreamBuilder<User?>(
+            stream: bloc.user,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-            final user_data = snapshot.data!;
+              final user_data = snapshot.data!;
 
-            return Column(
-              children: <Widget>[
-                TextButton(
-                    onPressed: () {
-                      bloc.logout().then((value) =>
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              Routes.login, (Route<dynamic> route) => false));
-                    },
-                    child: Text("logout")),
-                ProfileStackBackground(
-                  isOwner: isMe,
-                  imageUrl: user_data.avatarUrl != null
-                      ? AppConfig.instance.formatLink(user_data.avatarUrl!)
-                      : null,
-                ),
-                Expanded(
-                  child: VisibilityDetector(
-                    onVisibilityChanged: (info) {
-                      if (!_isVisible && info.visibleFraction > 0.1) {
-                        bloc.checkProfile();
-                      }
-                      _isVisible = info.visibleFraction > 0.1;
-                    },
-                    key: UniqueKey(),
+              return Column(
+                children: <Widget>[
+                  ProfileStackBackground(
+                    isOwner: isMe,
+                    imageUrl: user_data.avatarUrl != null
+                        ? AppConfig.instance.formatLink(user_data.avatarUrl!)
+                        : null,
+                    bloc: bloc,
+                  ),
+                  Expanded(
                     child: ProfileBottom(
                       isMe: isMe,
                       user: user_data,
@@ -106,14 +101,14 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfileBloc> {
                       },
                     ),
                   ),
-                ),
 
-                // ProfileCard(),
-                // ProfileCard(),
-                // ProfileCard(),
-              ],
-            );
-          }),
+                  // ProfileCard(),
+                  // ProfileCard(),
+                  // ProfileCard(),
+                ],
+              );
+            }),
+      ),
     );
   }
 

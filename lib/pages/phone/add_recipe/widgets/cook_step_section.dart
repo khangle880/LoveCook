@@ -1,16 +1,13 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import '../../../../blocs/blocs.dart';
 import '../../../../data/data.dart';
 import '../../../../extensions/extensions.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../resources/colors.dart';
-import '../../../../utils/app_config.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widgets/widgets.dart';
 

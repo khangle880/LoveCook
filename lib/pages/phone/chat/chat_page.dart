@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../blocs/blocs.dart';
-import '../../../blocs/chat/chat_bloc.dart';
 import '../../../core/core.dart';
 import '../../../data/responses/chat_message_response.dart';
 import '../../../widgets/chat_package/chat_package.dart';
@@ -18,6 +18,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends BaseState<ChatPage, ChatBloc> {
   String message = '';
+  bool _isFirst = false;
   late ScrollController _scrollController;
 
   @override
@@ -67,22 +68,31 @@ class _ChatPageState extends BaseState<ChatPage, ChatBloc> {
                   }),
             ),
           ),
-          ChatInputField(
-            onChanged: (textValue) {
-              message = textValue;
+          VisibilityDetector(
+            onVisibilityChanged: (info) {
+              if (!_isFirst && info.visibleFraction > 0) {
+                _isFirst = true;
+                bloc.init();
+              }
             },
-            onPressed: () {
-              bloc.sendMessage(message);
-              Future.delayed(const Duration(milliseconds: 100), () {
-                if (_scrollController.hasClients) {
-                  _scrollController.animateTo(
-                    0,
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInQuad,
-                  );
-                }
-              });
-            },
+            key: UniqueKey(),
+            child: ChatInputField(
+              onChanged: (textValue) {
+                message = textValue;
+              },
+              onPressed: () {
+                bloc.sendMessage(message);
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  if (_scrollController.hasClients) {
+                    _scrollController.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInQuad,
+                    );
+                  }
+                });
+              },
+            ),
           ),
         ],
       ),

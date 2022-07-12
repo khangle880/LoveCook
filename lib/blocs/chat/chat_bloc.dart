@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'chat_state.dart';
 import '../../core/core.dart';
 import '../../data/data.dart';
@@ -8,6 +10,27 @@ class ChatBloc extends BaseBloc<ChatState> {
   final IChatRepository _chatRepository;
 
   ChatBloc(this._chatRepository);
+
+  void init() {
+    _chatRepository.sendMessage(params: {'message': 'Xóa lịch sử'});
+    addAllAwait([
+      ChatMessageResponse(
+        text:
+            'Xin chào bạn mình là trợ lý ảo sẽ giúp bạn trong viêc tìm kiếm món ăn',
+      ),
+      ChatMessageResponse(
+        text:
+            'Mình có thể hỗ trợ bạn tìm kiếm công thức món ăn dựa trên nguyên liệu, cách nấu ăn và chế độ dinh dưỡng của bạn',
+      ),
+      ChatMessageResponse(
+        text:
+            'Bạn có sẳn nguyên liệu nào chưa, bạn có thể nói với mình nguyên liệu mà bạn muốn chế biến nhé.',
+      ),
+      ChatMessageResponse(
+        text: 'Sau đó mình sẽ tìm các món ngon liên quan cho bạn ^.^',
+      ),
+    ]);
+  }
 
   Stream<List<ChatMessageResponse>?> get listChatMessage =>
       stateStream.map((event) => event.listChatMessage);
@@ -41,15 +64,38 @@ class ChatBloc extends BaseBloc<ChatState> {
     final responseEither =
         await _chatRepository.sendMessage(params: {'message': message});
 
-    responseEither.fold((failure) {}, (data) {
-      if (state?.listChatMessage == null || state!.listChatMessage!.isEmpty) {
-        emit(ChatState(state: state, listChatMessage: data));
-      } else {
+    responseEither.fold((failure) {
+      final listChatMessage = state!.listChatMessage;
+
+      listChatMessage!.insert(
+          0,
+          ChatMessageResponse(
+            text:
+                'Ôi xin lỗi bạn, có chút vấn đề xảy ra nên mình trả lời bạn sau nhá.',
+          ));
+      emit(ChatState(state: state, listChatMessage: listChatMessage));
+    }, (data) {
+      if ((data.items ?? []).isEmpty || !data.success) {
         final listChatMessage = state!.listChatMessage;
 
-        listChatMessage!.insertAll(0, data.reversed);
+        listChatMessage!.insert(
+            0,
+            ChatMessageResponse(
+              text:
+                  'Ôi xin lỗi bạn, có chút vấn đề xảy ra nên mình trả lời bạn sau nhá.',
+            ));
         emit(ChatState(state: state, listChatMessage: listChatMessage));
       }
+      addAllAwait(data.items ?? []);
     });
+  }
+
+  void addAllAwait(List<ChatMessageResponse> messages) async {
+    for (final message in messages) {
+      emit(ChatState(
+          state: state,
+          listChatMessage: (state!.listChatMessage ?? [])..insert(0, message)));
+      await Future.delayed(Duration(milliseconds: 800));
+    }
   }
 }

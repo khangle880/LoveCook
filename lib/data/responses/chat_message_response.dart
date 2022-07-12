@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:lovecook/core/base/base_response.dart';
+
 List<ChatMessageResponse> chatMessageResponseFromJson(String str) =>
     List<ChatMessageResponse>.from(
         json.decode(str).map((x) => ChatMessageResponse.fromJson(x)));
@@ -11,7 +13,7 @@ List<ChatMessageResponse> chatMessageResponseFromJson(String str) =>
 String chatMessageResponseToJson(List<ChatMessageResponse> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ChatMessageResponse {
+class ChatMessageResponse extends BaseResponse {
   ChatMessageResponse(
       {this.recipientId,
       this.image,
@@ -26,6 +28,11 @@ class ChatMessageResponse {
   String? text;
   List<Button>? buttons;
   Custom? custom;
+
+  @override
+  T fromJson<T extends BaseResponse>(Map<String, dynamic> json) {
+    return ChatMessageResponse.fromJson(json) as T;
+  }
 
   ChatMessageResponse copyWith({
     String? recipientId,
@@ -64,6 +71,10 @@ class ChatMessageResponse {
             buttons == null ? null : buttons?.map((x) => x.toJson()).toList(),
         "custom": custom == null ? null : custom?.toJson(),
       };
+
+  @override
+  List<Object?> get props =>
+      [recipientId, image, sender, text, buttons, custom];
 }
 
 class Button {

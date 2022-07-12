@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:lovecook/data/responses/chat_message_response.dart';
 
 import '../data/data.dart';
 
@@ -24,5 +25,6 @@ class ResponseDependencies {
     injector.registerFactory<SingleType>(() => SingleType());
     injector.registerFactory<User>(() => User());
     injector.registerFactory<UploadModel>(() => UploadModel());
+    injector.registerFactory<ChatMessageResponse>(() => ChatMessageResponse());
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,9 +12,10 @@ class ProfileBloc extends BaseBloc<ProfileState> {
   final IMeRepository _profileRepository;
   final IUserRepository _userRepository;
   final SharedPreferences _sharedPreferences;
+  final IUploadRepository _uploadRepository;
 
-  ProfileBloc(
-      this._profileRepository, this._sharedPreferences, this._userRepository) {
+  ProfileBloc(this._profileRepository, this._sharedPreferences,
+      this._userRepository, this._uploadRepository) {
     emit(ProfileState(state: state, loggedUser: _sharedPreferences.user));
   }
 
@@ -54,6 +57,21 @@ class ProfileBloc extends BaseBloc<ProfileState> {
     }
   }
 
+  Future<String> uploadImage(String filePath) async {
+    final imageResponseEither =
+        await _uploadRepository.uploadFileData(filePath: filePath);
+    return imageResponseEither.fold((failure) {
+      return Future.error(failure);
+    }, (data) {
+      return data.item?.urls?[0] ?? '';
+    });
+  }
+
+  void updateAvatar(String filePath) async {
+    final path = await uploadImage(filePath);
+    changeProfile(profile: {'avatarUrl': path});
+  }
+
   handleFollow(User user, bool follow) {
     final handleFollowService =
         follow ? _userRepository.follow : _userRepository.unfollow;
@@ -77,6 +95,6 @@ class ProfileBloc extends BaseBloc<ProfileState> {
   }
 
   Future logout() async {
-   return _sharedPreferences.clear();
+    return _sharedPreferences.clear();
   }
 }

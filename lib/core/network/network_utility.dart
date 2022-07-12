@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 abstract class INetworkUtility {
@@ -53,7 +55,7 @@ class NetworkUtility implements INetworkUtility {
     CancelToken? cancelToken,
     Options? options,
   }) async {
-    print(url);
+    log(url);
 
     options ??= Options(headers: {});
     options.method = method;
